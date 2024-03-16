@@ -15,7 +15,7 @@ npm start
 
 ### Testing
 
-Gateway default (User route): http://localhost:5000
-Admin : http://localhost:5000/admin
-Employer: http://localhost:5000/employer
-User: http://localhost:5000/user
+- Gateway default (User route): http://localhost:5000
+- Admin : http://localhost:5000/admin
+- Employer: http://localhost:5000/employer
+- User: http://localhost:5000/user
