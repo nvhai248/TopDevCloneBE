@@ -14,6 +14,7 @@ cd .\express_service\gateway\
 npm start
 
 ### Testing
+
 Gateway default (User route): http://localhost:5000
 Admin : http://localhost:5000/admin
 Employer: http://localhost:5000/employer
