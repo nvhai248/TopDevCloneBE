@@ -62,23 +62,33 @@ VALUES ('job1', 'company1', 'Software Developer (C++/Qt Framework)', '0',
     return res.status(200).json({ msg: "Hello from job service create db!" });
   },
   getJobs: (req, res, next) => {
-    const { allType } = req.query;
+    const { allType, companyId } = req.query;
     let selectQuery;
+    let isAddedWhere = false;
     if (allType === "false" || !allType) {
       selectQuery = "SELECT * FROM Jobs WHERE status = 'approved'";
+      isAddedWhere = true;
     } else if (allType && allType === "true") {
       selectQuery = "SELECT * FROM Jobs";
+    }
+
+    if (companyId) {
+      if (isAddedWhere) {
+        selectQuery += ` AND companyId = '${companyId}'`;
+      } else {
+        selectQuery += ` WHERE companyId = '${companyId}'`;
+      }
     }
 
     dbConnection.query(selectQuery, (err, results) => {
       if (err) {
         console.error("Error fetching data from Jobs table:", err);
-        return;
+        return res.status(500).json("Error");
       }
 
       if (results.length === 0) {
         console.log("No jobs found.");
-        return;
+        return res.status(404).json("No jobs found.");
       }
 
       // Parse array-like fields into arrays for each job
