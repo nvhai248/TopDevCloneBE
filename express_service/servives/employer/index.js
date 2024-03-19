@@ -5,9 +5,9 @@ const app = express();
 app.use(express.json());
 
 app.use('/', (req, res, next) => {
-    return res.status(200).json({ "msg": "Hello from EMPLOYER!" });
+    return res.status(200).json({ "msg": "Hello from EMPLOYER SERVICE!" });
 })
 
-app.listen(5002, () => {
-    console.log('Employer is listening to port 5002');
+app.listen(5005, () => {
+    console.log('Employer service is listening to port 5005');
 })
