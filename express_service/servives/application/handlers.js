@@ -28,8 +28,8 @@ const handlers = {
       cvUrl VARCHAR(255),
       email VARCHAR(100),
       phone VARCHAR(20),
-      status VARCHAR(20),
-      rating INT,
+      status VARCHAR(20) default 'new',
+      rating INT default 0,
       note TEXT
   );    
     `;
@@ -126,6 +126,24 @@ const handlers = {
       }
     });
   },
+  getApplication: (req, res, next) => {
+    const { id } = req.params;
+    const sql = "SELECT * FROM Application WHERE id = ?";
+
+    dbConnection.query(sql, id, (err, result) => {
+      if (err) {
+        console.error("Error getting application:", err);
+        res.status(500).send("Error getting application");
+      } else {
+        if (result.length === 0) {
+          res.status(404).send("Application not found");
+        } else {
+          console.log("Application retrieved successfully");
+          res.status(200).json(result[0]);
+        }
+      }
+    });
+  },
 };
 
 router.get("/", handlers.test);
@@ -133,5 +151,6 @@ router.get("/createdb", handlers.createDB);
 router.post("/create", handlers.create);
 router.put("/applications/:id/status", handlers.updateStatus);
 router.get("/applications", handlers.getApplications);
+router.get("/application/:id", handlers.getApplication);
 
 module.exports = router;

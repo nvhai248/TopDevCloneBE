@@ -23,6 +23,7 @@ router.get("/applications", handlers.getApplications);
 - PUT `/applications/:id/status` to update a application status (body: `{status: "interview"}`)
   P/s: status must be: new, interview, offer, reject
 - GET `/applications` to get applications. (can get by `userId` or `jobId` in the query)
+- GET `/application/:id` to get a application.
 
 #### MySQL can not connect fix
 
