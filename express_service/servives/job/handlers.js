@@ -129,9 +129,7 @@ VALUES ('job1', 'company1', 'Software Developer (C++/Qt Framework)', '0',
       }
 
       console.log("Job created successfully:", result);
-      return res
-        .status(201)
-        .json({ message: "Job created successfully", jobId: result.insertId });
+      return res.status(201).json({ message: "Job created successfully" });
     });
   },
   updateJobStatus: (req, res, next) => {

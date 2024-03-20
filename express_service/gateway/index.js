@@ -12,6 +12,7 @@ app.use("/employer", proxy("http://localhost:5002"));
 app.use("/user", proxy("http://localhost:5003"));
 app.use("/jobservice", proxy("http://localhost:5004"));
 app.use("/companyservice", proxy("http://localhost:5005"));
+app.use("/applicationservice", proxy("http://localhost:5006"));
 app.use("/", proxy("http://localhost:5003"));
 
 app.listen(5000, () => {
