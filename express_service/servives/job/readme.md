@@ -16,7 +16,7 @@
 #### Using:
 
 - GET `/jobs` to get approved jobs
-- GET `/jobs?allType=true` to get all jobs
+- GET `/jobs?allType=true?companyId=company1` to get all jobs
 - GET `/job/:jobId` to get job by Id (only approved jobs)
 - POST `/create` to create a new job (can see body at `sample.json` file)
 - PUT `/:jobId/status` to update status (status must be in: pending, approved, rejected)

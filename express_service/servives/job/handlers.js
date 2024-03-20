@@ -88,7 +88,7 @@ VALUES ('job1', 'company1', 'Software Developer (C++/Qt Framework)', '0',
 
       if (results.length === 0) {
         console.log("No jobs found.");
-        return res.status(404).json("No jobs found.");
+        return res.status(200).json({ data: [] });
       }
 
       // Parse array-like fields into arrays for each job

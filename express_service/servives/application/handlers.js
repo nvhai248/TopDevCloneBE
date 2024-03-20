@@ -94,12 +94,14 @@ const handlers = {
           res.status(404).send("Application not found");
         } else {
           console.log("Application status updated successfully");
-          res.status(200).send("Application status updated successfully");
+          res
+            .status(200)
+            .send({ message: "Application status updated successfully" });
         }
       }
     });
   },
-  getApplications: (req, res, next) => {
+  getApplications: async (req, res, next) => {
     let sql = "SELECT * FROM Application";
     const { userId, jobId } = req.query;
     let isAddedWhere = false;
@@ -114,17 +116,40 @@ const handlers = {
         : `SELECT * FROM Application WHERE jobId = '${jobId}'`;
     }
 
-    console.log("sql: ", sql);
+    const getApplications = () =>
+      new Promise((resolve, reject) => {
+        dbConnection.query(sql, (err, result) => {
+          if (err) {
+            console.error("Error getting applications:", err);
+            reject(err);
+          } else {
+            console.log("Applications retrieved successfully");
+            resolve(result);
+          }
+        });
+      });
 
-    dbConnection.query(sql, (err, result) => {
-      if (err) {
-        console.error("Error getting applications:", err);
-        res.status(500).send("Error getting applications");
-      } else {
-        console.log("Applications retrieved successfully");
-        res.status(200).json(result);
-      }
-    });
+    const applications = await getApplications();
+    // console.log("applications", applications);
+
+    for (var i = 0; i < applications.length; i++) {
+      const getJobInfo = (jobId) =>
+        new Promise((resolve, reject) => {
+          const sql = "SELECT * FROM Jobs WHERE id = ?";
+          dbConnection.query(sql, jobId, (err, result) => {
+            if (err) {
+              console.error("Error getting job info:", err);
+              reject(err);
+            } else {
+              resolve(result[0]);
+            }
+          });
+        });
+      const job = await getJobInfo(applications[i].jobId);
+      applications[i].job = job;
+    }
+
+    return res.status(200).json(applications);
   },
   getApplication: (req, res, next) => {
     const { id } = req.params;
