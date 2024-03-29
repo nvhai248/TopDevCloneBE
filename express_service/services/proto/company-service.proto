@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+message CompanyRequest {
+    int32 id = 1;
+}
+
+message CompanyResponse {
+    int32 id = 1;
+    string name = 2;
+    string address = 3;
+    string url = 4;
+    string nationality = 5;
+    string companySize = 7;
+    repeated string skills = 8;
+    string image = 9;
+}
+
+service CompanyService {
+    rpc GetCompanyInformation (CompanyRequest) returns (CompanyResponse);
+}

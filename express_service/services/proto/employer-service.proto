@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+message EmployerRequest {
+    int32 id = 1;
+}
+
+message EmployerResponse {
+    int32 id = 1;
+    string name = 2;
+    string address = 3;
+    string nationality = 4;
+    string email = 5;
+}
+
+service TransactionService {
+    rpc GetEmployerInfomation (EmployerRequest) returns (EmployerResponse);
+}
