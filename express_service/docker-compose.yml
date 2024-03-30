@@ -1,0 +1,44 @@
+version: "3"
+services:
+  gateway:
+    build:
+      dockerfile: Dockerfile
+      context: ./gateway
+    container_name: gateway
+    ports:
+      - "5000:5000"
+    restart: always
+    volumes:
+      - .:/app
+      - /app/gateway/node_modules
+  admin_service:
+    build:
+      dockerfile: Dockerfile
+      context: ./services/admin_service
+    container_name: admin_service
+    ports:
+      - "5001:5001"
+    restart: always
+    volumes:
+      - .:/app
+      - /app/admin_service/node_modules
+  user_service:
+    build:
+      dockerfile: Dockerfile
+      context: ./services/user_service
+    container_name: user_service
+    ports:
+      - "5003:5003"
+    restart: always
+    volumes:
+      - .:/app
+      - /app/user_service/node_modules
+  nginx-proxy:
+    build:
+      dockerfile: Dockerfile
+      context: ./proxy
+    depends_on:
+      - admin_service
+      - user_service
+    ports:
+      - 80:80
