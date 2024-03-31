@@ -1,0 +1,33 @@
+syntax = "proto3";
+
+message Job {
+    string id = 1;
+    string companyId = 2;
+    string title = 3;
+    string salary = 4;
+    repeated string responsibilities = 5;
+    repeated string skills = 6;
+    repeated string extends = 7;
+    repeated string welfare = 8;
+    string experienceYearsMin = 9;
+    string experienceYearsMax = 10;
+    string level = 11;
+    string type = 12;
+    string typeContract = 13;
+    string techs = 14;
+    repeated string interviewProcess = 15;
+}
+
+message JobList {
+    repeated Job jobs = 1;
+}
+
+message CompanyId {
+    string companyId = 1;
+}
+
+message Empty {}
+
+service JobService {
+    rpc getJobsByCompanyId (CompanyId) returns (JobList) {}
+}
