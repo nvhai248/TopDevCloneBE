@@ -5,21 +5,46 @@
 ### 1. Run gateway
 * cd .\express_service\gateway\
 
+**Install package**
 ```javascript
-    npm install // install package
-    npm run start // run gateway
+    npm install
+```
+
+**Run gateway**
+```javascript
+    npm run start
 ```
 
 ### 2. Run services
 * cd .\express_service\services\job_service\
 
+**Install package**
 ```javascript
-    npm install // install package
-    npm run start // run job service
-    npm run grpc // run only grpc server
-    npm run dev // run job service developer mode
-    npm run grpc:dev // run only grpc server developer mode
+    npm install
 ```
+
+**Run service + grpc server**
+```javascript
+    npm run start
+```
+
+* or with developer mode
+
+```javascript
+    npm run dev
+```
+
+**Run grpc server only**
+```javascript
+    npm run grpc
+```
+
+* or with developer mode
+
+```javascript
+    npm run grpc:dev
+```
+
 
 ### Testing
 - Gateway default (User route): http://localhost:5000
