@@ -21,7 +21,7 @@ services:
     restart: always
     volumes:
       - .:/app
-      - /app/admin_service/node_modules
+      - /app/services/admin_service/node_modules
   user_service:
     build:
       dockerfile: Dockerfile
@@ -32,7 +32,18 @@ services:
     restart: always
     volumes:
       - .:/app
-      - /app/user_service/node_modules
+      - /app/services/user_service/node_modules
+  employer_service:
+    build:
+      dockerfile: Dockerfile
+      context: ./services/employer_service
+    container_name: employer_service
+    ports:
+      - "5002:5002"
+    restart: always
+    volumes:
+      - .:/app
+      - /app/services/employer_service/node_modules
   nginx-proxy:
     build:
       dockerfile: Dockerfile
@@ -40,5 +51,6 @@ services:
     depends_on:
       - admin_service
       - user_service
+      - employer_service
     ports:
       - 80:80
