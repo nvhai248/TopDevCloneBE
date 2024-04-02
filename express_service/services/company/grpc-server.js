@@ -1,6 +1,7 @@
+require("dotenv").config();
 const grpc = require("@grpc/grpc-js");
 const protoLoader = require("@grpc/proto-loader");
-const packageDefinition = protoLoader.loadSync(process.env.PROTO_PATH);
+const packageDefinition = protoLoader.loadSync('../proto/company-service.proto');
 const {
   GetCompanyInformation,
 } = require("./grpc-server-function/get-company-grpc");

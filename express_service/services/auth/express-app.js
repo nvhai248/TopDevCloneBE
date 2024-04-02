@@ -2,8 +2,8 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const grpc = require("@grpc/grpc-js");
 const routers = require("./router");
-const grpcCompanyServer = require("./grpc-server");
-const { GRPC_COMPANY_SERVER } = require("./configs");
+const grpcAuthServer = require("./grpc-server");
+const { GRPC_AUTH_SERVER } = require("./configs");
 
 module.exports = async (app) => {
   app.use(express.json({ limit: "1mb" }));
@@ -13,8 +13,8 @@ module.exports = async (app) => {
   app.use(bodyParser.urlencoded({ extended: false }));
   app.use(express.static(__dirname + "/public"));
 
-  grpcCompanyServer.bindAsync(
-    `localhost:${GRPC_COMPANY_SERVER}`,
+  grpcAuthServer.bindAsync(
+    `localhost:${GRPC_AUTH_SERVER}`,
     grpc.ServerCredentials.createInsecure(),
     (err, port) => {
       if (err) {

@@ -1,7 +1,7 @@
 require("dotenv").config();
 
 const PORT = 5004;
-const GRPC_COMPANY_SERVER = process.env.GRPC_COMPANY_SERVER;
+const GRPC_COMPANY_SERVER = 50051;
 
 module.exports = {
   PORT,

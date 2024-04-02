@@ -1,0 +1,20 @@
+{
+  "name": "express_service",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "concurrently \"npm run start:AdminService\" \"npm run start:AuthService\" \"npm run start:CompanyService\" \"npm run start:JobService\" \"npm run start:Gateway\"",
+    "start:AdminService": "cd ./services/admin && npm start",
+    "start:AuthService": "cd ./services/auth && npm start",
+    "start:CompanyService": "cd ./services/company && npm start",
+    "start:JobService": "cd ./services/job && npm start",
+    "start:Gateway": "cd ./gateway/ && npm start"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}

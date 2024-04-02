@@ -1,13 +1,19 @@
-const express = require('express');
+const express = require("express");
+const { PORT } = require("./configs/index");
+const expressApp = require("./express-app");
 
-const app = express();
+const StartServer = async () => {
+  const app = express();
+  await expressApp(app);
 
-app.use(express.json());
+  app
+    .listen(PORT, () => {
+      console.log(`Admin service listening on port ${PORT}`);
+    })
+    .on("error", (err) => {
+      console.log(err);
+      process.exit();
+    });
+};
 
-app.use('/', (req, res, next) => {
-    return res.status(200).json({ "msg": "Hello from ADMIN!" });
-})
-
-app.listen(5001, () => {
-    console.log('Admin is listening to port 5001');
-})
+StartServer();

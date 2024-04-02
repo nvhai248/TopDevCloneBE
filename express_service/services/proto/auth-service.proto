@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+message NullRequest {
+
+}
+message AuthRequest {
+    int32 id = 1;
+}
+
+message AccountResponse {
+    int32 id = 1;
+    string email = 2;
+}
+
+message AccountListResponse {
+    repeated AccountResponse accounts = 1;
+}
+
+service AuthService {
+    rpc GetAccountById (AuthRequest) returns (AccountResponse);
+    rpc GetAccountList (NullRequest) returns (AccountListResponse);
+}
