@@ -29,8 +29,7 @@ const handlers = {
       about TEXT,
       introduction TEXT,
       benefit TEXT,
-      imgs TEXT,
-      products TEXT
+      imgs TEXT
   );  
     `;
     dbConnection.query(createQuery, (err, result) => {
@@ -39,7 +38,7 @@ const handlers = {
     });
 
     const insertQuery = `
-    INSERT INTO company (id, name, address, fields, size, nations, skills, about, introduction, benefit, imgs, products) VALUES (
+    INSERT INTO company (id, name, address, fields, size, nations, skills, about, introduction, benefit, imgs) VALUES (
       'company1',
       'CÔNG TY CỔ PHẦN SHOWNIQ',
       '299 Hoàng Diệu, Phường 06, Quận 4, Thành phố Hồ Chí Minh',
@@ -47,11 +46,10 @@ const handlers = {
       '25-99',
       '["South-Korea", "Vietnam"]',
       '["PHP", "SQL"]',
-      '["IT company specializing in AI, mobile, KIOSK development"]',
-      '["SHOWNIQ is a fashion tech startup established with the vision of innovating the fashion consumption culture of ASEAN through AI in 2022.", "Starting with the launch of SHOWNIQ, an AI-based fashion curation platform in 2023, we will develop vigorously with the goal of becoming the Top AI fashion platform in ASEAN by 2027"]',
-      '["Salary is paid according to employee capacity.", "Salary adjustment 1-2 times a year (KPI)", "Work Monday to Friday", "Lunar New Year (minimum bonus 13 months salary and seniority and additional bonus depending on business situation)"]',
-      '["https://assets.topdev.vn/images/2023/04/17/TopDev-68xx80rBWc3Xz0wK-1681701152.jpg", "https://assets.topdev.vn/images/2023/04/17/TopDev-1U5jhZLKrZ0PhWbu-1681701152.jpg"]',
-      '[{"id": "product1", "name": "ProductName", "description": "Starting with the launch of SHOWNIQ, an AI-based fashion curation platform in 2023, we will develop vigorously with the goal of becoming the Top AI fashion platform in ASEAN by 2027", "image": "https://salt.topdev.vn/2gC4Bjo3Negx-kwiaODzE-qkNEeQ7HNT7qkato9VKiE/fit/128/1000/ce/1/aHR0cHM6Ly9hc3NldHMudG9wZGV2LnZuL2ltYWdlcy8yMDIzLzA2LzE5L1NjcmVlbnNob3QtMjAyMy0wNi0xOS0wODIyMzUtMTY4NzEzNzgwNC5wbmc"}]'
+      '<div>IT company specializing in AI, mobile, KIOSK development</div>',
+      '<div><div><b>NEXACORN</b> is an IT company specializing in the development and provision of various AI software solutions, and platform services. With a team of highly specialized professionals in the field of 4.0 technology, we utilize advanced technologies such as machine learning training, in-depth development of artificial intelligence core technology (Artificial Intelligence - AI), and Big Data, Cloud, Blockchain</div><div><b>NEXACORN</b> conducts research to deliver software products of the highest quality to users. Our aim is to contribute to making human life more beautiful and happier through our software products.</div></div>',
+      '<div><div>Salary is paid according to employee capacity.</div><div>Salary adjustment 1-2 times a year (KPI)</div><div>Work Monday to Friday</div><div>Lunar New Year (minimum bonus 13 months salary and seniority and additional bonus depending on business situation)</div></div>',
+      '["https://assets.topdev.vn/images/2023/04/17/TopDev-68xx80rBWc3Xz0wK-1681701152.jpg", "https://assets.topdev.vn/images/2023/04/17/TopDev-1U5jhZLKrZ0PhWbu-1681701152.jpg"]'
   );  
     `;
     dbConnection.query(insertQuery, (err, result) => {
@@ -81,11 +79,7 @@ const handlers = {
       company.fields = JSON.parse(company.fields);
       company.nations = JSON.parse(company.nations);
       company.skills = JSON.parse(company.skills);
-      company.about = JSON.parse(company.about);
-      company.introduction = JSON.parse(company.introduction);
-      company.benefit = JSON.parse(company.benefit);
       company.imgs = JSON.parse(company.imgs);
-      company.products = JSON.parse(company.products);
 
       console.log("Company data:", company);
       res.status(200).json({ data: company });
