@@ -1,10 +1,10 @@
 const express = require("express");
-const dbConnection = require("./database");
+// const dbConnection = require("./database");
 const routes = require("./handlers");
 const app = express();
 
 app.use(express.json());
-dbConnection.connect();
+// dbConnection.connect();
 
 app.use("/", routes);
 
