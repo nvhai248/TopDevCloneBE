@@ -32,7 +32,6 @@ class JobController {
 
       for (let i = 0; i < jobs.length; i++) {
         jobs[i].company = companies[jobs[i].companyId];
-        delete jobs[i].companyId;
       }
 
       return jobs;
