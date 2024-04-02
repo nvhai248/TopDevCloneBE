@@ -1,8 +1,6 @@
 const grpc = require("@grpc/grpc-js");
 const protoLoader = require("@grpc/proto-loader");
-const packageDefinition = protoLoader.loadSync(
-  "../proto/company-service.proto"
-);
+const packageDefinition = protoLoader.loadSync(process.env.PROTO_PATH);
 const {
   GetCompanyInformation,
 } = require("./grpc-server-function/get-company-grpc");

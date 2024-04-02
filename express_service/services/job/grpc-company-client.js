@@ -2,7 +2,7 @@ const grpc = require("@grpc/grpc-js");
 const protoLoader = require("@grpc/proto-loader");
 const { GRPC_COMPANY_SERVER } = require("./configs");
 const packageDefinition = protoLoader.loadSync(
-  "../proto/company-service.proto"
+  process.env.PROTO_PATH
 );
 const serviceProto = grpc.loadPackageDefinition(packageDefinition);
 

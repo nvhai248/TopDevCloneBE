@@ -1,0 +1,48 @@
+version: '3.8'
+
+services:
+  gateway:
+    build: ./gateway
+    container_name: gateway
+    ports:
+      - "5000:5000"
+    environment:
+      - URL_CPN_SERVICES=http://company:5005
+      - URL_JOB_SERVICES=http://job:5004
+    depends_on:
+      - job
+      - company
+
+  job:
+    build: ./services/job
+    container_name: job_service
+    volumes:
+      - ./services/proto/company-service.proto:/app/proto/company-service.proto
+    ports:
+      - "5004:5004"
+    environment:
+      - PROTO_PATH=../proto/company-service.proto
+      - GRPC_COMPANY_SERVER=company:50051
+  
+  company:
+    build: ./services/company
+    container_name: company_service
+    volumes:
+      - ./services/proto/company-service.proto:/app/proto/company-service.proto
+    ports:
+      - "5005:5005"
+    environment:
+      - PROTO_PATH=../proto/company-service.proto
+      - GRPC_COMPANY_SERVER=company:50051
+
+  nginx:
+    image: nginx:latest
+    container_name: nginx
+    volumes:
+      - ./services/nginx.conf:/etc/nginx/nginx.conf
+    ports:
+      - "80:80"
+    depends_on:
+      - gateway
+      - job
+      - company
