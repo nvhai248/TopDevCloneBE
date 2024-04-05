@@ -3,15 +3,16 @@ const { ErrorResponse } = require("../../utils/error-handler");
 const { SetResponse } = require("../../utils/success-response");
 const { controller } = require("./instance");
 
-const FindJob = async (req, res, next) => {
+const UpdateJob = async (req, res, next) => {
   try {
     const id = req.params.id;
+    const data = req.body;
 
-    const job = await controller.findJob(id);
+    const job = await controller.updateJob(id, data);
     SetResponse(res, STATUS_CODES.OK, job, "OK", null);
   } catch (error) {
     ErrorResponse(error, res);
   }
 };
 
-module.exports = FindJob;
+module.exports = UpdateJob;

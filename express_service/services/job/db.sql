@@ -1,0 +1,22 @@
+CREATE TABLE IF NOT EXISTS jobs (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    companyId INT NOT NULL,
+    createdBy INT NOT NULL,
+    title VARCHAR(255) NOT NULL,
+    salary VARCHAR(255),
+    responsibilities TEXT NOT NULL,
+    skills TEXT NOT NULL,
+    extends TEXT,
+    welfare TEXT,
+    experienceYearsMin INT,
+    experienceYearsMax INT,
+    level VARCHAR(255),
+    type VARCHAR(255),
+    typeContract VARCHAR(255),
+    techs TEXT,
+    interviewProcess TEXT,
+    followedCount INT DEFAULT 0,
+    appliedCount INT DEFAULT 0,
+    createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);

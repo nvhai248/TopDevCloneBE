@@ -4,6 +4,7 @@ const sequelize = require("../database/mysql");
 const JobModal = sequelize.define("jobs", {
   id: {
     type: DataTypes.INTEGER,
+    autoIncrement: true,
     allowNull: false,
     primaryKey: true,
   },
@@ -21,7 +22,7 @@ const JobModal = sequelize.define("jobs", {
   },
   salary: {
     type: DataTypes.STRING,
-    allowNull: false,
+    allowNull: true,
   },
   responsibilities: {
     type: DataTypes.ARRAY(DataTypes.STRING),
@@ -33,39 +34,49 @@ const JobModal = sequelize.define("jobs", {
   },
   extends: {
     type: DataTypes.ARRAY(DataTypes.STRING),
-    allowNull: false,
+    allowNull: true,
   },
   welfare: {
     type: DataTypes.ARRAY(DataTypes.STRING),
-    allowNull: false,
+    allowNull: true,
   },
   experienceYearsMin: {
     type: DataTypes.INTEGER,
-    allowNull: false,
+    allowNull: true,
   },
   experienceYearsMax: {
     type: DataTypes.INTEGER,
-    allowNull: false,
+    allowNull: true,
   },
   level: {
     type: DataTypes.STRING,
-    allowNull: false,
+    allowNull: true,
   },
   type: {
     type: DataTypes.STRING,
-    allowNull: false,
+    allowNull: true,
   },
   typeContract: {
     type: DataTypes.STRING,
-    allowNull: false,
+    allowNull: true,
   },
   techs: {
     type: DataTypes.ARRAY(DataTypes.STRING),
-    allowNull: false,
+    allowNull: true,
   },
   interviewProcess: {
     type: DataTypes.ARRAY(DataTypes.STRING),
-    allowNull: false,
+    allowNull: true,
+  },
+  followedCount: {
+    type: DataTypes.INTEGER,
+    allowNull: true,
+    defaultValue: 0,
+  },
+  appliedCount: {
+    type: DataTypes.INTEGER,
+    allowNull: true,
+    defaultValue: 0,
   },
   createdAt: {
     type: DataTypes.DATE,
