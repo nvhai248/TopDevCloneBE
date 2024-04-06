@@ -1,7 +1,8 @@
+const ListJobsByCompanyId = require("./listJobs");
+
 class CompanyRepository {
-  test = () => {
-    return "OK";
-  };
+  // [GET] /companies/:companyId/jobs
+  listJobsByCompanyId = ListJobsByCompanyId;
 }
 
 module.exports = CompanyRepository;
