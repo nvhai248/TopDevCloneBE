@@ -4,6 +4,6 @@ const { CompanyTransport } = require("../transports");
 const companyRouter = express.Router();
 const transport = new CompanyTransport();
 
-companyRouter.get("/", auth, transport.test);
+companyRouter.get("/:id/jobs", auth, transport.listJobsByCompanyId);
 
 module.exports = companyRouter;
