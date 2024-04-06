@@ -5,7 +5,7 @@ const { JobModel } = require("./instance");
 const ListJobsByCompanyId = async (companyId) => {
     try {
         const jobs = await JobModel.findAll({ where: { companyId: companyId } });
-        return jobs;
+        return jobs ? jobs.map(job => job.dataValues) : jobs;
     } catch (error) {
         throw new DBError(error.message, "Something went wrong with job DB");
     }
