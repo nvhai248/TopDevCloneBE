@@ -1,7 +1,7 @@
 const ListJobsByCompanyId = require("./listJobs");
 
 class CompanyRepository {
-  // [GET] /companies/:companyId/jobs
+  // [GET] /companies/:id/jobs
   listJobsByCompanyId = ListJobsByCompanyId;
 }
 
