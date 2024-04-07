@@ -1,7 +1,7 @@
 const { DBTypeJob, DBTypeCompany, DBTypeUser } = require("../../utils/const");
 const FormatJob = require("../../utils/format-result");
 const { unmaskId, maskId } = require("../../utils/mask");
-const { repository } = require("./instance");
+const { repository, companyRepository } = require("./instance");
 
 const FindJob = async (jobId) => {
   try {
@@ -9,12 +9,13 @@ const FindJob = async (jobId) => {
 
     let job = await repository.findJobById(jobId);
 
-    job.id = maskId(job.id, DBTypeJob);
-    job.companyId = maskId(job.companyId, DBTypeCompany);
-    job.createdBy = maskId(job.createdBy, DBTypeUser);
-
     // implement search company here
-    // TODO
+    job.company = await companyRepository.findCompanyById(job.companyId);
+    delete job.companyId;
+
+    job.id = maskId(job.id, DBTypeJob);
+    job.company.id = maskId(job.company.id, DBTypeCompany);
+    job.createdBy = maskId(job.createdBy, DBTypeUser);
 
     // format data return
     job = FormatJob(job);
