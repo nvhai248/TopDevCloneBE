@@ -78,6 +78,11 @@ const JobModal = sequelize.define("jobs", {
     allowNull: true,
     defaultValue: 0,
   },
+  status: {
+    type: DataTypes.SMALLINT,
+    allowNull: false,
+    defaultValue: 0,
+  },
   createdAt: {
     type: DataTypes.DATE,
     allowNull: false,

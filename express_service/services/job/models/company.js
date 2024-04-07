@@ -6,6 +6,7 @@ const CompanyModal = sequelize.define("companies", {
     type: DataTypes.INTEGER,
     allowNull: false,
     primaryKey: true,
+    autoIncrement: true,
   },
   name: {
     type: DataTypes.STRING,
@@ -13,27 +14,47 @@ const CompanyModal = sequelize.define("companies", {
   },
   address: {
     type: DataTypes.STRING,
-    allowNull: false,
+    allowNull: true,
   },
   url: {
     type: DataTypes.STRING,
-    allowNull: false,
+    allowNull: true,
   },
   nationality: {
     type: DataTypes.STRING,
-    allowNull: false,
+    allowNull: true,
   },
   companySize: {
     type: DataTypes.STRING,
-    allowNull: false,
+    allowNull: true,
   },
   skills: {
     type: DataTypes.ARRAY(DataTypes.STRING),
+    allowNull: true,
+  },
+  status: {
+    type: DataTypes.INTEGER,
     allowNull: false,
+    defaultValue: 0,
   },
   image: {
     type: DataTypes.STRING,
+    allowNull: true,
+  },
+  createdAt: {
+    type: DataTypes.DATE,
     allowNull: false,
+    defaultValue: DataTypes.NOW,
+  },
+  updatedAt: {
+    type: DataTypes.DATE,
+    allowNull: false,
+    defaultValue: DataTypes.NOW,
+  },
+  followedCount: {
+    type: DataTypes.SMALLINT,
+    allowNull: false,
+    defaultValue: 0,
   },
 });
 
