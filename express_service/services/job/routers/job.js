@@ -4,6 +4,7 @@ const { JobTransport } = require("../transports");
 const jobRouter = express.Router();
 const transport = new JobTransport();
 
+jobRouter.get("/", transport.listJobByConditions);
 jobRouter.patch("/:id/approve", auth, transport.approveJob);
 jobRouter.delete("/:id/refuse", auth, transport.refuseJob);
 jobRouter.get("/:id", auth, transport.findJob);

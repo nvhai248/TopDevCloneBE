@@ -1,11 +1,14 @@
 const CreateJob = require("./create");
 const FindJobById = require("./find");
+const ListJobByConditions = require("./list");
+const CountJobByConditions = require("./count");
 const UpdateJobInfo = require("./update");
 
 class JobRepository {
-  test = () => {
-    return "OK";
-  };
+  // [GET] /jobs?keywords=???&level=???&type=???&typeContract=???&address=???&page=??&limit=??&cursor=???&keywords=???
+  listJobByConditions = ListJobByConditions;
+
+  countJobByConditions = CountJobByConditions;
 
   // [GET] /jobs/:id
   findJobById = FindJobById;
