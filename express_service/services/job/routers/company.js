@@ -8,5 +8,6 @@ const transport = new CompanyTransport();
 companyRouter.get('/:id', auth, transport.findCompanyById);
 companyRouter.get('/:id/jobs', auth, transport.listJobsByCompanyId);
 companyRouter.post('/', auth, multer.single('image'), transport.createCompany);
+companyRouter.patch('/:id', auth, multer.single('image'), transport.updateCompany);
 
 module.exports = companyRouter;
