@@ -29,7 +29,7 @@ CREATE TABLE IF NOT EXISTS companies (
     url VARCHAR(255),
     nationality VARCHAR(255),
     companySize VARCHAR(255),
-    skills JSON,
+    skills TEXT,
     status INT NOT NULL DEFAULT -1,
     image VARCHAR(255),
     createdAt DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
