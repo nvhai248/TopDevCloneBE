@@ -10,7 +10,6 @@ const uploader = async (file) => {
                 reject(error);
             }
         });
-
         streamifier.createReadStream(file.buffer).pipe(stream);
     });
 };
