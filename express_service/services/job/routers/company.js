@@ -9,5 +9,6 @@ companyRouter.get('/:id', auth, transport.findCompanyById);
 companyRouter.get('/:id/jobs', auth, transport.listJobsByCompanyId);
 companyRouter.post('/', auth, multer.single('image'), transport.createCompany);
 companyRouter.patch('/:id', auth, multer.single('image'), transport.updateCompany);
+companyRouter.post('/:id/product', auth, multer.single('image'), transport.createProduct);
 
 module.exports = companyRouter;

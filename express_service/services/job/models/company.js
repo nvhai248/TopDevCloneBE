@@ -1,7 +1,7 @@
-const { DataTypes } = require("sequelize");
-const sequelize = require("../database/mysql");
+const { DataTypes } = require('sequelize');
+const sequelize = require('../database/mysql');
 
-const CompanyModal = sequelize.define("companies", {
+const CompanyModal = sequelize.define('companies', {
   id: {
     type: DataTypes.INTEGER,
     allowNull: false,
@@ -20,16 +20,28 @@ const CompanyModal = sequelize.define("companies", {
     type: DataTypes.STRING,
     allowNull: true,
   },
-  nationality: {
-    type: DataTypes.STRING,
-    allowNull: true,
-  },
   companySize: {
     type: DataTypes.STRING,
     allowNull: true,
   },
   skills: {
     type: DataTypes.ARRAY(DataTypes.STRING),
+    allowNull: true,
+  },
+  nations: {
+    type: DataTypes.ARRAY(DataTypes.STRING),
+    allowNull: true,
+  },
+  benefits: {
+    type: DataTypes.ARRAY(DataTypes.STRING),
+    allowNull: true,
+  },
+  fields: {
+    type: DataTypes.ARRAY(DataTypes.STRING),
+    allowNull: true,
+  },
+  about: {
+    type: DataTypes.TEXT,
     allowNull: true,
   },
   status: {

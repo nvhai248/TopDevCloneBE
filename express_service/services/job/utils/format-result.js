@@ -23,6 +23,9 @@ const FormatCompany = (company) => {
 
         // Parse each property and assign the parsed value back to the copy
         formattedCompany.skills = JSON.parse(company.skills);
+        formattedCompany.nations = JSON.parse(company.nations);
+        formattedCompany.benefits = JSON.parse(company.benefits);
+        formattedCompany.fields = JSON.parse(company.fields);
 
         return formattedCompany; // Return the formatted job
     } catch (error) {

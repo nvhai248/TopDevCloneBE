@@ -27,13 +27,28 @@ CREATE TABLE IF NOT EXISTS companies (
     name VARCHAR(255) NOT NULL,
     address VARCHAR(255),
     url VARCHAR(255),
-    nationality VARCHAR(255),
+    fields TEXT,
+    nations TEXT,
+    about VARCHAR(255),
     companySize VARCHAR(255),
     skills TEXT,
+    benefits TEXT,
     status INT NOT NULL DEFAULT -1,
     image VARCHAR(255),
     createdAt DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updatedAt DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     followedCount SMALLINT NOT NULL DEFAULT 0,
+    PRIMARY KEY (id)
+);
+
+CREATE TABLE IF NOT EXISTS products (
+    id INT NOT NULL AUTO_INCREMENT,
+    companyId INT NOT NULL,
+    name VARCHAR(255) NOT NULL,
+    description TEXT,
+    image VARCHAR(255),
+    createdAt DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updatedAt DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (companyId) REFERENCES companies(id),
     PRIMARY KEY (id)
 );
