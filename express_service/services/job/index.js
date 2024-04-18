@@ -1,6 +1,6 @@
-const express = require("express");
-const { PORT } = require("./configs/index");
-const expressApp = require("./express-app");
+const express = require('express');
+const { PORT } = require('./configs/index');
+const expressApp = require('./express-app');
 
 const StartServer = async () => {
   const app = express();
@@ -10,7 +10,7 @@ const StartServer = async () => {
     .listen(PORT, () => {
       console.log(`Job service listening on port ${PORT}`);
     })
-    .on("error", (err) => {
+    .on('error', (err) => {
       console.log(err);
       process.exit();
     });
