@@ -9,16 +9,16 @@ const ApplyJob = async (data) => {
 
         const jobId = result.data.jobId
 
-        await new Promise((resolve, reject) => {
-            grpcJobClient.UpdateCountApplyGRPC({ jobId }, (error, result1) => {
-                if (error) {
-                    console.log(error.message);
-                    resolve(null);
-                } else {
-                    resolve(result1);
-                }
-            });
-        });
+        // await new Promise((resolve, reject) => {
+        //     grpcJobClient.UpdateCountApplyGRPC({ jobId }, (error, result1) => {
+        //         if (error) {
+        //             console.log(error.message)
+        //             resolve(null);
+        //         } else {
+        //             resolve(result1);
+        //         }
+        //     });
+        // });
 
         result.data.jobId = maskId(result.data.jobId, DBTypeJob);
         result.data.id = maskId(result.data.id, DBTypeApplication);

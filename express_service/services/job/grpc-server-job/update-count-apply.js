@@ -1,4 +1,4 @@
-const JobModal = require('./JobModal'); // Import JobModal từ module của bạn
+const JobModal = require('../models/job');
 
 const UpdateCountApplyGRPC = (call, callback) => {
     try {
