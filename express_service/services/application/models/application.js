@@ -31,7 +31,12 @@ const ApplicationModal = sequelize.define("applications", {
     description: {
         type: DataTypes.STRING,
         allowNull: false,
-    }
+    },
+    isApprove: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false,
+        allowNull: false,
+    },
 });
 
 module.exports = ApplicationModal;

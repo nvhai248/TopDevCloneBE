@@ -10,5 +10,7 @@ const transport = new ApplicationTransport();
 // jobRouter.get("/:id", auth, transport.findJob);
 // jobRouter.patch("/:id", auth, transport.updateJob);
 applicationRouter.post("/", auth, transport.applyJob);
+applicationRouter.get("/list-apply/:id", auth, transport.listApply);
+
 
 module.exports = applicationRouter;
