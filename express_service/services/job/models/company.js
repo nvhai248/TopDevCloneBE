@@ -68,6 +68,18 @@ const CompanyModal = sequelize.define('companies', {
     allowNull: false,
     defaultValue: 0,
   },
+  cover: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
+  images: {
+    type: DataTypes.ARRAY(DataTypes.STRING),
+    allowNull: true,
+  },
+  slogan: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
 });
 
 module.exports = CompanyModal;
