@@ -1,5 +1,5 @@
 const { DBError } = require('../../utils/app-errors');
-const { CompanyModal, JobModel } = require('./instance');
+const { CompanyModal, JobModel } = require('../../controllers/company/instance');
 
 // Implement list companies for slider in home page and export
 const ListCompanySlider = async (companyId) => {
