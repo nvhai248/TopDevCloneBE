@@ -7,13 +7,29 @@ const CandidateModel = sequelize.define("candidates", {
     allowNull: false,
     primaryKey: true,
   },
+  avatar: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
   email: {
     type: DataTypes.STRING,
     allowNull: false,
   },
-  name: {
+  display_name: {
     type: DataTypes.STRING,
     allowNull: false,
+  },
+  phone: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
+  gender: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
+  dob: {
+    type: DataTypes.STRING,
+    allowNull: true,
   },
   position: {
     type: DataTypes.STRING,
@@ -27,11 +43,12 @@ const CandidateModel = sequelize.define("candidates", {
     type: DataTypes.STRING,
     allowNull: true,
   },
-  phone: {
+  status_profile: {
     type: DataTypes.STRING,
-    allowNull: true,
+    allowNull: false,
+    defaultValue: "newstar",
   },
-  dob: {
+  address: {
     type: DataTypes.STRING,
     allowNull: true,
   },
@@ -51,11 +68,11 @@ const CandidateModel = sequelize.define("candidates", {
     type: DataTypes.STRING,
     allowNull: true,
   },
-  experience: {
+  experiences: {
     type: DataTypes.STRING,
     allowNull: true,
   },
-  education: {
+  educations: {
     type: DataTypes.STRING,
     allowNull: true,
   },
@@ -63,9 +80,38 @@ const CandidateModel = sequelize.define("candidates", {
     type: DataTypes.STRING,
     allowNull: true,
   },
-  extends: {
+  languages: {
     type: DataTypes.STRING,
     allowNull: true,
+  },
+  interests: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
+  ref: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
+  activities: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
+  certificates: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
+  additional: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
+  cover_letter: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
+  willing_to_work: {
+    type: DataTypes.BOOLEAN,
+    allowNull: true,
+    defaultValue: false,
   },
   createdAt: {
     type: DataTypes.DATE,

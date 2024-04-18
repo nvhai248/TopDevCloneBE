@@ -1,8 +1,9 @@
 const ListCandidates = require("./list");
 const CandidateInfo = require("./info");
 const UpdateInfo = require('./update');
+const ListCVs = require('./listCV');
 
-class AdminRepository {
+class CandidateRepository {
     // [GET] /admin/candidates
     listCandidates = ListCandidates;
   
@@ -11,6 +12,10 @@ class AdminRepository {
   
     // [PATCH] /admin/candidates/:id
     updateCandidate = UpdateInfo;
+
+    // [GET] /:id/cvs
+    listCVbyUserId = ListCVs;
+
 }
 
-module.exports = AdminRepository;
+module.exports = CandidateRepository;
