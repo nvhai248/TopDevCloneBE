@@ -1,6 +1,7 @@
 require("dotenv").config();
 
 const PORT = process.env.PORT;
+const GRPC_JOB_SERVER = process.env.GRPC_JOB_SERVER;
 const DB_MYSQL_USERNAME = process.env.DB_MYSQL_USERNAME;
 const DB_MYSQL_PASSWORD = process.env.DB_MYSQL_PASSWORD;
 const DB_MYSQL_DBNAME = process.env.DB_MYSQL_DBNAME;
@@ -12,4 +13,5 @@ module.exports = {
     DB_MYSQL_DBNAME,
     DB_MYSQL_PASSWORD,
     DB_MYSQL_HOST,
+    GRPC_JOB_SERVER
 };

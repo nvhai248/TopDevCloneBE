@@ -1,5 +1,7 @@
 {
   "dependencies": {
+    "@grpc/grpc-js": "^1.10.6",
+    "@grpc/proto-loader": "^0.7.12",
     "body-parser": "^1.20.2",
     "bs58": "^5.0.0",
     "dotenv": "^16.4.5",
