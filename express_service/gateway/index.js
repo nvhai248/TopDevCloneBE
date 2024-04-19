@@ -12,10 +12,12 @@ app.use(express.json());
 
 app.use(
   "/jobs",
-  createProxyMiddleware({
+  /* createProxyMiddleware({
     target: process.env.BASE_URL_JOB_SERVICE,
     changeOrigin: true,
-  })
+
+  }) */
+  proxy(process.env.BASE_URL_JOB_SERVICE, {})
 );
 app.use("/applications", proxy(process.env.BASE_URL_APPLICATION_SERVICE));
 app.use("/", proxy(process.env.BASE_URL_USER_SERVICE));
