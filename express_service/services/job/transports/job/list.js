@@ -1,5 +1,6 @@
 const { STATUS_CODES } = require('../../utils/app-errors');
 const { ErrorResponse } = require('../../utils/error-handler');
+const { publishMessage } = require('../../utils/pubsub_rabbitmq/publisher');
 const { SetResponse } = require('../../utils/success-response');
 const { controller } = require('./instance');
 

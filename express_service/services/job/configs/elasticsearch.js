@@ -4,10 +4,6 @@ const ELASTIC_CONFIG = {
     username: process.env.ES_USERNAME,
     password: process.env.ES_PW,
   },
-  tls: {
-    ca: fs.readFileSync('http-cert.crt'),
-    rejectUnauthorized: false,
-  },
 };
 
 module.exports = ELASTIC_CONFIG;
