@@ -1,10 +1,10 @@
-const { CompanyModal, ProductModel } = require('./instance');
+const { Company, Product } = require('./instance');
 const { DBError } = require('../../utils/app-errors');
 
 const FindCompanyById = async (id) => {
   try {
-    const result = await CompanyModal.findOne({ where: { id: id } });
-    const productOfCompany = await ProductModel.findAll({ where: { companyId: id } });
+    const result = await Company.findOne({ where: { id: id } });
+    const productOfCompany = await Product.findAll({ where: { companyId: id } });
     result.dataValues.products = productOfCompany.map((product) => product.dataValues);
     return result ? result.dataValues : result;
   } catch (error) {

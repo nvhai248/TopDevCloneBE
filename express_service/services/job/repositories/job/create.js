@@ -1,17 +1,17 @@
-const { DBError } = require("../../utils/app-errors");
-const { JobModal } = require("./instance");
+const { DBError } = require('../../utils/app-errors');
+const { Job } = require('./instance');
 
 // Implement create job information here and export
 const CreateJob = async (data) => {
   try {
     // Create a new job with the provided data
-    const newJob = await JobModal.create(data);
+    const newJob = await Job.create(data);
 
     // Return the newly created job data
     return newJob.dataValues;
   } catch (error) {
     // If an error occurs, throw a DBError
-    throw new DBError(error.message, "Something went wrong with job creation");
+    throw new DBError(error.message, 'Something went wrong with job creation');
   }
 };
 

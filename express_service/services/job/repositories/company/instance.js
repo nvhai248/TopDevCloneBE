@@ -1,5 +1,5 @@
-const CompanyModal = require('../../models/company');
-const JobModel = require('../../models/job');
-const ProductModel = require('../../models/product');
+const Company = require('../../models/company');
+const Job = require('../../models/job');
+const Product = require('../../models/product');
 
-module.exports = { CompanyModal, JobModel, ProductModel };
+module.exports = { Company, Job, Product };

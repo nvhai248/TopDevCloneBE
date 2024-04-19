@@ -1,4 +1,4 @@
-const JobModal = require('../../models/job');
+const Job = require('../../models/job');
 const JobListModel = require('../../models/job-list');
 
-module.exports = { JobModal, JobListModel };
+module.exports = { Job, JobListModel };

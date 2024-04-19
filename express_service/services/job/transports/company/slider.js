@@ -5,8 +5,8 @@ const { controller } = require('./instance');
 
 const ListCompanySlider = async (req, res, next) => {
   try {
-    const jobs = await controller.listCompanySlider();
-    SetResponse(res, STATUS_CODES.OK, jobs, 'OK', null);
+    const companies = await controller.listCompanySlider();
+    SetResponse(res, STATUS_CODES.OK, companies, 'OK', null);
   } catch (error) {
     ErrorResponse(error, res);
   }

@@ -1,32 +1,26 @@
 const { DBError } = require('../../utils/app-errors');
-const { CompanyModal, JobModel } = require('../../controllers/company/instance');
+const { Company } = require('./instance');
+const { literal } = require('sequelize');
 
-// Implement list companies for slider in home page and export
-const ListCompanySlider = async (companyId) => {
+// Implement list companies for slider home page and export
+const ListCompanySlider = async () => {
   try {
-    const companies = await CompanyModal.findAll({
+    const companies = await Company.findAll({
       attributes: [
         'id',
         'name',
         'image',
-        'solgan',
+        'slogan',
         'about',
         'url',
-        [sequelize.fn('COUNT', sequelize.col('jobs.id')), 'positions'],
+        [literal('(SELECT COUNT(*) FROM jobs WHERE jobs.companyId = company.id AND jobs.status = 1)'), 'jobCount'],
       ],
-      include: [
-        {
-          model: JobModel,
-          where: { status: 1 },
-          attributes: [],
-        },
-      ],
-      group: ['companies.id'],
+      include: [],
       limit: 5,
     });
-    return companies ? companies.map((job) => companies.dataValues) : companies;
+    return companies ? companies.map((company) => company.toJSON()) : companies;
   } catch (error) {
-    throw new DBError(error.message, 'Something went wrong with company DB');
+    throw new DBError(error.message, 'Something went wrong with company slider DB');
   }
 };
 

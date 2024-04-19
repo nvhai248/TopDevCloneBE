@@ -12,7 +12,9 @@ const ListCompanySlider = async () => {
       id: maskId(company.id, DBTypeCompany),
     }));
 
-    return formattedCompanies;
+    // companies.map((company) => FormatCompany(company));
+
+    return companies;
   } catch (error) {
     throw error;
   }

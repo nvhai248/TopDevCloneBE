@@ -1,7 +1,7 @@
-const { DataTypes } = require("sequelize");
-const sequelize = require("../database/mysql");
+const { DataTypes } = require('sequelize');
+const sequelize = require('../database/mysql');
 
-const JobListModel = sequelize.define("jobs", {
+const JobListModel = sequelize.define('jobs', {
   id: {
     type: DataTypes.INTEGER,
     autoIncrement: true,
@@ -25,20 +25,41 @@ const JobListModel = sequelize.define("jobs", {
     allowNull: true,
   },
   responsibilities: {
-    type: DataTypes.ARRAY(DataTypes.STRING),
+    type: DataTypes.STRING,
     allowNull: false,
+    get() {
+      const value = this.getDataValue('responsibilities');
+      return value ? value.split(',') : [];
+    },
+    set(value) {
+      this.setDataValue('responsibilities', value.join(','));
+    },
   },
   skills: {
     type: DataTypes.STRING,
     allowNull: false,
+    get() {
+      const value = this.getDataValue('skills');
+      return value ? value.split(',') : [];
+    },
+    set(value) {
+      this.setDataValue('skills', value.join(','));
+    },
   },
   extends: {
-    type: DataTypes.ARRAY(DataTypes.STRING),
+    type: DataTypes.STRING,
     allowNull: true,
   },
   welfare: {
-    type: DataTypes.ARRAY(DataTypes.STRING),
+    type: DataTypes.STRING,
     allowNull: true,
+    get() {
+      const value = this.getDataValue('welfare');
+      return value ? value.split(',') : [];
+    },
+    set(value) {
+      this.setDataValue('welfare', value.join(','));
+    },
   },
   experienceYearsMin: {
     type: DataTypes.INTEGER,
@@ -63,10 +84,24 @@ const JobListModel = sequelize.define("jobs", {
   techs: {
     type: DataTypes.STRING,
     allowNull: true,
+    get() {
+      const value = this.getDataValue('techs');
+      return value ? value.split(',') : [];
+    },
+    set(value) {
+      this.setDataValue('techs', value.join(','));
+    },
   },
   interviewProcess: {
-    type: DataTypes.ARRAY(DataTypes.STRING),
+    type: DataTypes.STRING,
     allowNull: true,
+    get() {
+      const value = this.getDataValue('interviewProcess');
+      return value ? value.split(',') : [];
+    },
+    set(value) {
+      this.setDataValue('interviewProcess', value.join(','));
+    },
   },
   followedCount: {
     type: DataTypes.INTEGER,

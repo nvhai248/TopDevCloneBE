@@ -21,7 +21,7 @@ const FormatCompany = (company) => {
   try {
     const formattedCompany = { ...company }; // Create a copy of the job object
 
-    // Parse each property and assign the parsed value back to the copy
+    // Parse each property and assign the parsed value back to the copyz
     formattedCompany.skills = JSON.parse(company.skills);
     formattedCompany.nations = JSON.parse(company.nations);
     formattedCompany.benefits = JSON.parse(company.benefits);
