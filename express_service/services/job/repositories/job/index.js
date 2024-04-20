@@ -1,8 +1,9 @@
-const CreateJob = require("./create");
-const FindJobById = require("./find");
-const ListJobByConditions = require("./list");
-const CountJobByConditions = require("./count");
-const UpdateJobInfo = require("./update");
+const CreateJob = require('./create');
+const FindJobById = require('./find');
+const ListJobByConditions = require('./list');
+const CountJobByConditions = require('./count');
+const UpdateJobInfo = require('./update');
+const ListAllJob = require('./listAll');
 
 class JobRepository {
   // [GET] /jobs?keywords=???&level=???&type=???&typeContract=???&address=???&page=??&limit=??&cursor=???&keywords=???
@@ -18,6 +19,9 @@ class JobRepository {
 
   // [POST] /jobs
   createJob = CreateJob;
+
+  // [GET] /jobs/admin
+  listAllJob = ListAllJob;
 }
 
 module.exports = JobRepository;
