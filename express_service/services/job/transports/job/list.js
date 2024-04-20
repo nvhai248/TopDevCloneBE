@@ -6,7 +6,7 @@ const { controller } = require('./instance');
 
 const ListJobByConditions = async (req, res, next) => {
   try {
-    const { keywords, typeContract, address, type, level, page, limit, cursor } = req.query;
+    const { keywords, typeContract, address, type, level, page, limit, cursor, status } = req.query;
 
     const conditions = {
       keywords: keywords,
@@ -14,6 +14,7 @@ const ListJobByConditions = async (req, res, next) => {
       typeContract: typeContract,
       address: address,
       level: level,
+      status: status,
     };
 
     const result = await controller.listJobByConditions(conditions, parseInt(limit), parseInt(page), cursor);

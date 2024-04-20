@@ -1,12 +1,7 @@
-const { BadRequestError } = require("../../utils/app-errors");
-const { repository } = require("./instance");
-const {
-  DBTypeJob,
-  DBTypeCompany,
-  DBTypeUser,
-  JOB_STATUS_DELETED,
-} = require("../../utils/const");
-const { unmaskId, maskId } = require("../../utils/mask");
+const { BadRequestError } = require('../../utils/app-errors');
+const { repository } = require('./instance');
+const { DBTypeJob, DBTypeCompany, DBTypeUser, JOB_STATUS_DELETED, JOB_STATUS_ACTIVE } = require('../../utils/const');
+const { unmaskId, maskId } = require('../../utils/mask');
 
 const RefuseJob = async (jobId) => {
   try {
@@ -14,7 +9,11 @@ const RefuseJob = async (jobId) => {
     const job = await repository.findJobById(jobId);
 
     if (!job) {
-      throw new BadRequestError("Job not found", "Err repository job layer");
+      throw new BadRequestError('Job not found', 'Err repository job layer');
+    }
+
+    if (job.status == JOB_STATUS_ACTIVE) {
+      throw new BadRequestError('Already approved this job', 'JobApproved');
     }
 
     const data = { status: JOB_STATUS_DELETED };

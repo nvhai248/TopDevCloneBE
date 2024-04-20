@@ -1,6 +1,6 @@
-const { Op } = require("sequelize");
-const { DBError } = require("../../utils/app-errors");
-const { JobListModel } = require("./instance");
+const { Op } = require('sequelize');
+const { DBError } = require('../../utils/app-errors');
+const { JobListModel } = require('./instance');
 
 const CountJobByConditions = async (conditions) => {
   try {
@@ -22,11 +22,19 @@ const CountJobByConditions = async (conditions) => {
     if (conditions.type) {
       searchConditions.type = { [Op.like]: `%${conditions.type}%` };
     }
+
     if (conditions.typeContract) {
       searchConditions.typeContract = {
         [Op.like]: `%${conditions.typeContract}%`,
       };
     }
+
+    if (conditions.status) {
+      searchConditions.status = {
+        [Op.in]: [parseInt(conditions.status)],
+      };
+    }
+
     /* if (conditions.address) {
       searchConditions.address = { [Op.like]: `%${conditions.address}%` };
     } */
@@ -38,7 +46,7 @@ const CountJobByConditions = async (conditions) => {
     return jobCount;
   } catch (error) {
     console.log(error);
-    throw new DBError(error.message, "Something went wrong with job DB");
+    throw new DBError(error.message, 'Something went wrong with job DB');
   }
 };
 
