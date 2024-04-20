@@ -1,13 +1,19 @@
-const express = require('express');
+const express = require("express");
+const { PORT } = require("./configs/index");
+const expressApp = require("./express-app");
 
-const app = express();
+const StartServer = async () => {
+  const app = express();
+  await expressApp(app);
 
-app.use(express.json());
+  app
+    .listen(PORT, () => {
+      console.log(`Job service listening on port ${PORT}`);
+    })
+    .on("error", (err) => {
+      console.log(err);
+      process.exit();
+    });
+};
 
-app.use('/', (req, res, next) => {
-    return res.status(200).json({ "msg": "Hello from USER!" });
-})
-
-app.listen(5003, () => {
-    console.log('User is listening to port 5003');
-})
+StartServer();
