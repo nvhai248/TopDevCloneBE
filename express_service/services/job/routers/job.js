@@ -10,5 +10,6 @@ jobRouter.delete('/:id/refuse', auth, transport.refuseJob);
 jobRouter.get('/:id', auth, transport.findJob);
 jobRouter.patch('/:id', auth, transport.updateJob);
 jobRouter.post('/', auth, transport.createJob);
+jobRouter.get('/admin/all', auth, transport.listAllJob);
 
 module.exports = jobRouter;
