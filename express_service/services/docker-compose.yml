@@ -1,37 +1,42 @@
-version: "3"
+version: "3.7"
 
 services:
-  rabbitmq:
-    image: rabbitmq:3.9-management
-    container_name: rabbitmq-server
-    ports:
-      - "5672:5672"
-      - "15672:15672"
-    environment:
-      RABBITMQ_DEFAULT_USER: guest
-      RABBITMQ_DEFAULT_PASS: guest
-    volumes:
-      - rabbitmq_data:/var/lib/rabbitmq
-
   elasticsearch:
-    image: docker.elastic.co/elasticsearch/elasticsearch:8.13.2
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.9.3
     container_name: elasticsearch
-    networks:
-      - elastic
+    environment:
+      - discovery.type=single-node
+      - ELASTIC_PASSWORD=aA@12345678
     ports:
       - "9200:9200"
       - "9300:9300"
+    networks:
+      - elastic
+
+  kibana:
+    image: docker.elastic.co/kibana/kibana:7.9.3
+    container_name: kibana
     environment:
-      discovery.type: single-node
-      ELASTIC_PASSWORD: aA@12345678
-    volumes:
-      - es_data:/usr/share/elasticsearch/data
+      - ELASTICSEARCH_URL=http://elasticsearch:9200
+      - ELASTICSEARCH_USERNAME=elastic
+      - ELASTICSEARCH_PASSWORD=aA@12345678
+    depends_on:
+      - elasticsearch
+    ports:
+      - "5601:5601"
+    networks:
+      - elastic
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq
+    environment:
+      - RABBITMQ_DEFAULT_USER=guest
+      - RABBITMQ_DEFAULT_PASS=guest
+    ports:
+      - "5672:5672"
+      - "15672:15672"
 
 networks:
   elastic:
-
-volumes:
-  rabbitmq_data:
-    driver: local
-  es_data:
-    driver: local
+    driver: bridge

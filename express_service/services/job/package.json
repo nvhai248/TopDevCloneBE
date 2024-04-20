@@ -1,6 +1,6 @@
 {
   "dependencies": {
-    "@elastic/elasticsearch": "^8.13.1",
+    "@elastic/elasticsearch": "7.9",
     "amqplib": "^0.10.4",
     "bs58": "^5.0.0",
     "cloudinary": "^2.1.0",

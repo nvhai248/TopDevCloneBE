@@ -4,6 +4,9 @@ const ELASTIC_CONFIG = {
     username: process.env.ES_USERNAME,
     password: process.env.ES_PW,
   },
+  headers: {
+    'Content-Type': 'application/json',
+  },
 };
 
 module.exports = ELASTIC_CONFIG;
