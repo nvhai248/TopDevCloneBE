@@ -1,7 +1,6 @@
 const express = require(`express`);
 const auth = require('../middlewares/auth');
 const { CompanyTransport } = require('../transports');
-const multer = require('../middlewares/multer');
 const companyRouter = express.Router();
 const transport = new CompanyTransport();
 
