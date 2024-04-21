@@ -3,7 +3,7 @@ const { FormatJob } = require('../../utils/format-result');
 const { unmaskId, maskId } = require('../../utils/mask');
 const { repository, companyRepository } = require('./instance');
 
-const ListJobByConditions = async (conditions, limit, page, cursor) => {
+const ListJobByConditions = async (conditions, ordering, limit, page, cursor) => {
   try {
     limit = limit || 20;
     page = page || 1;
@@ -15,9 +15,12 @@ const ListJobByConditions = async (conditions, limit, page, cursor) => {
       conditions.keywords = new Array(conditions.keywords);
     }
 
-    const total = await repository.countJobByConditions(conditions);
+    // generate search conditions query from conditions
+    const searchConditions = repository.getSearchCondition(conditions);
 
-    let jobs = await repository.listJobByConditions(conditions, limit, offset);
+    const total = await repository.countJobByConditions(searchConditions);
+
+    let jobs = await repository.listJobByConditions(searchConditions, ordering, limit, offset);
 
     const ids = [...new Set(jobs.map((job) => job.companyId))];
     var companies = new Map();
