@@ -1,5 +1,5 @@
 const Job = require('../../models/job');
 const JobListModel = require('../../models/job-list');
-const elasticClient = require('../../database/elasticsearch');
+//const elasticClient = require('../../database/elasticsearch');
 
-module.exports = { Job, JobListModel, elasticClient };
+module.exports = { Job, JobListModel };

@@ -2,7 +2,6 @@ const { STATUS_CODES } = require('../../utils/app-errors');
 const { ErrorResponse } = require('../../utils/error-handler');
 const { SetResponse } = require('../../utils/success-response');
 const { controller } = require('./instance');
-const uploader = require('../../utils/uploader');
 
 const CreateProduct = async (req, res, next) => {
   const data = req.body;
