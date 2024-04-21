@@ -1,0 +1,30 @@
+const { Op } = require('sequelize');
+const { DBError } = require('../../utils/app-errors');
+const { JobListModel } = require('./instance');
+
+const ListJobByConditions = async (searchConditions, ordering, limit, offset) => {
+  try {
+    let orderCriteria = [];
+    if (ordering === 'new-jobs') {
+      orderCriteria = [['createdAt', 'DESC']];
+    } else if (ordering === 'hot-jobs') {
+      orderCriteria = [
+        ['followedCount', 'DESC'],
+        ['appliedCount', 'DESC'],
+      ];
+    }
+
+    const jobs = await JobListModel.findAll({
+      where: searchConditions,
+      order: orderCriteria,
+      limit: limit,
+      offset: offset,
+    });
+
+    return jobs ? jobs.map((job) => job.dataValues) : null;
+  } catch (error) {
+    throw new DBError(error.message, 'Something went wrong with job DB');
+  }
+};
+
+module.exports = ListJobByConditions;
