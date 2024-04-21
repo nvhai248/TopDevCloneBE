@@ -1,11 +1,11 @@
 ### Run services
-cd .\express_service\servives\admin\
+cd .\express_service\services\admin_service\
 npm start
 
-cd .\express_service\servives\employer\
+cd .\express_service\services\employer_service\
 npm start
 
-cd .\express_service\servives\user\
+cd .\express_service\services\user_service\
 npm start
 
 ### Run gateway
