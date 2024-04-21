@@ -1,17 +1,18 @@
-const express = require('express');
-const cors = require('cors');
-const proxy = require('express-http-proxy');
+const express = require("express");
+const cors = require("cors");
+const proxy = require("express-http-proxy");
+
+require("dotenv").config();
 
 const app = express();
 
 app.use(cors());
 app.use(express.json());
 
-app.use('/admin', proxy('http://localhost:5001'));
-app.use('/employer', proxy('http://localhost:5002'));
-app.use('/user', proxy('http://localhost:5003'));
-app.use('/', proxy('http://localhost:5003'));
+app.use("/jobs", proxy(process.env.BASE_URL_JOB_SERVICE));
+app.use("/applications", proxy(process.env.BASE_URL_APPLICATION_SERVICE));
+app.use("/", proxy(process.env.BASE_URL_USER_SERVICE));
 
 app.listen(5000, () => {
-    console.log('Gateway is listening to port 5000');
-})
+  console.log("Gateway is listening to port 5000");
+});
