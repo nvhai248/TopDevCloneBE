@@ -4,6 +4,7 @@ const ListJobByConditions = require('./list');
 const CountJobByConditions = require('./count');
 const UpdateJobInfo = require('./update');
 const ListAllJob = require('./listAll');
+const GetSearchConditions = require('./searchCondition');
 
 class JobRepository {
   // [GET] /jobs?keywords=???&level=???&type=???&typeContract=???&address=???&page=??&limit=??&cursor=???&keywords=???
@@ -22,6 +23,9 @@ class JobRepository {
 
   // [GET] /jobs/admin
   listAllJob = ListAllJob;
+
+  // helpers
+  getSearchCondition = GetSearchConditions;
 }
 
 module.exports = JobRepository;
