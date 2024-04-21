@@ -1,7 +1,5 @@
 const { DBError } = require("../../utils/app-errors");
 const { ApplicationModal } = require("./instance");
-const { DBTypeJob } = require("../../utils/const");
-const { maskId } = require("../../utils/mask");
 
 
 // Implement create application information here and export
