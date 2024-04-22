@@ -6,6 +6,7 @@ const listCandidates = async () => {
     const users = await CandidateModel.findAll();
     return users ? users.map(user => user.dataValues) : users;
   } catch (error) {
+    console.log(error);
     throw new DBError(error.message, "Something went wrong with user DB");
   }
 };

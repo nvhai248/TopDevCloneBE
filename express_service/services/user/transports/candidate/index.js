@@ -1,7 +1,8 @@
 const CandidateInfo = require('./feats/candidateInfo');
 const UpdateCandidate = require('./feats/updateCandidate');
 const ListCVs = require('./feats/listCVs');
-const mainCV = require('./feats/mainCV');
+const MainCV = require('./feats/mainCV');
+const UploadCV = require('./feats/uploadCV');
 
 class AdminTransport {
   // [GET] /profile/:id
@@ -14,7 +15,10 @@ class AdminTransport {
   listCVbyUserId = ListCVs;
 
   // [GET] /:id/main-cv
-  mainCV = mainCV;
+  mainCV = MainCV;
+
+  // [POST] /upload-cv
+  uploadCV = UploadCV;
 }
 
 module.exports = AdminTransport;

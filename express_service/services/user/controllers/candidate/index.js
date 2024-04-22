@@ -2,7 +2,8 @@ const ListCandidates = require("./list");
 const CandidateInfo = require("./info");
 const UpdateInfo = require('./update');
 const ListCVs = require('./listCV');
-const mainCV = require('./mainCV');
+const MainCV = require('./mainCV');
+const UploadCV = require('./uploadCV');
 
 class CandidateController {
   // [GET] /admin/candidates
@@ -18,7 +19,10 @@ class CandidateController {
   listCVbyUserId = ListCVs;
 
   // [GET] /:id/main-cv
-  mainCV = mainCV;
+  mainCV = MainCV;
+
+  // [POST] /upload-cv
+  uploadCV = UploadCV;
 
 }
 
