@@ -1,10 +1,10 @@
 const { Op } = require('sequelize');
 const { DBError } = require('../../utils/app-errors');
-const { JobListModel } = require('./instance');
+const { Job } = require('./instance');
 
 const CountJobByConditions = async (searchConditions) => {
   try {
-    const jobCount = await JobListModel.count({
+    const jobCount = await Job.count({
       where: searchConditions,
     });
 

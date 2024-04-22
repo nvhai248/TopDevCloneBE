@@ -1,6 +1,7 @@
-const { repository } = require("./instance");
-const { DBTypeJob, DBTypeCompany, DBTypeUser } = require("../../utils/const");
-const { maskId } = require("../../utils/mask");
+const { repository } = require('./instance');
+const { DBTypeJob, DBTypeCompany, DBTypeUser } = require('../../utils/const');
+const { maskId } = require('../../utils/mask');
+const { FormatJob } = require('../../utils/format-result');
 
 const CreateJob = async (data) => {
   try {
@@ -10,6 +11,7 @@ const CreateJob = async (data) => {
     result.companyId = maskId(result.companyId, DBTypeCompany);
     result.createdBy = maskId(result.createdBy, DBTypeUser);
 
+    result = FormatJob(result);
     return result;
   } catch (error) {
     throw error;
