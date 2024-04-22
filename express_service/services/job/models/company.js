@@ -1,5 +1,5 @@
 const { DataTypes } = require('sequelize');
-const sequelize = require('../database/mysql');
+const sequelize = require('../database/pg');
 
 const Company = sequelize.define(
   'company',
