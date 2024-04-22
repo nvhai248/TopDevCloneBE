@@ -12,7 +12,7 @@ const CandidateInfo = async (id) => {
             id: id
         }
 
-        candidate = FormatCandidate(candidate);
+        //candidate = FormatCandidate(candidate);
         return candidate;
     } catch (error) {
         throw error;

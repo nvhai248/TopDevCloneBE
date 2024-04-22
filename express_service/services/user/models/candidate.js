@@ -1,14 +1,15 @@
 const { DataTypes } = require("sequelize");
-const sequelize = require("../database/mysql");
+const sequelize = require("../database/mypg");
 
 const CandidateModel = sequelize.define("candidates", {
   id: {
     type: DataTypes.INTEGER,
     allowNull: false,
     primaryKey: true,
+    autoIncrement: true,
   },
   avatar: {
-    type: DataTypes.STRING,
+    type: DataTypes.TEXT,
     allowNull: true,
   },
   email: {
@@ -28,7 +29,7 @@ const CandidateModel = sequelize.define("candidates", {
     allowNull: true,
   },
   dob: {
-    type: DataTypes.STRING,
+    type: DataTypes.DATEONLY,
     allowNull: true,
   },
   position: {
@@ -61,51 +62,51 @@ const CandidateModel = sequelize.define("candidates", {
     allowNull: true,
   },
   summary: {
-    type: DataTypes.STRING,
+    type: DataTypes.TEXT,
     allowNull: true,
   },
-  skills : {
-    type: DataTypes.STRING,
+  skills: {
+    type: DataTypes.JSONB,
     allowNull: true,
   },
   experiences: {
-    type: DataTypes.STRING,
+    type: DataTypes.ARRAY(DataTypes.JSONB),
     allowNull: true,
   },
   educations: {
-    type: DataTypes.STRING,
+    type: DataTypes.ARRAY(DataTypes.JSONB),
     allowNull: true,
   },
   projects: {
-    type: DataTypes.STRING,
+    type: DataTypes.ARRAY(DataTypes.JSONB),
     allowNull: true,
   },
   languages: {
-    type: DataTypes.STRING,
+    type: DataTypes.JSONB,
     allowNull: true,
   },
   interests: {
-    type: DataTypes.STRING,
+    type: DataTypes.TEXT,
     allowNull: true,
   },
   ref: {
-    type: DataTypes.STRING,
+    type: DataTypes.ARRAY(DataTypes.JSONB),
     allowNull: true,
   },
   activities: {
-    type: DataTypes.STRING,
+    type: DataTypes.ARRAY(DataTypes.JSONB),
     allowNull: true,
   },
   certificates: {
-    type: DataTypes.STRING,
+    type: DataTypes.ARRAY(DataTypes.JSONB),
     allowNull: true,
   },
   additional: {
-    type: DataTypes.STRING,
+    type: DataTypes.ARRAY(DataTypes.JSONB),
     allowNull: true,
   },
   cover_letter: {
-    type: DataTypes.STRING,
+    type: DataTypes.TEXT,
     allowNull: true,
   },
   willing_to_work: {
@@ -116,12 +117,10 @@ const CandidateModel = sequelize.define("candidates", {
   createdAt: {
     type: DataTypes.DATE,
     allowNull: false,
-    defaultValue: DataTypes.NOW,
   },
   updatedAt: {
     type: DataTypes.DATE,
     allowNull: false,
-    defaultValue: DataTypes.NOW,
   },
 });
 

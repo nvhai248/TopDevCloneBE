@@ -1,11 +1,12 @@
-const { DataTypes } = require("sequelize");
-const sequelize = require("../database/mysql");
+const { DataTypes, Sequelize } = require("sequelize");
+const sequelize = require("../database/mypg");
 
 const CVModel = sequelize.define("cvs", {
   id: {
     type: DataTypes.INTEGER,
     allowNull: false,
     primaryKey: true,
+    autoIncrement: true,
   },
   user_id: {
     type: DataTypes.INTEGER,
@@ -15,13 +16,13 @@ const CVModel = sequelize.define("cvs", {
     type: DataTypes.BOOLEAN,
     allowNull: true,
   },
-  CVdata: {
-    type: DataTypes.STRING,
+  cv_data: {
+    type: DataTypes.TEXT,
     allowNull: true,
   },
   url: {
-    type: DataTypes.STRING,
-    allowNull: false,
+    type: DataTypes.TEXT, 
+    allowNull: true,
   },
   is_main: {
     type: DataTypes.BOOLEAN,
@@ -34,12 +35,10 @@ const CVModel = sequelize.define("cvs", {
   createdAt: {
     type: DataTypes.DATE,
     allowNull: false,
-    defaultValue: DataTypes.NOW,
   },
   updatedAt: {
     type: DataTypes.DATE,
     allowNull: false,
-    defaultValue: DataTypes.NOW,
   },
 });
 
