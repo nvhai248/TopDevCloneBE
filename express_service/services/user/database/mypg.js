@@ -1,40 +1,19 @@
-// 
-const { Sequelize } = require("sequelize");
-const {
-  DB_POSTGRE_DBNAME,
-  DB_POSTGRE_USERNAME,
-  DB_POSTGRE_PASSWORD,
-  DB_POSTGRE_HOST,
-  DB_POSTGRE_PORT,
-} = require("../configs");
+const { Sequelize } = require('sequelize');
+const { DB_PG_URI } = require('../configs');
 
-// Create a new Sequelize instance
-const sequelize = new Sequelize(DB_POSTGRE_DBNAME, DB_POSTGRE_USERNAME, DB_POSTGRE_PASSWORD, {
-  host: DB_POSTGRE_HOST,
+const sequelize = new Sequelize(DB_PG_URI, {
+  ssl: true,
   dialect: 'postgres',
-  port: DB_POSTGRE_PORT,
-  ssl: true, // Enable SSL
-  dialectOptions: {
-    ssl: {
-      require: true,
-    },
-  },
-  define: {
-    // Disable Sequelize's pluralization of table names
-    freezeTableName: true,
-  },
-  logging: false
+  logging: false,
 });
 
-// Test the database connection
 sequelize
   .authenticate()
   .then(() => {
-    console.log("Connection to the database has been established successfully.");
+    console.log('Connection has been established successfully.');
   })
-  .catch((error) => {
-    console.error("Unable to connect to the database:", error.message);
+  .catch((err) => {
+    console.error('Unable to connect to the database:', err);
   });
 
-// Export the initialized Sequelize instance for use in other parts of the application
 module.exports = sequelize;
