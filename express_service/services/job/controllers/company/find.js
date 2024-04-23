@@ -5,9 +5,9 @@ const { repository, companyRepository } = require('./instance');
 
 const FindCompanyById = async (companyId) => {
   try {
-    companyId = unmaskId(companyId, DBTypeCompany);
-
-    let company = await repository.findCompanyById(companyId);
+    const maskedCompanyId = unmaskId(companyId, DBTypeCompany);
+    let company = await repository.findCompanyById(maskedCompanyId);
+    company.id = companyId;
     company = FormatCompany(company);
     return company;
   } catch (error) {
