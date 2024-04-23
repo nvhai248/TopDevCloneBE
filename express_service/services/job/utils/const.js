@@ -1,6 +1,6 @@
-const DBTypeJob = "job";
-const DBTypeCompany = "company";
-const DBTypeUser = "user";
+const DBTypeJob = 'job';
+const DBTypeCompany = 'company';
+const DBTypeUser = 'user';
 
 const CPN_STATUS_PENDING = 0;
 const CPN_STATUS_DELETED = -1;

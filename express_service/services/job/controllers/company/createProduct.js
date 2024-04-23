@@ -1,5 +1,5 @@
 const { DBTypeCompany } = require('../../utils/const');
-const { unmaskId } = require('../../utils/mask');
+const { unmaskId, maskId } = require('../../utils/mask');
 const { repository } = require('./instance');
 
 const CreateProduct = async (id, data) => {
