@@ -1,5 +1,5 @@
 const { DataTypes } = require('sequelize');
-const sequelize = require('../database/mysql');
+const sequelize = require('../database/pg');
 
 const Job = sequelize.define(
   'job',
@@ -27,8 +27,11 @@ const Job = sequelize.define(
       allowNull: false,
     },
     skills: {
-      type: DataTypes.JSON,
+      type: DataTypes.TEXT,
       allowNull: false,
+      set(value) {
+        this.setDataValue('skills', value.join('|'));
+      },
     },
     extends: {
       type: DataTypes.JSON,
@@ -59,8 +62,11 @@ const Job = sequelize.define(
       allowNull: true,
     },
     techs: {
-      type: DataTypes.JSON,
+      type: DataTypes.TEXT,
       allowNull: true,
+      set(value) {
+        this.setDataValue('techs', value.join('|'));
+      },
     },
     interviewProcess: {
       type: DataTypes.JSON,

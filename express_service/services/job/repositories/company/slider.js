@@ -13,7 +13,10 @@ const ListCompanySlider = async () => {
         'slogan',
         'about',
         'url',
-        [literal('(SELECT COUNT(*) FROM jobs WHERE jobs.companyId = company.id AND jobs.status = 1)'), 'jobCount'],
+        [
+          literal('(SELECT COUNT(*) FROM jobs WHERE jobs."companyId" = "company"."id" AND jobs.status = 1)'),
+          'jobCount',
+        ],
       ],
       include: [],
       limit: 5,

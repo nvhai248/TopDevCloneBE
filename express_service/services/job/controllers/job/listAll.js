@@ -1,6 +1,7 @@
 const { repository } = require('./instance');
 const { DBTypeJob, DBTypeCompany, DBTypeUser } = require('../../utils/const');
 const { maskId } = require('../../utils/mask');
+const { FormatJob } = require('../../utils/format-result');
 
 const ListAllJob = async () => {
   try {
@@ -13,7 +14,7 @@ const ListAllJob = async () => {
       return job;
     });
 
-    return result;
+    return result.map((job) => FormatJob(job));
   } catch (error) {
     throw error;
   }

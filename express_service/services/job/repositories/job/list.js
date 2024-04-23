@@ -1,6 +1,6 @@
 const { Op } = require('sequelize');
 const { DBError } = require('../../utils/app-errors');
-const { JobListModel } = require('./instance');
+const { Job } = require('./instance');
 
 const ListJobByConditions = async (searchConditions, ordering, limit, offset) => {
   try {
@@ -14,7 +14,7 @@ const ListJobByConditions = async (searchConditions, ordering, limit, offset) =>
       ];
     }
 
-    const jobs = await JobListModel.findAll({
+    const jobs = await Job.findAll({
       where: searchConditions,
       order: orderCriteria,
       limit: limit,

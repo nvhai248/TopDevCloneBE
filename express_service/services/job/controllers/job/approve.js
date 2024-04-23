@@ -2,6 +2,7 @@ const { BadRequestError } = require('../../utils/app-errors');
 const { repository } = require('./instance');
 const { DBTypeJob, DBTypeCompany, DBTypeUser, JOB_STATUS_ACTIVE, JOB_STATUS_DELETED } = require('../../utils/const');
 const { unmaskId, maskId } = require('../../utils/mask');
+const { FormatJob } = require('../../utils/format-result');
 
 const ApproveJob = async (jobId) => {
   try {
@@ -24,7 +25,7 @@ const ApproveJob = async (jobId) => {
     result.companyId = maskId(job.companyId, DBTypeCompany);
     result.createdBy = maskId(job.createdBy, DBTypeUser);
 
-    return result;
+    return FormatJob(result);
   } catch (error) {
     throw error;
   }
