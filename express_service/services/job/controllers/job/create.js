@@ -11,8 +11,7 @@ const CreateJob = async (data) => {
     result.companyId = maskId(result.companyId, DBTypeCompany);
     result.createdBy = maskId(result.createdBy, DBTypeUser);
 
-    result = FormatJob(result);
-    return result;
+    return FormatJob(result);
   } catch (error) {
     throw error;
   }

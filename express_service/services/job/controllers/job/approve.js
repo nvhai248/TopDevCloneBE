@@ -25,9 +25,7 @@ const ApproveJob = async (jobId) => {
     result.companyId = maskId(job.companyId, DBTypeCompany);
     result.createdBy = maskId(job.createdBy, DBTypeUser);
 
-    result = FormatJob(result);
-
-    return result;
+    return FormatJob(result);
   } catch (error) {
     throw error;
   }
