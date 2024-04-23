@@ -9,7 +9,7 @@ const StartServer = async () => {
 
   app
     .listen(PORT, () => {
-      console.log(`Job service listening on port ${PORT}`);
+      console.log(`User service listening on port ${PORT}`);
     })
     .on("error", (err) => {
       console.log(err);

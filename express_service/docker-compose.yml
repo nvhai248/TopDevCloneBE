@@ -1,0 +1,108 @@
+version: "3.7"
+
+services:
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.9.3
+    container_name: elasticsearch
+    environment:
+      - discovery.type=single-node
+      - ELASTIC_PASSWORD=aA@12345678
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+    networks:
+      - elastic
+
+  kibana:
+    image: docker.elastic.co/kibana/kibana:7.9.3
+    container_name: kibana
+    environment:
+      - ELASTICSEARCH_URL=http://elasticsearch:9200
+      - ELASTICSEARCH_USERNAME=elastic
+      - ELASTICSEARCH_PASSWORD=aA@12345678
+    depends_on:
+      - elasticsearch
+    ports:
+      - "5601:5601"
+    networks:
+      - elastic
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq
+    environment:
+      - RABBITMQ_DEFAULT_USER=guest
+      - RABBITMQ_DEFAULT_PASS=guest
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+
+  gateway:
+    build:
+      dockerfile: Dockerfile
+      context: ./gateway
+    container_name: gateway
+    ports:
+      - "5000:5000"
+    restart: always
+    volumes:
+      - .:/app
+      - /app/gateway/node_modules
+
+  application:
+    build:
+      dockerfile: Dockerfile
+      context: ./services/application
+    container_name: application
+    environment:
+      - PORT=5003
+      - DB_PG_URI=postgresql://applicationservice_owner:ogutmx7v0cGd@ep-lucky-violet-a1cihzw1.ap-southeast-1.aws.neon.tech/applicationservice?sslmode=require
+    ports:
+      - "5003:5003"
+    restart: always
+    volumes:
+      - .:/app
+      - /app/services/application/node_modules
+
+  user:
+    build:
+      dockerfile: Dockerfile
+      context: ./services/user
+    container_name: user
+    ports:
+      - "5001:5001"
+    restart: always
+    environment:
+      - PORT=5001
+      - DB_POSTGRE_PORT=5432
+      - DB_POSTGRE_HOST='ep-mute-wave-a1zmdjxp.ap-southeast-1.aws.neon.tech'
+      - DB_POSTGRE_DBNAME='userdb'
+      - DB_POSTGRE_USERNAME='userdb_owner'
+      - DB_POSTGRE_PASSWORD='JtQEusP7FkV1'
+      - ENDPOINT_ID='ep-mute-wave-a1zmdjxp'
+    volumes:
+      - .:/app
+      - /app/services/user/node_modules
+
+  job:
+    build:
+      dockerfile: Dockerfile
+      context: ./services/job
+    container_name: job
+    environment:
+      - PORT=5002
+      - DB_PG_HOST=ep-old-cherry-a1vxzzc9.ap-southeast-1.aws.neon.tech
+      - DB_PG_DBNAME=jobservice
+      - DB_PG_USERNAME=jobservice_owner
+      - DB_PG_PASSWORD=nvrek9T0KdAS
+      - DB_PG_URI=postgresql://jobservice_owner:nvrek9T0KdAS@ep-old-cherry-a1vxzzc9.ap-southeast-1.aws.neon.tech/jobservice?sslmode=require
+    ports:
+      - "5002:5002"
+    restart: always
+    volumes:
+      - .:/app
+      - /app/services/job/node_modules
+
+networks:
+  elastic:
+    driver: bridge

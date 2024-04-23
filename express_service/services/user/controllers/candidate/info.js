@@ -1,6 +1,5 @@
 const { unmaskId } = require("../../utils/mask");
 const { DBTypeUser } = require("../../utils/const");
-const FormatCandidate = require("../../utils/format-result");
 const { repository } = require("./instance");
 
 const CandidateInfo = async (id) => {

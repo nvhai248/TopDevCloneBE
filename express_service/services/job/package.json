@@ -4,6 +4,7 @@
     "amqplib": "^0.10.4",
     "bs58": "^5.0.0",
     "cloudinary": "^2.1.0",
+    "docker": "^1.0.0",
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
     "fs": "^0.0.1-security",
