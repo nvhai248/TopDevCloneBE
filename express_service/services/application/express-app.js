@@ -10,5 +10,10 @@ module.exports = async (app) => {
     app.use(bodyParser.urlencoded({ extended: false }));
     app.use(express.static(__dirname + "/public"));
 
+
+    app.use('/', (req, res, next) => {
+        return res.status(200).json({ "msg": "Hello from APPLICATION!" });
+    })
+
     routers(app);
 };
