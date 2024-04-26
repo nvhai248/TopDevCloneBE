@@ -10,54 +10,38 @@ const Job = sequelize.define(
       allowNull: false,
       primaryKey: true,
     },
-    createdBy: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-    },
+    // createdBy: {
+    //   type: DataTypes.INTEGER,
+    //   allowNull: false,
+    // },
     title: {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    salary: {
-      type: DataTypes.STRING,
-      allowNull: true,
-    },
-    responsibilities: {
-      type: DataTypes.JSON,
-      allowNull: false,
-    },
-    skills: {
-      type: DataTypes.TEXT,
-      allowNull: false,
-      set(value) {
-        this.setDataValue('skills', value.join('|'));
-      },
-    },
-    extends: {
-      type: DataTypes.JSON,
-      allowNull: true,
-    },
-    welfare: {
-      type: DataTypes.JSON,
-      allowNull: true,
-    },
-    experienceYearsMin: {
-      type: DataTypes.INTEGER,
-      allowNull: true,
-    },
-    experienceYearsMax: {
-      type: DataTypes.INTEGER,
-      allowNull: true,
-    },
+    // responsibilities: {
+    //   type: DataTypes.JSON,
+    //   allowNull: false,
+    // },
+    // skills: {
+    //   type: DataTypes.TEXT,
+    //   allowNull: false,
+    //   set(value) {
+    //     this.setDataValue('skills', value.join('|'));
+    //   },
+    // },
+    // extends: {
+    //   type: DataTypes.JSON,
+    //   allowNull: true,
+    // },
+    // welfare: {
+    //   type: DataTypes.JSON,
+    //   allowNull: true,
+    // },
     level: {
       type: DataTypes.STRING,
       allowNull: true,
     },
-    type: {
-      type: DataTypes.STRING,
-      allowNull: true,
-    },
-    typeContract: {
+    salary: {
       type: DataTypes.STRING,
       allowNull: true,
     },
@@ -68,32 +52,44 @@ const Job = sequelize.define(
         this.setDataValue('techs', value.join('|'));
       },
     },
+    experienceYearsMin: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
+    },
+    experienceYearsMax: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
+    },
+    typeContract: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    type: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
     interviewProcess: {
       type: DataTypes.JSON,
       allowNull: true,
     },
-    followedCount: {
-      type: DataTypes.INTEGER,
+    // followedCount: {
+    //   type: DataTypes.INTEGER,
+    //   allowNull: true,
+    //   defaultValue: 0,
+    // },
+    // appliedCount: {
+    //   type: DataTypes.INTEGER,
+    //   allowNull: true,
+    //   defaultValue: 0,
+    // },
+    // status: {
+    //   type: DataTypes.SMALLINT,
+    //   allowNull: false,
+    //   defaultValue: 0,
+    // },
+    description: {
+      type: DataTypes.TEXT,
       allowNull: true,
-      defaultValue: 0,
-    },
-    appliedCount: {
-      type: DataTypes.INTEGER,
-      allowNull: true,
-      defaultValue: 0,
-    },
-    status: {
-      type: DataTypes.SMALLINT,
-      allowNull: false,
-      defaultValue: 0,
-    },
-    createdAt: {
-      type: DataTypes.DATE,
-      allowNull: false,
-    },
-    updatedAt: {
-      type: DataTypes.DATE,
-      allowNull: false,
     },
   },
   { sequelize },
