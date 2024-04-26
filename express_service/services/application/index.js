@@ -7,6 +7,8 @@ const dbConnect = require("./database/mongoo")
 const StartServer = async () => {
     const app = express();
     await expressApp(app);
+
+    //await syncModals();
     dbConnect();
 
     app
