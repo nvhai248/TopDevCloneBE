@@ -5,11 +5,11 @@ const { controller } = require("./instance");
 
 const ListApply = async (req, res, next) => {
     try {
-        const id = req.params.id;
-        if (id == null) {
-            id = "6tmFCHf";
-        }
-        const listApply = await controller.listApply(id);
+        // const id = req.params.id;
+        // if (id == null) {
+        //     id = "6tmFCHf";
+        // }
+        const listApply = await controller.listApply("6tmFCHf");
 
         SetResponse(res, STATUS_CODES.OK, listApply, "Successfully", null);
 
