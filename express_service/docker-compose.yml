@@ -45,6 +45,10 @@ services:
     ports:
       - "5000:5000"
     restart: always
+    environment:
+      - BASE_URL_USER_SERVICE=http://localhost:5001
+      - BASE_URL_JOB_SERVICE=http://localhost:5002
+      - BASE_URL_APPLICATION_SERVICE=http://localhost:5003
     volumes:
       - .:/app
       - /app/gateway/node_modules
