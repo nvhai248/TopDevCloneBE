@@ -2,8 +2,7 @@ const FormatJob = (job) => {
   try {
     const formattedJob = { ...job }; // Create a copy of the job object
 
-    formattedJob.skills = job && job.skills ? job.skills.split('|') : [];
-    formattedJob.techs = job && job.techs ? job.techs.split('|') : [];
+    formattedJob.technicals = job && job.technicals ? job.technicals.split('|') : [];
 
     return formattedJob; // Return the formatted job
   } catch (error) {
