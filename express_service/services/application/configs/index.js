@@ -7,6 +7,7 @@ const DB_MYSQL_PASSWORD = process.env.DB_MYSQL_PASSWORD;
 const DB_MYSQL_DBNAME = process.env.DB_MYSQL_DBNAME;
 const DB_MYSQL_HOST = process.env.DB_MYSQL_HOST;
 const DB_PG_URI = process.env.DB_PG_URI;
+const DB_MONGOO_URI = process.env.DB_MONGOO_URI
 
 module.exports = {
     PORT,
@@ -16,4 +17,5 @@ module.exports = {
     DB_MYSQL_HOST,
     GRPC_JOB_SERVER,
     DB_PG_URI,
+    DB_MONGOO_URI
 };

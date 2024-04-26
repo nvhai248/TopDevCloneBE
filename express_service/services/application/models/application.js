@@ -1,42 +1,35 @@
-const { DataTypes } = require("sequelize");
-const sequelize = require("../database/pg");
+const mongoose = require('mongoose');
+const { Schema } = mongoose;
 
-const ApplicationModal = sequelize.define("applications", {
-    id: {
-        type: DataTypes.INTEGER,
-        autoIncrement: true,
-        allowNull: false,
-        primaryKey: true,
-    },
+const applicationSchema = new Schema({
     jobId: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
+        type: Number,
+        required: true
     },
     fullName: {
-        type: DataTypes.STRING,
-        allowNull: false,
+        type: String,
+        required: true
     },
     email: {
-        type: DataTypes.STRING,
-        allowNull: false,
+        type: String,
+        required: true
     },
     phone: {
-        type: DataTypes.STRING,
-        allowNull: false,
+        type: String,
+        required: true
     },
     cvUrl: {
-        type: DataTypes.STRING,
-        allowNull: false,
+        type: String,
+        required: true
     },
     description: {
-        type: DataTypes.STRING,
-        allowNull: false,
+        type: String,
+        required: true
     },
     isApprove: {
-        type: DataTypes.BOOLEAN,
-        defaultValue: false,
-        allowNull: false,
-    },
+        type: Boolean,
+        default: false
+    }
 });
 
-module.exports = ApplicationModal;
+module.exports = mongoose.model('Application', applicationSchema);
