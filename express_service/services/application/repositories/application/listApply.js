@@ -11,6 +11,8 @@ const ListApply = async (id) => {
             where: { jobId: id }
         });
 
+        console.log(applications)
+
         // Kiểm tra xem có bản ghi nào được trả về không
         if (!applications || applications.length === 0) {
             // Nếu không có, trả về một mảng rỗng
