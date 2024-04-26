@@ -58,7 +58,7 @@ services:
     container_name: application
     environment:
       - PORT=5003
-      - DB_PG_URI=postgresql://applicationservice_owner:ogutmx7v0cGd@ep-lucky-violet-a1cihzw1.ap-southeast-1.aws.neon.tech/applicationservice?sslmode=require
+      - DB_MONGOO_URI=mongodb+srv://thathnt16:noBiyXb4BmPLqBNS@application-service.czkramo.mongodb.net
     ports:
       - "5003:5003"
     restart: always
