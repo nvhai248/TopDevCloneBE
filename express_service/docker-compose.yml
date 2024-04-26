@@ -42,10 +42,6 @@ services:
       dockerfile: Dockerfile
       context: ./gateway
     container_name: gateway
-    environment:
-      - BASE_URL_USER_SERVICE=http://localhost:5001
-      - BASE_URL_JOB_SERVICE=http://localhost:5002
-      - BASE_URL_APPLICATION_SERVICE=http://localhost:5003
     ports:
       - "5000:5000"
     restart: always
@@ -62,7 +58,7 @@ services:
     container_name: application
     environment:
       - PORT=5003
-      - DB_MONGOO_URI=mongodb+srv://thathnt16:noBiyXb4BmPLqBNS@application-service.czkramo.mongodb.net
+      - DB_PG_URI=postgresql://applicationservice_owner:ogutmx7v0cGd@ep-lucky-violet-a1cihzw1.ap-southeast-1.aws.neon.tech/applicationservice?sslmode=require
     ports:
       - "5003:5003"
     restart: always

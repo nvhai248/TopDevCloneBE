@@ -1,15 +1,13 @@
 const express = require("express");
 const { PORT } = require("./configs/index");
 const expressApp = require("./express-app");
-//const syncModals = require("./models/index")
-const dbConnect = require("./database/mongoo")
+const syncModals = require("./models/index")
 
 const StartServer = async () => {
     const app = express();
     await expressApp(app);
 
-    //await syncModals();
-    dbConnect();
+    await syncModals();
 
     app
         .listen(PORT, () => {
