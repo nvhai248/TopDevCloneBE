@@ -6,6 +6,7 @@ const transport = new ApplicationTransport();
 
 applicationRouter.post("/", auth, transport.applyJob);
 applicationRouter.get("/list-apply/:id", auth, transport.listApply);
+applicationRouter.get("/", auth, transport.listApply);
 applicationRouter.patch("/:id", auth, transport.updateProcessApplication);
 
 
