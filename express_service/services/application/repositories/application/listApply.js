@@ -7,9 +7,11 @@ const { maskId } = require("../../utils/mask");
 // Implement create application information here and export
 const ListApply = async (id) => {
     try {
-        const applications = await ApplicationModal.findAll({
+        const applications = await ApplicationModal.find({
             where: { jobId: id }
         });
+
+        console.log(applications)
 
         // Kiểm tra xem có bản ghi nào được trả về không
         if (!applications || applications.length === 0) {
