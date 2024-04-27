@@ -3,38 +3,55 @@ const { Op } = require('sequelize');
 const GetSearchConditions = (conditions) => {
   let searchConditions = {};
 
-  const keywordQueries = conditions.keywords.flatMap((keyword) => [
-    { title: { [Op.like]: `%${keyword}%` } },
-    { skills: { [Op.like]: `%${keyword}%` } },
-    { techs: { [Op.like]: `%${keyword}%` } },
-  ]);
+  // Initialize an array for the 'AND' conditions
+  searchConditions[Op.and] = [];
+
+  // Keyword queries
+  const keywordQueries = [];
+  conditions.keywords.forEach((keyword) => {
+    keywordQueries.push({ title: { [Op.like]: `%${keyword}%` } });
+    keywordQueries.push({ technicals: { [Op.like]: `%${keyword}%` } });
+  });
+
+  // Add keyword queries to 'AND' conditions
 
   if (keywordQueries.length) {
-    searchConditions[Op.or] = keywordQueries;
+    searchConditions[Op.and].push({ [Op.or]: keywordQueries });
   }
 
-  if (conditions.level) {
-    searchConditions.level = { [Op.like]: `%${conditions.level}%` };
-  }
-  if (conditions.type) {
-    searchConditions.type = { [Op.like]: `%${conditions.type}%` };
+  // Level queries
+  const levelQueries = [];
+  conditions.levels.forEach((level) => {
+    levelQueries.push({ level: { [Op.like]: `%${level}%` } });
+  });
+
+  // Add level queries to 'AND' conditions
+  if (levelQueries.length) {
+    searchConditions[Op.and].push({ [Op.or]: levelQueries });
   }
 
-  if (conditions.typeContract) {
-    searchConditions.typeContract = {
-      [Op.like]: `%${conditions.typeContract}%`,
-    };
+  // Contract type queries
+  const contractTypeQueries = [];
+  conditions.contractTypes.forEach((contractType) => {
+    contractTypeQueries.push({ contractType: { [Op.like]: `%${contractType}%` } });
+  });
+
+  // Add contract type queries to 'AND' conditions
+  if (contractTypeQueries.length) {
+    searchConditions[Op.and].push({ [Op.or]: contractTypeQueries });
   }
 
+  // Status query
   if (conditions.status) {
     searchConditions.status = {
       [Op.in]: [parseInt(conditions.status)],
     };
   }
 
-  /* if (conditions.address) {
-      searchConditions.address = { [Op.like]: `%${conditions.address}%` };
-    } */
+  // Working place query
+  if (conditions.workingPlace) {
+    searchConditions[Op.and].push({ workingPlace: { [Op.like]: `%${conditions.workingPlace}%` } });
+  }
 
   return searchConditions;
 };

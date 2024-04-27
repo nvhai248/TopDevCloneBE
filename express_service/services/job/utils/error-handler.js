@@ -7,6 +7,7 @@ const {
 } = require("./app-errors");
 
 const ErrorResponse = (error, res) => {
+  console.log(error);
   if (
     error instanceof DBError ||
     error instanceof APICustomError ||

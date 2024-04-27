@@ -7,13 +7,11 @@ const ListJobByConditions = async (conditions, ordering, limit, page, cursor) =>
   try {
     limit = limit || 20;
     page = page || 1;
-    const offset = cursor ? unmaskId(cursor, DBTypeProduct) : (page - 1) * limit;
+    const offset = cursor ? unmaskId(cursor, DBTypeJob) : (page - 1) * limit;
 
-    if (!conditions.keywords) {
-      conditions.keywords = [];
-    } else if (!Array.isArray(conditions.keywords)) {
-      conditions.keywords = new Array(conditions.keywords);
-    }
+    conditions.keywords = conditions.keywords !== '' ? conditions.keywords.split('-') : [];
+    conditions.contractTypes = conditions.contractTypes !== '' ? conditions.contractTypes.split('-') : [];
+    conditions.levels = conditions.levels !== '' ? conditions.levels.split('-') : [];
 
     // generate search conditions query from conditions
     const searchConditions = repository.getSearchCondition(conditions);

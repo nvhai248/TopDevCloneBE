@@ -4,6 +4,7 @@ const ListJobsByCompanyId = require('./listJobs');
 const UpdateCompany = require('./update');
 const CreateProduct = require('./createProduct');
 const ListCompanySlider = require('./slider');
+const FilterCompanyByConditions = require('./filter');
 
 class CompanyController {
   // [GET] /companies/:id/jobs
@@ -18,6 +19,9 @@ class CompanyController {
   createProduct = CreateProduct;
   // [GET] /companies/slider
   listCompanySlider = ListCompanySlider;
+
+  // [GET] /companies
+  filterCompanyByConditions = FilterCompanyByConditions;
 }
 
 module.exports = CompanyController;

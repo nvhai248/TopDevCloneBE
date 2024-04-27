@@ -1,4 +1,3 @@
-const { Op } = require('sequelize');
 const { DBError } = require('../../utils/app-errors');
 const { Job } = require('./instance');
 

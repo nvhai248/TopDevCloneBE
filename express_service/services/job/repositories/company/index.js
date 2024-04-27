@@ -4,6 +4,9 @@ const ListJobsByCompanyId = require('./listJobs');
 const UpdateCompany = require('./update');
 const CreateProduct = require('./createProduct');
 const ListCompanySlider = require('./slider');
+const GetSearchConditions = require('./searchConditions');
+const CountCompanyByConditions = require('./count');
+const FilterCompanyByConditions = require('./filter');
 
 class CompanyRepository {
   // [GET] /companies/:id/jobs
@@ -23,6 +26,12 @@ class CompanyRepository {
 
   // [GET] /companies/slider
   listCompanySlider = ListCompanySlider;
+
+  getSearchCondition = GetSearchConditions;
+
+  countCompanyByConditions = CountCompanyByConditions;
+
+  filterCompanyByConditions = FilterCompanyByConditions;
 }
 
 module.exports = CompanyRepository;

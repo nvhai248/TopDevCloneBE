@@ -4,6 +4,7 @@ const { CompanyTransport } = require('../transports');
 const companyRouter = express.Router();
 const transport = new CompanyTransport();
 
+companyRouter.get('/filter', auth, transport.filterCompany);
 companyRouter.get('/:id', auth, transport.findCompanyById);
 companyRouter.get('/:id/jobs', auth, transport.listJobsByCompanyId);
 companyRouter.post('/', auth, transport.createCompany);

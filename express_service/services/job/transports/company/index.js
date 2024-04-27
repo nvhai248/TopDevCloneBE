@@ -4,6 +4,7 @@ const ListJobsByCompanyId = require('./listJobs');
 const UpdateCompany = require('./update');
 const CreateProduct = require('./createProduct');
 const ListCompanySlider = require('./slider');
+const FilterCompany = require('./filter');
 class CompanyTransport {
   // [GET] /companies/:id/jobs
   listJobsByCompanyId = ListJobsByCompanyId;
@@ -17,6 +18,8 @@ class CompanyTransport {
   createProduct = CreateProduct;
   // [GET] /companies/slider
   listCompanySlider = ListCompanySlider;
+  // [GET] /companies
+  filterCompany = FilterCompany;
 }
 
 module.exports = CompanyTransport;
