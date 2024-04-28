@@ -5,6 +5,8 @@ const RefuseJob = require('./refuse');
 const ApproveJob = require('./approve');
 const ListJobByConditions = require('./list');
 const ListAllJob = require('./listAll');
+const RefuseMany = require('./refuseMany');
+const ApproveMany = require('./approveMany');
 
 class JobController {
   // [GET] /jobs?keywords=???&level=???&type=???&typeContract=???&address=???&page=??&limit=??&cursor=???&keywords=???
@@ -27,6 +29,12 @@ class JobController {
 
   // [GET] /jobs/admin
   listAllJob = ListAllJob;
+
+  // [PATCH] /jobs/approveMany
+  refuseMany = RefuseMany;
+
+  //[PATCH] jobs/refuseMany
+  approveMany = ApproveMany;
 }
 
 module.exports = JobController;
