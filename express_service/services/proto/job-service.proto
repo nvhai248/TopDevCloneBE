@@ -13,4 +13,5 @@ message JobResponse {
 
 service JobService {
     rpc GetJobInformation (JobRequest) returns (JobResponse);
+    rpc UpdateApplyCountGrpc (JobRequest) returns (JobResponse);
 }
