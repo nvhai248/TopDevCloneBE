@@ -1,5 +1,6 @@
 const ApplyJob = require("./apply");
 const ListApply = require("./listApply");
+const DetailApply = require("./detail")
 const UpdateProcessApplication = require("./update-process")
 
 class ApplicationTransport {
@@ -9,7 +10,9 @@ class ApplicationTransport {
   //GET
   listApply = ListApply;
 
-  updateProcessApplication = UpdateProcessApplication
+  updateProcessApplication = UpdateProcessApplication;
+
+  detailApply = DetailApply;
 }
 
 module.exports = ApplicationTransport;

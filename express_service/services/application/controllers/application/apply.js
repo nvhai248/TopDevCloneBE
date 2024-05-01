@@ -11,8 +11,8 @@ const ApplyJob = async (data) => {
         result.data.id = maskId(result.data.id, DBTypeApplication);
 
         return { status: result.status, data: result.data };
-    } catch (error) {
-        throw error;
+    } catch {
+        throw new Error("JobId not found!");
     }
 };
 
