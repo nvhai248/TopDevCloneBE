@@ -1,6 +1,6 @@
 const { DBError } = require("../../utils/app-errors");
 const { ApplicationModal } = require("./instance");
-
+const grpcJobClient = require("../../grpc-job-client")
 
 // Implement create application information here and export
 const ApplyJob = async (data) => {
@@ -17,6 +17,18 @@ const ApplyJob = async (data) => {
       return { status: "update", data: application.dataValues }
     } else {
       const newApply = await ApplicationModal.create(data);
+
+      const infoJob = await new Promise((resolve, reject) => {
+        grpcJobClient.UpdateApplyCountGrpc({ id: data.jobId }, (error, result) => {
+          if (error) {
+            console.log(error.message);
+            resolve(null);
+          } else {
+            resolve(result);
+          }
+        });
+      });
+
       return { status: "create", data: newApply.dataValues }
     }
   } catch (error) {

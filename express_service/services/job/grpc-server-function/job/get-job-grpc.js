@@ -1,7 +1,7 @@
 const { repository, companyRepository } = require('./instance');
 const { DBTypeJob, DBTypeCompany, DBTypeUser } = require('../../utils/const');
 const { FormatJob } = require('../../utils/format-result');
-const { unmaskId, maskId } = require('../../utils/mask');
+const { maskId } = require('../../utils/mask');
 
 const GetJobInformation = async (call, callback) => {
     try {
