@@ -63,6 +63,8 @@ services:
     environment:
       - PORT=5003
       - DB_PG_URI=postgresql://applicationservice_owner:ogutmx7v0cGd@ep-lucky-violet-a1cihzw1.ap-southeast-1.aws.neon.tech/applicationservice?sslmode=require
+      - PROTO_PATH=../proto/job-service.proto
+      - GRPC_JOB_SERVER=job:8002
     ports:
       - "5003:5003"
     restart: always
@@ -107,6 +109,8 @@ services:
       - DB_PG_USERNAME=jobservice_owner
       - DB_PG_PASSWORD=nvrek9T0KdAS
       - DB_PG_URI=postgresql://jobservice_owner:nvrek9T0KdAS@ep-old-cherry-a1vxzzc9.ap-southeast-1.aws.neon.tech/jobservice?sslmode=require
+      - PROTO_PATH=../proto/job-service.proto
+      - GRPC_JOB_SERVER=job:8002
     ports:
       - "5002:5002"
     restart: always
