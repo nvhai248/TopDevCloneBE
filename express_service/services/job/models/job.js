@@ -1,5 +1,6 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../database/pg');
+// const sequelize = require('../database/mysql'); // use for local
 
 const Job = sequelize.define(
   'job',
@@ -24,9 +25,21 @@ const Job = sequelize.define(
     },
     level: {
       type: DataTypes.STRING,
+      allowNull: false,
+    },
+    // salary: {
+    //   type: DataTypes.INTEGER,
+    //   allowNull: true,
+    // },
+    salaryType: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    minSalary: {
+      type: DataTypes.INTEGER,
       allowNull: true,
     },
-    salary: {
+    maxSalary: {
       type: DataTypes.INTEGER,
       allowNull: true,
     },
@@ -37,41 +50,65 @@ const Job = sequelize.define(
         this.setDataValue('technicals', value.join('|'));
       },
     },
-    minExperience: {
-      type: DataTypes.INTEGER,
+    // minExperience: {
+    //   type: DataTypes.INTEGER,
+    //   allowNull: true,
+    // },
+    // maxExperience: {
+    //   type: DataTypes.INTEGER,
+    //   allowNull: true,
+    // },
+    experience: {
+      type: DataTypes.STRING,
       allowNull: true,
     },
-    maxExperience: {
-      type: DataTypes.INTEGER,
+    endDate: {
+      type: DataTypes.STRING, // YYYY-MM-DD
+      allowNull: false,
+    },
+    jobType: {
+      type: DataTypes.STRING,
       allowNull: true,
     },
     contractType: {
       type: DataTypes.STRING,
       allowNull: true,
     },
-    workingPlace: {
-      type: DataTypes.STRING,
-      allowNull: true,
-    },
+    // workingPlace: {
+    //   type: DataTypes.STRING,
+    //   allowNull: true,
+    // },
     interviewProcess: {
       type: DataTypes.TEXT,
       allowNull: true,
     },
-    followedCount: {
-      type: DataTypes.INTEGER,
+    currency: {
+      type: DataTypes.STRING,
       allowNull: true,
-      defaultValue: 0,
     },
-    appliedCount: {
-      type: DataTypes.INTEGER,
-      allowNull: true,
-      defaultValue: 0,
-    },
-    status: {
-      type: DataTypes.SMALLINT,
+    city: {
+      type: DataTypes.STRING,
       allowNull: false,
-      defaultValue: 0,
     },
+    addressDetails: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    // followedCount: {
+    //   type: DataTypes.INTEGER,
+    //   allowNull: true,
+    //   defaultValue: 0,
+    // },
+    // appliedCount: {
+    //   type: DataTypes.INTEGER,
+    //   allowNull: true,
+    //   defaultValue: 0,
+    // },
+    // status: {
+    //   type: DataTypes.SMALLINT,
+    //   allowNull: false,
+    //   defaultValue: 0,
+    // },
   },
   { sequelize },
 );
