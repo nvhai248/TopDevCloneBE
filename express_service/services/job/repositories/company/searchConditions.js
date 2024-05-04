@@ -18,8 +18,8 @@ const GetSearchConditions = (conditions) => {
   }
 
   // Working place query
-  if (conditions.workingPlace) {
-    searchConditions[Op.and].push({ address: { [Op.like]: `%${conditions.workingPlace}%` } });
+  if (conditions.address) {
+    searchConditions[Op.and].push({ address: { [Op.like]: `%${conditions.address}%` } });
   }
 
   return searchConditions;

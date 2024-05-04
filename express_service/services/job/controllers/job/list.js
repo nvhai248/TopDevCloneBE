@@ -1,17 +1,19 @@
-const { DBTypeJob, DBTypeCompany, DBTypeUser } = require('../../utils/const');
+const { DBTypeJob, DBTypeCompany, DBTypeUser, JOB_STATUS } = require('../../utils/const');
 const { FormatJob } = require('../../utils/format-result');
 const { unmaskId, maskId } = require('../../utils/mask');
 const { repository, companyRepository } = require('./instance');
 
 const ListJobByConditions = async (conditions, ordering, limit, page, cursor) => {
   try {
-    limit = limit || 20;
-    page = page || 1;
-    const offset = cursor ? unmaskId(cursor, DBTypeJob) : (page - 1) * limit;
+    limit = limit || null;
+    page = page || null;
+    const offset = limit && page ? (page - 1) * limit : 0;
 
     conditions.keywords = conditions.keywords !== '' ? conditions.keywords.split('-') : [];
     conditions.contractTypes = conditions.contractTypes !== '' ? conditions.contractTypes.split('-') : [];
     conditions.levels = conditions.levels !== '' ? conditions.levels.split('-') : [];
+    conditions.jobTypes = conditions.jobTypes !== '' ? conditions.jobTypes.split('-') : [];
+    conditions.status = conditions.status !== '' ? conditions.status : JOB_STATUS.PUBLIC;
 
     // generate search conditions query from conditions
     const searchConditions = repository.getSearchCondition(conditions);
@@ -44,13 +46,11 @@ const ListJobByConditions = async (conditions, ordering, limit, page, cursor) =>
     }));
 
     return {
-      jobs: jobs.map((job) => FormatJob(job)),
+      data: jobs.map((job) => FormatJob(job)),
       paging: {
         limit: limit,
         page: page,
         total: total,
-        fakeCursor: total === 0 ? null : maskId(offset, DBTypeJob),
-        nextCursor: total === 0 || offset + jobs.length >= total ? null : maskId(offset + jobs.length, DBTypeJob),
       },
     };
   } catch (error) {

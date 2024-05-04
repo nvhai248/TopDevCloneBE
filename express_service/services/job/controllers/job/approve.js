@@ -1,6 +1,6 @@
 const { BadRequestError } = require('../../utils/app-errors');
 const { repository } = require('./instance');
-const { DBTypeJob, DBTypeCompany, DBTypeUser, JOB_STATUS_ACTIVE, JOB_STATUS_DELETED } = require('../../utils/const');
+const { DBTypeJob, DBTypeCompany, DBTypeUser, JOB_STATUS } = require('../../utils/const');
 const { unmaskId, maskId } = require('../../utils/mask');
 const { FormatJob } = require('../../utils/format-result');
 
@@ -13,11 +13,11 @@ const ApproveJob = async (jobId) => {
       throw new BadRequestError('Job not found', 'Err repository job layer');
     }
 
-    if (job.status == JOB_STATUS_DELETED) {
+    if (job.status == JOB_STATUS.DELETED) {
       throw new BadRequestError('Already deleted this job', 'JobDeleted');
     }
 
-    const data = { status: JOB_STATUS_ACTIVE };
+    const data = { status: JOB_STATUS.PUBLIC };
 
     let result = await repository.updateJobById(jobId, data);
 

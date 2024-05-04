@@ -1,5 +1,6 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../database/pg');
+const { JOB_STATUS } = require('../utils/const');
 // const sequelize = require('../database/mysql'); // use for local
 
 const Job = sequelize.define(
@@ -104,11 +105,11 @@ const Job = sequelize.define(
     //   allowNull: true,
     //   defaultValue: 0,
     // },
-    // status: {
-    //   type: DataTypes.SMALLINT,
-    //   allowNull: false,
-    //   defaultValue: 0,
-    // },
+    status: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      defaultValue: JOB_STATUS.PENDING,
+    },
   },
   { sequelize },
 );

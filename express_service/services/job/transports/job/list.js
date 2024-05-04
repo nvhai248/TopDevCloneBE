@@ -5,13 +5,14 @@ const { controller } = require('./instance');
 
 const ListJobByConditions = async (req, res, next) => {
   try {
-    const { keywords, contractTypes, workingPlace, levels, page, limit, cursor, status, ordering } = req.query;
+    const { keywords, contractTypes, address, levels, jobTypes, page, limit, cursor, status, ordering } = req.query;
 
     const conditions = {
       keywords: keywords || '',
       contractTypes: contractTypes || '',
-      workingPlace: workingPlace,
+      address: address,
       levels: levels || '',
+      jobTypes: jobTypes || '',
       status: status,
     };
 
