@@ -105,6 +105,10 @@ const Job = sequelize.define(
     //   allowNull: true,
     //   defaultValue: 0,
     // },
+    reason: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
     status: {
       type: DataTypes.STRING,
       allowNull: false,

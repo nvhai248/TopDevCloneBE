@@ -40,6 +40,12 @@ const CURRENCY = {
   USD: 'USD',
 };
 
+const USER_ROLE = {
+  ADMIN: 'ADMIN',
+  HR: 'HR',
+  GUEST: 'GUEST',
+};
+
 module.exports = {
   DBTypeJob,
   DBTypeCompany,
@@ -51,4 +57,5 @@ module.exports = {
   JOB_TYPE,
   CONTRACT_TYPE,
   SALARY_TYPE,
+  USER_ROLE,
 };
