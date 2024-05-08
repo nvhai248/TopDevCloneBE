@@ -46,6 +46,11 @@ const USER_ROLE = {
   GUEST: 'GUEST',
 };
 
+const RABBITMQ_TOPIC = {
+  CREATE_JOB: 'create_job',
+  CREATE_COMPANY: 'create_company',
+};
+
 module.exports = {
   DBTypeJob,
   DBTypeCompany,
@@ -58,4 +63,5 @@ module.exports = {
   CONTRACT_TYPE,
   SALARY_TYPE,
   USER_ROLE,
+  RABBITMQ_TOPIC,
 };
