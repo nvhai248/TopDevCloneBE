@@ -1,12 +1,9 @@
 const CreateJob = require('./create');
 const FindJob = require('./find');
 const UpdateJob = require('./update');
-const RefuseJob = require('./refuse');
-const ApproveJob = require('./approve');
 const ListJobByConditions = require('./list');
 const ListAllJob = require('./listAll');
-const RefuseMany = require('./refuseMany');
-const ApproveMany = require('./approveMany');
+const UpdateStatus = require('./updateStatus');
 
 class JobController {
   // [GET] /jobs?keywords=???&level=???&type=???&typeContract=???&address=???&page=??&limit=??&cursor=???&keywords=???
@@ -21,20 +18,11 @@ class JobController {
   // [POST] /jobs
   createJob = CreateJob;
 
-  // [DELETE] /jobs/:id/refuse
-  refuseJob = RefuseJob;
-
-  // [PATCH] /jobs/:id/approve
-  approveJob = ApproveJob;
-
   // [GET] /jobs/admin
   listAllJob = ListAllJob;
 
-  // [PATCH] /jobs/approveMany
-  refuseMany = RefuseMany;
-
-  //[PATCH] jobs/refuseMany
-  approveMany = ApproveMany;
+  // [PATCH] /jobs/change-status
+  updateStatus = UpdateStatus;
 }
 
 module.exports = JobController;

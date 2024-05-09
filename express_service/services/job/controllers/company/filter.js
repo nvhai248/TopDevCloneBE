@@ -5,10 +5,10 @@ const { repository } = require('./instance');
 
 const FilterCompanyByConditions = async (conditions, ordering, limit, page, cursor) => {
   try {
-    limit = limit || 20;
-    page = page || 1;
+    limit = limit || null;
+    page = page || null;
 
-    const offset = cursor ? unmaskId(cursor, DBTypeCompany) : (page - 1) * limit;
+    const offset = limit && page ? (page - 1) * limit : 0;
 
     conditions.keywords = conditions.keywords !== '' ? conditions.keywords.split('-') : [];
 
@@ -20,7 +20,7 @@ const FilterCompanyByConditions = async (conditions, ordering, limit, page, curs
     let companies = await repository.filterCompanyByConditions(searchConditions, limit, offset);
 
     return {
-      companies: companies.map((company) => {
+      data: companies.map((company) => {
         company.id = maskId(company.id, DBTypeJob);
         return FormatCompany(company);
       }),
@@ -28,9 +28,6 @@ const FilterCompanyByConditions = async (conditions, ordering, limit, page, curs
         limit: limit,
         page: page,
         total: total,
-        fakeCursor: total === 0 ? null : maskId(offset, DBTypeCompany),
-        nextCursor:
-          total === 0 || offset + companies.length >= total ? null : maskId(offset + companies.length, DBTypeCompany),
       },
     };
   } catch (error) {
