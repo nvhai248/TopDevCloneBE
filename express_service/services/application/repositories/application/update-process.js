@@ -1,10 +1,10 @@
 const { DBError } = require("../../utils/app-errors");
 const { ApplicationModal } = require("./instance");
 
-const updateProcessApplication = async (applicationId) => {
+const updateProcessApplication = async (applicationId, status) => {
     try {
         const [updatedRowsCount] = await ApplicationModal.update(
-            { isApprove: true },
+            { status: status },
             { where: { id: applicationId } }
         );
 

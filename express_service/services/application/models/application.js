@@ -1,5 +1,6 @@
 const { DataTypes } = require("sequelize");
 const sequelize = require("../database/pg");
+const { status } = require("@grpc/grpc-js");
 
 const ApplicationModal = sequelize.define("applications", {
     id: {
@@ -32,11 +33,11 @@ const ApplicationModal = sequelize.define("applications", {
         type: DataTypes.STRING,
         allowNull: false,
     },
-    isApprove: {
-        type: DataTypes.BOOLEAN,
-        defaultValue: false,
+    status: {
+        type: DataTypes.STRING,
         allowNull: false,
-    },
+        defaultValue: "PENDING"
+    }
 });
 
 module.exports = ApplicationModal;
