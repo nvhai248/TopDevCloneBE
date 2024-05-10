@@ -111,6 +111,9 @@ services:
       - DB_PG_URI=postgresql://jobservice_owner:nvrek9T0KdAS@ep-old-cherry-a1vxzzc9.ap-southeast-1.aws.neon.tech/jobservice?sslmode=require
       - PROTO_PATH=../proto/job-service.proto
       - GRPC_JOB_SERVER=job:8002
+      - ES_HOST=http://elasticsearch:9200
+      - ES_USERNAME=elastic
+      - ES_PW=aA@12345678
     ports:
       - "5002:5002"
     restart: always
