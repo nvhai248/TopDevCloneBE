@@ -22,6 +22,9 @@ const DetailApply = async (id) => {
         result.jobDetail = {
             jobId: maskId(result.jobId, DBTypeJob),
             title: infoJob.title,
+            level: infoJob.level,
+            jobType: infoJob.jobType,
+            endDate: infoJob.endDate
         };
 
 
