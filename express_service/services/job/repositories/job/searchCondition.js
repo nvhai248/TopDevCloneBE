@@ -9,8 +9,9 @@ const GetSearchConditions = (conditions) => {
   // Keyword queries
   const keywordQueries = [];
   conditions.keywords.forEach((keyword) => {
-    keywordQueries.push({ title: { [Op.like]: `%${keyword}%` } });
-    keywordQueries.push({ technicals: { [Op.like]: `%${keyword}%` } });
+    keywordQueries.push({ title: { [Op.iLike]: `%${keyword}%` } });
+    keywordQueries.push({ technicals: { [Op.iLike]: `%${keyword}%` } });
+    keywordQueries.push({ level: { [Op.iLike]: `%${keyword}%` } });
   });
 
   // Add keyword queries to 'AND' conditions
@@ -22,7 +23,7 @@ const GetSearchConditions = (conditions) => {
   // Level queries
   const levelQueries = [];
   conditions.levels.forEach((level) => {
-    levelQueries.push({ level: { [Op.like]: `%${level}%` } });
+    levelQueries.push({ level: { [Op.iLike]: `%${level}%` } });
   });
 
   // Add level queries to 'AND' conditions
@@ -33,7 +34,7 @@ const GetSearchConditions = (conditions) => {
   // Contract type queries
   const contractTypeQueries = [];
   conditions.contractTypes.forEach((contractType) => {
-    contractTypeQueries.push({ contractType: { [Op.like]: `%${contractType}%` } });
+    contractTypeQueries.push({ contractType: { [Op.iLike]: `%${contractType}%` } });
   });
 
   // Add contract type queries to 'AND' conditions
@@ -41,16 +42,27 @@ const GetSearchConditions = (conditions) => {
     searchConditions[Op.and].push({ [Op.or]: contractTypeQueries });
   }
 
+  // Job type type queries
+  const jobTypeQueries = [];
+  conditions.jobTypes.forEach((jobType) => {
+    jobTypeQueries.push({ jobType: { [Op.iLike]: `%${jobType}%` } });
+  });
+
+  // Add contract type queries to 'AND' conditions
+  if (jobTypeQueries.length) {
+    searchConditions[Op.and].push({ [Op.or]: jobTypeQueries });
+  }
+
   // Status query
   if (conditions.status) {
     searchConditions.status = {
-      [Op.in]: [parseInt(conditions.status)],
+      [Op.in]: [conditions.status],
     };
   }
 
   // Working place query
-  if (conditions.workingPlace) {
-    searchConditions[Op.and].push({ workingPlace: { [Op.like]: `%${conditions.workingPlace}%` } });
+  if (conditions.address) {
+    searchConditions[Op.and].push({ city: { [Op.iLike]: `%${conditions.address}%` } });
   }
 
   return searchConditions;

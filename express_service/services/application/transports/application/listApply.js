@@ -7,7 +7,9 @@ const ListApply = async (req, res, next) => {
     try {
         const id = req.params.id;
 
-        const listApply = await controller.listApply(id);
+        const { page, limit } = req.query
+
+        const listApply = await controller.listApply(id, parseInt(limit), parseInt(page));
 
         SetResponse(res, STATUS_CODES.OK, listApply, "Successfully", null);
 

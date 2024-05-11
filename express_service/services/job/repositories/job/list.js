@@ -4,9 +4,8 @@ const { Job } = require('./instance');
 const ListJobByConditions = async (searchConditions, ordering, limit, offset) => {
   try {
     let orderCriteria = [];
-    if (ordering === 'new-jobs') {
-      orderCriteria = [['createdAt', 'DESC']];
-    } else if (ordering === 'hot-jobs') {
+    orderCriteria = [['createdAt', 'DESC']];
+    if (ordering === 'hot-jobs') {
       orderCriteria = [
         ['followedCount', 'DESC'],
         ['appliedCount', 'DESC'],

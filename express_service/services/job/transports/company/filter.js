@@ -4,11 +4,11 @@ const { SetResponse } = require('../../utils/success-response');
 const { controller } = require('./instance');
 
 const FilterCompany = async (req, res, next) => {
-  const { keywords, workingPlace, page, limit, cursor } = req.query;
+  const { keywords, address, page, limit, cursor } = req.query;
 
   const conditions = {
     keywords: keywords || '',
-    workingPlace: workingPlace,
+    address: address,
   };
   try {
     const result = await controller.filterCompanyByConditions(conditions, parseInt(limit), parseInt(page), cursor);

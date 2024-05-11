@@ -7,7 +7,9 @@ const UpdateProcessApplication = async (req, res, next) => {
     try {
         const id = req.params.id;
 
-        const updateProcessApplication = await controller.updateProcessApplication(id);
+        const data = req.body;
+
+        const updateProcessApplication = await controller.updateProcessApplication(id, data.status);
 
         SetResponse(res, STATUS_CODES.OK, updateProcessApplication, "Successfully", null);
 

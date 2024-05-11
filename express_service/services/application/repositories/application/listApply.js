@@ -5,10 +5,13 @@ const { maskId } = require("../../utils/mask");
 
 
 // Implement create application information here and export
-const ListApply = async (id) => {
+const ListApply = async (id, limit, page) => {
     try {
         const applications = await ApplicationModal.findAll({
-            where: { jobId: id }
+            where: { jobId: id },
+            limit: limit,
+            offset: (page - 1) * limit,
+            order: [['createdAt', 'DESC']]
         });
 
         // Kiểm tra xem có bản ghi nào được trả về không
