@@ -11,7 +11,7 @@ const FilterCompany = async (req, res, next) => {
     address: address,
   };
   try {
-    const result = await controller.filterCompanyByConditions(conditions, parseInt(limit), parseInt(page), cursor);
+    const result = await controller.filterCompanyByConditions(conditions, parseInt(limit), parseInt(page));
     SetResponse(res, STATUS_CODES.OK, result, 'OK', null);
   } catch (error) {
     ErrorResponse(error, res);
