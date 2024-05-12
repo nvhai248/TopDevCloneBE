@@ -8,9 +8,9 @@ async function syncModals() {
   Company.hasMany(Product, { onDelete: 'CASCADE' });
   Product.belongsTo(Company, { onDelete: 'CASCADE' });
 
-  await Company.sync({ alter: true });
-  await Job.sync({ alter: true });
-  await Product.sync({ alter: true });
+  // await Company.sync({ alter: true });
+  // await Job.sync({ alter: true });
+  // await Product.sync({ alter: true });
 }
 
 module.exports = syncModals;

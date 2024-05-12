@@ -95,11 +95,11 @@ const Job = sequelize.define(
       type: DataTypes.STRING,
       allowNull: false,
     },
-    // followedCount: {
-    //   type: DataTypes.INTEGER,
-    //   allowNull: true,
-    //   defaultValue: 0,
-    // },
+    followedCount: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
+      defaultValue: 0,
+    },
     appliedCount: {
       type: DataTypes.INTEGER,
       allowNull: true,
