@@ -100,11 +100,11 @@ const Job = sequelize.define(
     //   allowNull: true,
     //   defaultValue: 0,
     // },
-    // appliedCount: {
-    //   type: DataTypes.INTEGER,
-    //   allowNull: true,
-    //   defaultValue: 0,
-    // },
+    appliedCount: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
+      defaultValue: 0,
+    },
     reason: {
       type: DataTypes.STRING,
       allowNull: true,
