@@ -11,7 +11,7 @@ const adminController = {
     const { username, password } = req.body;
 
     if (!username || !password) {
-      ErrorResponse(new Error('Username and password are required'), res);
+      return ErrorResponse(new Error('Username and password are required'), res);
     }
 
     try {
@@ -31,7 +31,7 @@ const adminController = {
 
       if (!response.ok) {
         const { errorMessage } = await response.json();
-        ErrorResponse(new Error(errorMessage), response);
+        return ErrorResponse(new Error(errorMessage), res);
       }
 
       const data = await response.json();
@@ -46,9 +46,9 @@ const adminController = {
       // res.cookie('access_token', access_token, { httpOnly: true });
       // res.cookie('refresh_token', refresh_token, { httpOnly: true });
 
-      SetResponse(res, STATUS_CODES.OK, responseData, 'OK', null);
+      return SetResponse(res, STATUS_CODES.OK, responseData, 'OK', null);
     } catch (error) {
-      ErrorResponse(error, res);
+      return ErrorResponse(error, res);
     }
   },
   loginWithCredentials: async (req, res, next) => {
@@ -67,7 +67,7 @@ const adminController = {
 
       if (!response.ok) {
         const { errorMessage } = await response.json();
-        ErrorResponse(new Error(errorMessage), response);
+        return ErrorResponse(new Error(errorMessage), res);
       }
 
       const data = await response.json();
@@ -82,16 +82,16 @@ const adminController = {
       // res.cookie('access_token', access_token, { httpOnly: true });
       // res.cookie('refresh_token', refresh_token, { httpOnly: true });
 
-      SetResponse(res, STATUS_CODES.OK, responseData, 'OK', null);
+      return SetResponse(res, STATUS_CODES.OK, responseData, 'OK', null);
     } catch (error) {
-      ErrorResponse(error, res);
+      return ErrorResponse(error, res);
     }
   },
   logout: (req, res, next) => {
     // res.clearCookie('access_token');
     // res.clearCookie('refresh_token');
     // return res.status(200).send('Logout successful');
-    SetResponse(res, STATUS_CODES.OK, job, 'OK', null);
+    return SetResponse(res, STATUS_CODES.OK, null, 'OK', null);
   },
 };
 

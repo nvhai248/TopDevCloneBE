@@ -2,7 +2,6 @@ const { KC_CLIENT_ID, KC_CLIENT_SECRET, KC_REALM, KC_SERVER_URL } = require('../
 const { STATUS_CODES } = require('../utils/app-errors');
 const { SetResponse } = require('../utils/success-response');
 const { ErrorResponse } = require('../utils/error-handler');
-const adminController = require('./adminController');
 
 const employerController = {
   auth: (req, res, next) => {
@@ -12,7 +11,7 @@ const employerController = {
     const { username, password } = req.body;
 
     if (!username || !password) {
-      ErrorResponse(new Error('Username and password are required'), res);
+      return ErrorResponse(new Error('Username and password are required'), res);
     }
 
     try {
@@ -30,9 +29,11 @@ const employerController = {
         }),
       });
 
-      if (!response.ok) {
+      if (response.status === 401) {
+        return ErrorResponse(new Error('Invalid username or password'), res);
+      } else if (!response.ok) {
         const { errorMessage } = await response.json();
-        ErrorResponse(new Error(errorMessage), response);
+        return ErrorResponse(new Error(errorMessage), res);
       }
 
       const data = await response.json();
@@ -44,19 +45,17 @@ const employerController = {
         refresh_expires_in,
       };
 
-      SetResponse(res, STATUS_CODES.OK, responseData, 'OK', null);
+      return SetResponse(res, STATUS_CODES.OK, responseData, 'OK', null);
     } catch (error) {
-      ErrorResponse(error, res);
+      return ErrorResponse(error, res);
     }
   },
   register: async (req, res, next) => {
-    const { credentials, username, email, firstName, lastName } = req.body;
+    const { username, password, email, firstName, lastName } = req.body;
 
-    if (!username || !credentials || !email || !firstName || !lastName) {
-      ErrorResponse(new Error('Username, password, email, first name and last name are required'), res);
+    if (!username || !password || !email || !firstName || !lastName) {
+      return ErrorResponse(new Error('Username, password, email, first name and last name are required'), res);
     }
-
-    const { value } = credentials[0]; // get password value
 
     try {
       // login with client credentials to get access token
@@ -74,7 +73,7 @@ const employerController = {
 
       if (!response.ok) {
         const { errorMessage } = await response.json();
-        ErrorResponse(new Error(errorMessage), response);
+        return ErrorResponse(new Error(errorMessage), res);
       }
 
       const data = await response.json();
@@ -92,10 +91,11 @@ const employerController = {
           firstName,
           lastName,
           enabled: true,
+          emailVerified: false,
           credentials: [
             {
               type: 'password',
-              value: value,
+              value: password,
               temporary: false,
             },
           ],
@@ -104,12 +104,12 @@ const employerController = {
 
       if (!responseRegister.ok) {
         const { errorMessage } = await responseRegister.json();
-        ErrorResponse(new Error(errorMessage), responseRegister);
+        return ErrorResponse(new Error(errorMessage), res);
       }
 
-      SetResponse(res, STATUS_CODES.OK, null, 'OK', null);
+      return SetResponse(res, STATUS_CODES.OK, null, 'OK', null);
     } catch (error) {
-      ErrorResponse(error, res);
+      return ErrorResponse(error, res);
     }
   },
 };
