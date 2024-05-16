@@ -30,6 +30,11 @@ const employerController = {
         }),
       });
 
+      if (!response.ok) {
+        const { errorMessage } = await response.json();
+        ErrorResponse(new Error(errorMessage), response);
+      }
+
       const data = await response.json();
       const { access_token, refresh_token, expires_in, refresh_expires_in } = data;
       const responseData = {
@@ -51,12 +56,11 @@ const employerController = {
       ErrorResponse(new Error('Username, password, email, first name and last name are required'), res);
     }
 
-    const { value } = credentials[0];
-    console.log(req.body);
+    const { value } = credentials[0]; // get password value
 
     try {
       // login with client credentials to get access token
-      const responseLogin = await fetch(`${KC_SERVER_URL}/realms/${KC_REALM}/protocol/openid-connect/token`, {
+      const response = await fetch(`${KC_SERVER_URL}/realms/${KC_REALM}/protocol/openid-connect/token`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded',
@@ -68,12 +72,12 @@ const employerController = {
         }),
       });
 
-      if (responseLogin.status === 401) {
-        const { errorMessage } = await responseLogin.json();
-        ErrorResponse(new Error(errorMessage), responseLogin);
+      if (!response.ok) {
+        const { errorMessage } = await response.json();
+        ErrorResponse(new Error(errorMessage), response);
       }
 
-      const data = await responseLogin.json();
+      const data = await response.json();
       const { access_token } = data;
 
       const responseRegister = await fetch(`${KC_SERVER_URL}/admin/realms/${KC_REALM}/users`, {
@@ -98,9 +102,9 @@ const employerController = {
         }),
       });
 
-      if (responseRegister.status === 409) {
+      if (!responseRegister.ok) {
         const { errorMessage } = await responseRegister.json();
-        ErrorResponse(new Error(errorMessage), res);
+        ErrorResponse(new Error(errorMessage), responseRegister);
       }
 
       SetResponse(res, STATUS_CODES.OK, null, 'OK', null);

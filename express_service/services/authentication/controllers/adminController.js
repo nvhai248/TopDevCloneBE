@@ -7,7 +7,6 @@ const adminController = {
   auth: (req, res, next) => {
     return next();
   },
-  // login with credentials
   login: async (req, res, next) => {
     const { username, password } = req.body;
 
@@ -29,6 +28,11 @@ const adminController = {
           client_secret: KC_CLIENT_SECRET,
         }),
       });
+
+      if (!response.ok) {
+        const { errorMessage } = await response.json();
+        ErrorResponse(new Error(errorMessage), response);
+      }
 
       const data = await response.json();
       const { access_token, refresh_token, expires_in, refresh_expires_in } = data;
@@ -60,6 +64,11 @@ const adminController = {
           client_secret: KC_CLIENT_SECRET,
         }),
       });
+
+      if (!response.ok) {
+        const { errorMessage } = await response.json();
+        ErrorResponse(new Error(errorMessage), response);
+      }
 
       const data = await response.json();
       const { access_token, refresh_token, expires_in, refresh_expires_in } = data;
