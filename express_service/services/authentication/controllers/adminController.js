@@ -2,10 +2,12 @@ const { KC_CLIENT_ID, KC_CLIENT_SECRET, KC_REALM, KC_SERVER_URL } = require('../
 const { STATUS_CODES } = require('../utils/app-errors');
 const { SetResponse } = require('../utils/success-response');
 const { ErrorResponse } = require('../utils/error-handler');
+const getCredentials = require('../utils/get-credentials');
 
 const adminController = {
   auth: (req, res, next) => {
-    return next();
+    // return next();
+    return SetResponse(res, STATUS_CODES.OK, 'Admin authenticated', 'OK', null);
   },
   login: async (req, res, next) => {
     const { username, password } = req.body;
@@ -22,8 +24,8 @@ const adminController = {
         },
         body: new URLSearchParams({
           grant_type: 'password',
-          username: username,
-          password: password,
+          username,
+          password,
           client_id: KC_CLIENT_ID,
           client_secret: KC_CLIENT_SECRET,
         }),
@@ -31,11 +33,10 @@ const adminController = {
 
       if (!response.ok) {
         const { errorMessage } = await response.json();
-        return ErrorResponse(new Error(errorMessage), res);
+        throw new Error(errorMessage || 'Failed to authenticate');
       }
 
-      const data = await response.json();
-      const { access_token, refresh_token, expires_in, refresh_expires_in } = data;
+      const { access_token, refresh_token, expires_in, refresh_expires_in } = await response.json();
       const responseData = {
         access_token,
         refresh_token,
@@ -43,50 +44,31 @@ const adminController = {
         refresh_expires_in,
       };
 
+      // Uncomment if you want to set cookies
       // res.cookie('access_token', access_token, { httpOnly: true });
       // res.cookie('refresh_token', refresh_token, { httpOnly: true });
 
       return SetResponse(res, STATUS_CODES.OK, responseData, 'OK', null);
     } catch (error) {
+      console.error('Error during login:', error);
       return ErrorResponse(error, res);
     }
   },
   loginWithCredentials: async (req, res, next) => {
     try {
-      const response = await fetch(`${KC_SERVER_URL}/realms/${KC_REALM}/protocol/openid-connect/token`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
-        },
-        body: new URLSearchParams({
-          grant_type: 'client_credentials',
-          client_id: KC_CLIENT_ID,
-          client_secret: KC_CLIENT_SECRET,
-        }),
-      });
+      const credentials = await getCredentials();
 
-      if (!response.ok) {
-        const { errorMessage } = await response.json();
-        return ErrorResponse(new Error(errorMessage), res);
+      if (credentials) {
+        return SetResponse(res, STATUS_CODES.OK, credentials, 'OK', null);
+      } else {
+        return ErrorResponse(new Error('Error getting credentials'), res);
       }
-
-      const data = await response.json();
-      const { access_token, refresh_token, expires_in, refresh_expires_in } = data;
-      const responseData = {
-        access_token,
-        refresh_token,
-        expires_in,
-        refresh_expires_in,
-      };
-
-      // res.cookie('access_token', access_token, { httpOnly: true });
-      // res.cookie('refresh_token', refresh_token, { httpOnly: true });
-
-      return SetResponse(res, STATUS_CODES.OK, responseData, 'OK', null);
     } catch (error) {
-      return ErrorResponse(error, res);
+      console.error('Error during loginWithCredentials:', error);
+      return ErrorResponse(new Error('Error getting credentials'), res);
     }
   },
+
   logout: (req, res, next) => {
     // res.clearCookie('access_token');
     // res.clearCookie('refresh_token');

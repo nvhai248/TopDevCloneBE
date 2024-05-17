@@ -1,12 +1,23 @@
-const { KC_CLIENT_ID, KC_CLIENT_SECRET, KC_REALM, KC_SERVER_URL } = require('../configuration/keycloak.js');
+const {
+  KC_CLIENT_ID,
+  KC_CLIENT_SECRET,
+  KC_REALM,
+  KC_SERVER_URL,
+  KC_EMPLOYER_ROLE_ID,
+  KC_EMPLOYER_ROLE,
+} = require('../configuration/keycloak.js');
 const { STATUS_CODES } = require('../utils/app-errors');
 const { SetResponse } = require('../utils/success-response');
 const { ErrorResponse } = require('../utils/error-handler');
+const getCredentials = require('../utils/get-credentials');
+const setRole = require('../utils/set-role');
 
 const employerController = {
   auth: (req, res, next) => {
-    return next();
+    // return next();
+    return SetResponse(res, STATUS_CODES.OK, 'Employer authenticated', 'OK', null);
   },
+
   login: async (req, res, next) => {
     const { username, password } = req.body;
 
@@ -22,8 +33,8 @@ const employerController = {
         },
         body: new URLSearchParams({
           grant_type: 'password',
-          username: username,
-          password: password,
+          username,
+          password,
           client_id: KC_CLIENT_ID,
           client_secret: KC_CLIENT_SECRET,
         }),
@@ -38,18 +49,15 @@ const employerController = {
 
       const data = await response.json();
       const { access_token, refresh_token, expires_in, refresh_expires_in } = data;
-      const responseData = {
-        access_token,
-        refresh_token,
-        expires_in,
-        refresh_expires_in,
-      };
+      const responseData = { access_token, refresh_token, expires_in, refresh_expires_in };
 
       return SetResponse(res, STATUS_CODES.OK, responseData, 'OK', null);
     } catch (error) {
+      console.error('Error during login:', error);
       return ErrorResponse(error, res);
     }
   },
+
   register: async (req, res, next) => {
     const { username, password, email, firstName, lastName } = req.body;
 
@@ -58,32 +66,18 @@ const employerController = {
     }
 
     try {
-      // login with client credentials to get access token
-      const response = await fetch(`${KC_SERVER_URL}/realms/${KC_REALM}/protocol/openid-connect/token`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
-        },
-        body: new URLSearchParams({
-          grant_type: 'client_credentials',
-          client_id: KC_CLIENT_ID,
-          client_secret: KC_CLIENT_SECRET,
-        }),
-      });
+      // Get access token using client credentials
+      const credentials = await getCredentials();
 
-      if (!response.ok) {
-        const { errorMessage } = await response.json();
-        return ErrorResponse(new Error(errorMessage), res);
+      if (!credentials) {
+        return ErrorResponse(new Error('Error getting credentials'), res);
       }
-
-      const data = await response.json();
-      const { access_token } = data;
 
       const responseRegister = await fetch(`${KC_SERVER_URL}/admin/realms/${KC_REALM}/users`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${access_token}`, // req.kauth.grant.access_token
+          Authorization: `Bearer ${credentials.access_token}`,
         },
         body: JSON.stringify({
           username,
@@ -107,8 +101,16 @@ const employerController = {
         return ErrorResponse(new Error(errorMessage), res);
       }
 
+      // Set role
+      const responseRole = await setRole(username, KC_EMPLOYER_ROLE_ID, KC_EMPLOYER_ROLE, credentials);
+
+      if (!responseRole) {
+        return ErrorResponse(new Error('Failed to set role'), res);
+      }
+
       return SetResponse(res, STATUS_CODES.OK, null, 'OK', null);
     } catch (error) {
+      console.error('Error during registration:', error);
       return ErrorResponse(error, res);
     }
   },

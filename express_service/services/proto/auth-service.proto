@@ -1,0 +1,69 @@
+// to generate: npm install -g protoc-gen-js 
+//protoc --js_out=import_style=commonjs,binary:. .\auth-service.proto
+syntax = "proto3";
+
+message AuthRequest {
+    string username = 1;
+    string password = 2;
+}
+
+message AuthResponse {
+    string access_token = 1;
+}
+
+service AuthService {
+    rpc GetAccessToken (AuthRequest) returns (AuthResponse);
+}
+
+// syntax = "proto3";
+
+// package auth;
+
+// // The AuthService defines the methods that an authentication service should have.
+// service AuthService {
+//   // Register a new user with username and password.
+//   rpc Register (RegisterRequest) returns (RegisterResponse);
+
+//   // Login a user with username and password, returns a token if successful.
+//   rpc Login (LoginRequest) returns (LoginResponse);
+
+//   // ValidateToken checks if the provided token is valid.
+//   rpc ValidateToken (ValidateTokenRequest) returns (ValidateTokenResponse);
+// }
+
+// // RegisterRequest is the request for the Register method.
+// message RegisterRequest {
+//   string username = 1;
+//   string password = 2;
+// }
+
+// // RegisterResponse is the response for the Register method.
+// message RegisterResponse {
+//   bool success = 1;
+//   string message = 2; // Message could contain error messages or confirmation.
+// }
+
+// // LoginRequest is the request for the Login method.
+// message LoginRequest {
+//   string username = 1;
+//   string password = 2;
+// }
+
+// // LoginResponse is the response for the Login method.
+// message LoginResponse {
+//   bool success = 1;
+//   string message = 2; // Message could contain error messages or token when successful.
+//   string token = 3; // The token that can be used for authenticated requests.
+// }
+
+// // ValidateTokenRequest is the request for the ValidateToken method.
+// message ValidateTokenRequest {
+//   string token = 1;
+// }
+
+// // ValidateTokenResponse is the response for the ValidateToken method.
+// message ValidateTokenResponse {
+//   bool valid = 1;
+//   string message = 2; // Message could contain error messages or confirmation.
+//   // Additional fields can be added to provide more context about the token, such as user information.
+// }
