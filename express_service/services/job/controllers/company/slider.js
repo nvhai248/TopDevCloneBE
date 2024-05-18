@@ -1,6 +1,5 @@
 const { DBTypeCompany } = require('../../utils/const');
-const FormatCompany = require('../../utils/format-result');
-const { unmaskId, maskId } = require('../../utils/mask');
+const { maskId } = require('../../utils/mask');
 const { repository } = require('./instance');
 
 const ListCompanySlider = async () => {
@@ -11,8 +10,6 @@ const ListCompanySlider = async () => {
       ...company,
       id: maskId(company.id, DBTypeCompany),
     }));
-
-    // companies.map((company) => FormatCompany(company));
 
     return companies;
   } catch (error) {

@@ -3,6 +3,7 @@ const { FormatJob } = require('../../utils/format-result');
 const { unmaskId, maskId } = require('../../utils/mask');
 const { repository, jobRepository } = require('./instance');
 
+
 const ListJobsByCompanyId = async (companyId, conditions, limit, page) => {
   try {
     limit = limit || null;

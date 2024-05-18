@@ -1,4 +1,4 @@
-version: "3.7"
+version: '3.7'
 
 services:
   elasticsearch:
@@ -8,8 +8,8 @@ services:
       - discovery.type=single-node
       - ELASTIC_PASSWORD=aA@12345678
     ports:
-      - "9200:9200"
-      - "9300:9300"
+      - '9200:9200'
+      - '9300:9300'
     networks:
       - elastic
 
@@ -23,7 +23,7 @@ services:
     depends_on:
       - elasticsearch
     ports:
-      - "5601:5601"
+      - '5601:5601'
     networks:
       - elastic
 
@@ -34,8 +34,8 @@ services:
       - RABBITMQ_DEFAULT_USER=guest
       - RABBITMQ_DEFAULT_PASS=guest
     ports:
-      - "5672:5672"
-      - "15672:15672"
+      - '5672:5672'
+      - '15672:15672'
 
   gateway:
     build:
@@ -43,7 +43,7 @@ services:
       context: ./gateway
     container_name: gateway
     ports:
-      - "5000:5000"
+      - '5000:5000'
     restart: always
     environment:
       - BASE_URL_USER_SERVICE=http://user:5001
@@ -66,7 +66,7 @@ services:
       - PROTO_PATH=../proto/job-service.proto
       - GRPC_JOB_SERVER=job:8002
     ports:
-      - "5003:5003"
+      - '5003:5003'
     restart: always
     volumes:
       - .:/app
@@ -80,7 +80,7 @@ services:
       context: ./services/user
     container_name: user
     ports:
-      - "5001:5001"
+      - '5001:5001'
     restart: always
     environment:
       - PORT=5001
@@ -104,10 +104,6 @@ services:
     container_name: job
     environment:
       - PORT=5002
-      - DB_PG_HOST=ep-old-cherry-a1vxzzc9.ap-southeast-1.aws.neon.tech
-      - DB_PG_DBNAME=jobservice
-      - DB_PG_USERNAME=jobservice_owner
-      - DB_PG_PASSWORD=nvrek9T0KdAS
       - DB_PG_URI=postgresql://jobservice_owner:nvrek9T0KdAS@ep-old-cherry-a1vxzzc9.ap-southeast-1.aws.neon.tech/jobservice?sslmode=require
       - PROTO_PATH=../proto/job-service.proto
       - GRPC_JOB_SERVER=job:8002
@@ -115,7 +111,7 @@ services:
       - ES_USERNAME=elastic
       - ES_PW=aA@12345678
     ports:
-      - "5002:5002"
+      - '5002:5002'
     restart: always
     volumes:
       - .:/app
@@ -128,3 +124,6 @@ networks:
     driver: bridge
   topdev:
     driver: bridge
+
+volumes:
+  job_data:
