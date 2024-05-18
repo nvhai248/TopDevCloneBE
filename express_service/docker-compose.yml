@@ -113,8 +113,6 @@ services:
     ports:
       - '5002:5002'
     restart: always
-    depends_on:
-      - job-db
     volumes:
       - .:/app
       - /app/services/job/node_modules
