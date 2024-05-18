@@ -6,6 +6,7 @@ const UpdateJobInfo = async (jobId, data, transaction = null) => {
   let job;
 
   try {
+    if(!jobId)return false;
     // Find the job by ID within the transaction if provided
     job = await Job.findOne({ where: { id: jobId }, transaction });
 

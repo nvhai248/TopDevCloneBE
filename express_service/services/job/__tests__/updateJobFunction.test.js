@@ -24,7 +24,14 @@ describe('Start unit test for update job function', () => {
       expect(result).toEqual(true);
     });
 
-    // is OK
+    test('Id is undefine, Should return false', async () => {
+      const jobId = undefined;
+      const job = jobs[0];
+
+      const result = await jobRepository.updateJobById(jobId, job);
+      expect(result).toEqual(false);
+    });
+
     // Id job is undefined => should return 403
     // Id job is null => should return 403
     // Id Job is not found => expect return 404
