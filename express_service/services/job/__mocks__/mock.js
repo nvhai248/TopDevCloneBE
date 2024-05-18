@@ -1,6 +1,6 @@
-export const jobs = [
+const jobs = [
   {
-    title: 'Director of Product Management',
+    title: 'Test update by jest',
     level: ['INTERN', 'JUNIOR', 'SENIOR'],
     minSalary: 12000,
     maxSalary: 15000,
@@ -30,3 +30,5 @@ export const jobs = [
     skillRequirements: 'Hihi haha',
   },
 ];
+
+module.exports = { jobs };

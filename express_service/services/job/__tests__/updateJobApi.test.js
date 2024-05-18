@@ -1,33 +1,33 @@
-const SimpleParser = require('./simpleParser');
-import createServer from '../express-app';
+const createServer = require('../express-app');
+const sequelize = require('../database/pg');
+const supertest = require('supertest');
+const { jobs } = require('../__mocks__/mock');
 
-const app = createServer();
-describe('Start unit test for update job Api', () => {
-  // Run one-time
+describe('Start unit test for update job API', () => {
+  let app;
+  let server;
 
   beforeAll(async () => {
-    // connect to db
-    //
+    await sequelize.authenticate();
+    app = await createServer();
+    server = app.listen(5002); // Ensure the server is listening on a port
   });
 
   afterAll(async () => {
-    // close connection
+    await sequelize.close();
+    server.close(); // Close the server after tests
   });
 
-  // is OK
-  // Id job is undefined => should return 403
-  // Id job is null => should return 403
-  // Id Job is not found => expect return 404
-  // title is null
-  // title is undefined => should return 404
-  // level is null => should return 404
-  // level is undefined => should return 404
-  // salaryType is null => should return 404
-  // salaryType is undefined => should return 404
-  // startDate is null => should return 404
-  // startDate is undefined => should return 404
-  // endDate is null => should return 404
-  // endDate is undefined => should return 404
-  // status is null => should return 404
-  // status is undefined => should return 404
+  test('data is OK, Should return status 200', async () => {
+    const jobId = '77rJraD'; // assuming jobId should be an integer
+    const job = jobs[0];
+
+    const response = await supertest(app).patch(`/${jobId}`).send(job).expect(200);
+
+    expect(response.body).toEqual({
+      statusCode: 200,
+      data: true,
+      message: 'OK',
+    });
+  });
 });
