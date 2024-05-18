@@ -9,7 +9,7 @@ describe('Start unit test for update job API', () => {
 
   beforeAll(async () => {
     await sequelize.authenticate();
-    app = await createServer();
+    app = await createServer();  
     server = app.listen(5002); // Ensure the server is listening on a port
   });
 
@@ -19,7 +19,7 @@ describe('Start unit test for update job API', () => {
   });
 
   test('data is OK, Should return status 200', async () => {
-    const jobId = '77rJraD'; // assuming jobId should be an integer
+    const jobId = '77rJraD';
     const job = jobs[0];
 
     const response = await supertest(app).patch(`/${jobId}`).send(job).expect(200);
