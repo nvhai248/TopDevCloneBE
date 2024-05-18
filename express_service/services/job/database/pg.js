@@ -2,7 +2,7 @@ const { Sequelize } = require('sequelize');
 const { DB_PG_URI } = require('../configs');
 
 const sequelize = new Sequelize(DB_PG_URI, {
-  // ssl: true,
+  ssl: true,
   dialect: 'postgres',
   logging: false,
 });

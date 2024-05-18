@@ -97,21 +97,6 @@ services:
     networks:
       - topdev
 
-  job-db:
-    image: postgres:13
-    container_name: job-db
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: jobservice
-    ports:
-      - 5433:5432
-    restart: on-failure
-    volumes:
-      - job_data:/var/lib/postgresql/data
-    networks:
-      - topdev
-
   job:
     build:
       dockerfile: Dockerfile
@@ -119,12 +104,7 @@ services:
     container_name: job
     environment:
       - PORT=5002
-      - DB_PG_HOST=ep-old-cherry-a1vxzzc9.ap-southeast-1.aws.neon.tech
-      - DB_PG_DBNAME=jobservice
-      - DB_PG_USERNAME=jobservice_owner
-      - DB_PG_PASSWORD=nvrek9T0KdAS
-      # - DB_PG_URI=postgresql://jobservice_owner:nvrek9T0KdAS@ep-old-cherry-a1vxzzc9.ap-southeast-1.aws.neon.tech/jobservice?sslmode=require
-      - DB_PG_URI=postgresql://postgres:postgres@job-db:5432/jobservice
+      - DB_PG_URI=postgresql://jobservice_owner:nvrek9T0KdAS@ep-old-cherry-a1vxzzc9.ap-southeast-1.aws.neon.tech/jobservice?sslmode=require
       - PROTO_PATH=../proto/job-service.proto
       - GRPC_JOB_SERVER=job:8002
       - ES_HOST=http://elasticsearch:9200
