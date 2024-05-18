@@ -15,11 +15,6 @@ const UpdateJob = async (jobId, data) => {
 
     let result = await repository.updateJobById(jobId, data);
 
-    result.id = maskId(job.id, DBTypeJob);
-    result.companyId = maskId(job.companyId, DBTypeCompany);
-    result.createdBy = maskId(job.createdBy, DBTypeUser);
-
-    result = FormatJob(result);
     return result;
   } catch (error) {
     throw error;
