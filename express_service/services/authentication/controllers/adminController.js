@@ -1,13 +1,21 @@
-const { KC_CLIENT_ID, KC_CLIENT_SECRET, KC_REALM, KC_SERVER_URL } = require('../configuration/keycloak.js');
+const {
+  KC_CLIENT_ID,
+  KC_CLIENT_SECRET,
+  KC_REALM,
+  KC_SERVER_URL,
+  KC_ADMIN_ROLE,
+  KC_ADMIN_ROLE_ID, // for registering admin (but not needed in this case)
+} = require('../configuration/keycloak.js');
 const { STATUS_CODES } = require('../utils/app-errors');
 const { SetResponse } = require('../utils/success-response');
 const { ErrorResponse } = require('../utils/error-handler');
 const getCredentials = require('../utils/get-credentials');
+const getRole = require('../utils/get-role');
+const getUser = require('../utils/get-user');
 
 const adminController = {
   auth: (req, res, next) => {
-    // return next();
-    return SetResponse(res, STATUS_CODES.OK, 'Admin authenticated', 'OK', null);
+    res.status(200).send('Admin authorized');
   },
   login: async (req, res, next) => {
     const { username, password } = req.body;
@@ -36,8 +44,35 @@ const adminController = {
         throw new Error(errorMessage || 'Failed to authenticate');
       }
 
+      // Get credentials
+      const credentials = await getCredentials();
+
+      if (!credentials) {
+        return ErrorResponse(new Error('Error getting credentials'), res);
+      }
+
+      // Check role
       const { access_token, refresh_token, expires_in, refresh_expires_in } = await response.json();
+      const roles = await getRole(username, credentials);
+
+      if (!roles || !roles.includes(KC_ADMIN_ROLE)) {
+        throw new Error('Unauthorized');
+      }
+
+      // Get user info
+      const user = await getUser(username, credentials);
+
+      if (!user) {
+        throw new Error('Failed to get user info');
+      }
+
+      const { firstName, lastName, email } = user;
+
       const responseData = {
+        username,
+        firstName,
+        lastName,
+        email,
         access_token,
         refresh_token,
         expires_in,

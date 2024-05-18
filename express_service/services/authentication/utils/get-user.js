@@ -17,7 +17,7 @@ async function getUser(username, credentials = null) {
       Authorization: `Bearer ${credentials.access_token}`,
     };
 
-    const url = `${KC_SERVER_URL}/admin/realms/${KC_REALM}/users?username=${username}`;
+    const url = `${KC_SERVER_URL}/admin/realms/${KC_REALM}/users?username=${username}&exact=true`;
 
     const response = await fetch(url, {
       method: 'GET',
