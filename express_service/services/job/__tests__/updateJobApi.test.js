@@ -1,4 +1,4 @@
-const createServer = require('../express-app');
+const createServer = require('../utils/server-test');
 const sequelize = require('../database/pg');
 const supertest = require('supertest');
 const { jobs } = require('../__mocks__/mock');

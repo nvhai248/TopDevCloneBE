@@ -112,6 +112,14 @@ const Job = sequelize.define(
       allowNull: true,
       defaultValue: 0,
     },
+    address: {
+      type: DataTypes.TEXT,
+      allowNull: true,
+    },
+    district: {
+      type: DataTypes.TEXT,
+      allowNull: true,
+    },
     reason: {
       type: DataTypes.STRING,
       allowNull: true,
