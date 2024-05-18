@@ -105,6 +105,10 @@ const Company = sequelize.define(
       allowNull: false,
       defaultValue: DataTypes.NOW,
     },
+    applicationCount: {
+      type: DataTypes.INTEGER,
+      defaultValue: 0,
+    },
   },
   { sequelize },
 );

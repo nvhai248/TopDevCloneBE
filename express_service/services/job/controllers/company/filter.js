@@ -17,7 +17,7 @@ const FilterCompanyByConditions = async (conditions, limit, page) => {
 
     const total = await repository.countCompanyByConditions(searchConditions);
 
-    let companies = await repository.filterCompanyByConditions(searchConditions, limit, offset);
+    let companies = await repository.filterCompanyByConditions(searchConditions, limit, offset, conditions.ordering);
 
     return {
       data: companies.map((company) => {

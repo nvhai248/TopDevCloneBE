@@ -13,7 +13,6 @@ const ListJobByConditions = async (conditions, ordering, limit, page, cursor) =>
     conditions.contractTypes = conditions.contractTypes !== '' ? conditions.contractTypes.split('-') : [];
     conditions.levels = conditions.levels !== '' ? conditions.levels.split('-') : [];
     conditions.jobTypes = conditions.jobTypes !== '' ? conditions.jobTypes.split('-') : [];
-    conditions.status = conditions.status !== '' ? conditions.status : JOB_STATUS.PUBLIC;
 
     // generate search conditions query from conditions
     const searchConditions = repository.getSearchCondition(conditions);
