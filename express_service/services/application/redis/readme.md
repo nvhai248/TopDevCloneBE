@@ -1,8 +1,8 @@
-### Development
+### Development: Run commands below
 
 - Build redis with name **my-redis**: `$ docker build -t my-redis .`
-
 - Run built redis as name **redis-server** : `$ docker run -d --name redis-server -p 6379:6379 my-redis`
+- `$ npm start` (dont forget to created a .env file from .env.txt)
 
 ### Redis cli usages
 
