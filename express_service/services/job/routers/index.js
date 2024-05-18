@@ -1,11 +1,7 @@
-const companyRouter = require("./company");
-const jobRouter = require("./job");
+const companyRouter = require('./company');
+const jobRouter = require('./job');
 
 module.exports = (app) => {
-  app.use("/", (req, res, next) => {
-    console.log(`Request to ${req.method} ${req.originalUrl}`);
-    next();
-  });
-  app.use("/", jobRouter);
-  app.use("/companies", companyRouter);
+  app.use('/', jobRouter);
+  app.use('/companies', companyRouter);
 };

@@ -3,6 +3,7 @@ const FormatJob = (job) => {
     const formattedJob = { ...job }; // Create a copy of the job object
 
     formattedJob.technicals = job && job.technicals ? job.technicals.split('|') : [];
+    formattedJob.level = job && job.level ? job.level.split('|') : [];
 
     return formattedJob; // Return the formatted job
   } catch (error) {

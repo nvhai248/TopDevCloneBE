@@ -1,9 +1,9 @@
-const { DBTypeJob, DBTypeCompany } = require('../../utils/const');
+const { DBTypeCompany } = require('../../utils/const');
 const { FormatCompany } = require('../../utils/format-result');
 const { unmaskId, maskId } = require('../../utils/mask');
 const { repository } = require('./instance');
 
-const FilterCompanyByConditions = async (conditions, ordering, limit, page, cursor) => {
+const FilterCompanyByConditions = async (conditions, limit, page) => {
   try {
     limit = limit || null;
     page = page || null;
@@ -17,11 +17,11 @@ const FilterCompanyByConditions = async (conditions, ordering, limit, page, curs
 
     const total = await repository.countCompanyByConditions(searchConditions);
 
-    let companies = await repository.filterCompanyByConditions(searchConditions, limit, offset);
+    let companies = await repository.filterCompanyByConditions(searchConditions, limit, offset, conditions.ordering);
 
     return {
       data: companies.map((company) => {
-        company.id = maskId(company.id, DBTypeJob);
+        company.id = maskId(company.id, DBTypeCompany);
         return FormatCompany(company);
       }),
       paging: {
