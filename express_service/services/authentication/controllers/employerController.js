@@ -16,8 +16,7 @@ const getUser = require('../utils/get-user');
 
 const employerController = {
   auth: (req, res, next) => {
-    // return next();
-    res.status(200).send('Employer authorized');
+    return SetResponse(res, STATUS_CODES.OK, 'Employer authenticated', 'OK', null);
   },
 
   login: async (req, res, next) => {
