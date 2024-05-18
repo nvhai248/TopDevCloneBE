@@ -13,7 +13,7 @@ const UpdateJobInfo = async (jobId, data, transaction = null) => {
     await job.update(data, { transaction });
 
     // Return updated job data
-    return job.dataValues;
+    return job.dataValues ? true : false;
   } catch (error) {
     // If an error occurs, throw a DBError
     throw new DBError(error.message, 'Something went wrong with job DB');

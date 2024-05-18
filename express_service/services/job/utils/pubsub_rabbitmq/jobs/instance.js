@@ -1,3 +1,4 @@
-const elasticClient = require('../../../database/elasticsearch');
+/* const elasticClient = require('../../../database/elasticsearch');
 
 module.exports = { elasticClient };
+ */

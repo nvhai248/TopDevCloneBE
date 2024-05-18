@@ -105,6 +105,28 @@ const Company = sequelize.define(
       allowNull: false,
       defaultValue: DataTypes.NOW,
     },
+    followedCount: {
+      type: DataTypes.SMALLINT,
+      allowNull: false,
+      defaultValue: 0,
+    },
+    cover: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    images: {
+      type: DataTypes.JSON,
+      allowNull: true,
+    },
+    slogan: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    applicationCount: {
+      type: DataTypes.NUMBER,
+      defaultValue: 0,
+    },
+
   },
   { sequelize },
 );
