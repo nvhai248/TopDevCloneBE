@@ -1,4 +1,7 @@
 const { CompanyRepository } = require('../../repositories');
 const repository = new CompanyRepository();
 
-module.exports = { repository };
+const { JobRepository } = require('../../repositories');
+const jobRepository = new JobRepository();
+
+module.exports = { repository, jobRepository };

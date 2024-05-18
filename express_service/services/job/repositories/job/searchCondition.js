@@ -1,4 +1,5 @@
 const { Op } = require('sequelize');
+const { JOB_STATUS } = require('../../utils/const');
 
 const GetSearchConditions = (conditions) => {
   let searchConditions = {};
@@ -52,12 +53,39 @@ const GetSearchConditions = (conditions) => {
   if (jobTypeQueries.length) {
     searchConditions[Op.and].push({ [Op.or]: jobTypeQueries });
   }
-
   // Status query
   if (conditions.status) {
-    searchConditions.status = {
-      [Op.in]: [conditions.status],
-    };
+    if (conditions.status === JOB_STATUS.PUBLIC) {
+      searchConditions[Op.and].push({
+        [Op.or]: [
+          {
+            status: {
+              [Op.in]: [JOB_STATUS.PUBLIC],
+            },
+          },
+          {
+            status: {
+              [Op.in]: [JOB_STATUS.APPROVED],
+            },
+          },
+        ],
+      });
+    } else if (conditions.status === JOB_STATUS.EXPIRED) {
+      searchConditions[Op.and].push({
+        status: {
+          [Op.notIn]: [JOB_STATUS.DELETED],
+        },
+        endDate: {
+          [Op.lt]: new Date(), // endDate is smaller than now
+        },
+      });
+    } else {
+      searchConditions[Op.and].push({
+        status: {
+          [Op.in]: [conditions.status],
+        },
+      });
+    }
   }
 
   // Working place query

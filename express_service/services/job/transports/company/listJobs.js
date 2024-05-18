@@ -1,20 +1,26 @@
-const { STATUS_CODES } = require("../../utils/app-errors");
-const { ErrorResponse } = require("../../utils/error-handler");
-const { SetResponse } = require("../../utils/success-response");
-const { controller } = require("./instance");
+const { STATUS_CODES } = require('../../utils/app-errors');
+const { ErrorResponse } = require('../../utils/error-handler');
+const { SetResponse } = require('../../utils/success-response');
+const { controller } = require('./instance');
 
 const ListJobsByCompanyId = async (req, res, next) => {
-    try {
-        const id = req.params.id;
+  try {
+    const id = req.params.id;
 
-        const jobs = await controller.listJobsByCompanyId(id);
+    const { status, keywords, page, limit } = req.query;
 
-        // const jobsArray = Array.isArray(jobs) ? jobs : [jobs];
+    const conditions = {
+      keywords: keywords || '',
 
-        SetResponse(res, STATUS_CODES.OK, jobs, "OK", null);
-    } catch (error) {
-        ErrorResponse(error, res);
-    }
+      status: status,
+    };
+
+    const jobs = await controller.listJobsByCompanyId(id, conditions, parseInt(limit), parseInt(page));
+
+    SetResponse(res, STATUS_CODES.OK, jobs, 'OK', null);
+  } catch (error) {
+    ErrorResponse(error, res);
+  }
 };
 
 module.exports = ListJobsByCompanyId;
