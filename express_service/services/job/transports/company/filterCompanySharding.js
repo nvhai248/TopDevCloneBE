@@ -6,7 +6,6 @@ const { controller } = require('./instance');
 const FilterCompanyWithSharding = async (req, res, next) => {
   try {
     const name = req.body.name;
-    console.log('name of company from transport', name);
     const company = await controller.filterCompanyWithSharding(name);
     SetResponse(res, STATUS_CODES.OK, company, 'OK', null);
   } catch (error) {

@@ -8,9 +8,6 @@ const DB_MYSQL_HOST = process.env.DB_MYSQL_HOST;
 const GRPC_JOB_SERVER = process.env.GRPC_JOB_SERVER;
 
 const DB_PG_URI = process.env.DB_PG_URI;
-const DB_URI_1 = process.env.DB_URI_1;
-const DB_URI_2 = process.env.DB_URI_2;
-const DB_URI_3 = process.env.DB_URI_3;
 const RABBITMQ_CONNECTION_STRING = process.env.RABBITMQ_CONNECTION_STRING;
 
 module.exports = {
@@ -22,7 +19,4 @@ module.exports = {
   RABBITMQ_CONNECTION_STRING,
   DB_PG_URI,
   GRPC_JOB_SERVER,
-  DB_URI_1,
-  DB_URI_2,
-  DB_URI_3,
 };

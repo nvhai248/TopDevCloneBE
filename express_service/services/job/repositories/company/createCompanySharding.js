@@ -1,17 +1,15 @@
+const Company = require('../../models/company.mongo');
 const { DBError } = require('../../utils/app-errors');
-const { getShard } = require('../../utils/getShard');
 
 // Implement create job information here and export
 const CreateCompanyWithSharding = async (data) => {
   try {
-    // handle create company with sharding data
-    const Company = getShard(data.name);
-
-    // Create a new company with the provided data
-    const newCompany = await Company.create(data);
+    // Create a new company document
+    const company = new Company(data);
+    const savedCompany = await company.save();
 
     // Return the newly created company data
-    return newCompany.dataValues;
+    return savedCompany;
   } catch (error) {
     // If an error occurs, throw a DBError
     throw new DBError(error.message, 'Something went wrong with company creation');
