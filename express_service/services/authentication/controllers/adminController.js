@@ -15,7 +15,8 @@ const getUser = require('../utils/get-user');
 
 const adminController = {
   auth: (req, res, next) => {
-    return SetResponse(res, STATUS_CODES.OK, 'Admin authenticated', 'OK', null);
+    // return SetResponse(res, STATUS_CODES.OK, 'Admin authenticated', 'OK', null);
+    res.status(200).send('Admin authorized');
   },
   login: async (req, res, next) => {
     const { username, password } = req.body;

@@ -4,7 +4,7 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 const router = require('./routes/index.js');
 const keycloak = require('./services/keycloak.js');
-// const startGrpcServer = require('./grpc/server.js'); // for grpc
+const startGrpcServer = require('./grpc/server.js'); // for grpc
 
 const { PORT } = require('./configuration/app.js');
 
@@ -29,4 +29,4 @@ app.listen(PORT, () => {
   console.log(`Auth service is running on port ${PORT}`);
 });
 
-// startGrpcServer(); // for grpc
+startGrpcServer(); // for grpc

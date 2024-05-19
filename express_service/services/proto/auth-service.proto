@@ -4,6 +4,7 @@ syntax = "proto3";
 
 message AuthRequest {
     string token = 1;
+    string role = 2;
 }
 
 message AuthResponse {

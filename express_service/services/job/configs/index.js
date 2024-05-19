@@ -11,6 +11,7 @@ const DB_PG_URI = process.env.DB_PG_URI;
 const RABBITMQ_CONNECTION_STRING = process.env.RABBITMQ_CONNECTION_STRING;
 
 const AUTH_HOST = process.env.AUTH_HOST;
+const GRPC_AUTH_SERVER = process.env.GRPC_AUTH_SERVER;
 
 module.exports = {
   PORT,
@@ -22,4 +23,5 @@ module.exports = {
   DB_PG_URI,
   GRPC_JOB_SERVER,
   AUTH_HOST,
+  GRPC_AUTH_SERVER,
 };

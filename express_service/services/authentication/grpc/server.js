@@ -6,9 +6,9 @@ const packageDefinition = protoLoader.loadSync(path.join(__dirname, '../../proto
 const proto = grpc.loadPackageDefinition(packageDefinition);
 // const keycloak = require('../services/keycloak.js');
 
-const verifyToken = async (token) => {
+const verifyToken = async (token, role) => {
   try {
-    const response = await fetch(`http://localhost:${PORT}/admin`, {
+    const response = await fetch(`http://localhost:${PORT}/${role}`, {
       method: 'GET',
       headers: {
         Authorization: `Bearer ${token}`,
@@ -24,14 +24,20 @@ const verifyToken = async (token) => {
 
 const isValid = async (call, callback) => {
   const token = call.request.token;
+  const role = call.request.role;
 
   if (!token) {
     console.error('Token is missing in request');
     return callback(null, { valid: false });
   }
 
+  if (!role) {
+    console.error('Role is missing in request');
+    return callback(null, { valid: false });
+  }
+
   try {
-    const isValid = await verifyToken(token);
+    const isValid = await verifyToken(token, role);
     return callback(null, { valid: isValid });
   } catch (error) {
     console.error('Error in isValid function:', error);

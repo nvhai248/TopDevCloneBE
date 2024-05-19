@@ -24,13 +24,11 @@
 
 (See job service for an example)
 
-1. Add AUTH_HOST to .env
-2. At auth utils (see example at .job/utils/auth.js)
-3. Use it (see example at ./job/transports/job/listAll.js)
+Role: admin, employer, user
 
-- Function: checkAuth
-- Input: token, role
-- Output: true/false
+1. Add AUTH_HOST, GRPC_AUTH_SERVER to .env
+2. Add middleware example at .\services\job\middlewares\auth.js
+3. See example at .\services\job\routers\job.js at function get all jobs for admin role
 
 ### Test API (in Postman)
 
