@@ -32,20 +32,25 @@ describe('Start unit test for update job function', () => {
       expect(result).toEqual(false);
     });
 
-    // Id job is undefined => should return 403
+    test('Title is undefine, Should return false', async () => {
+      const jobId = 6;
+      const job = jobs[1];
+
+      const result = await jobRepository.updateJobById(jobId, job);
+      expect(result).toEqual(false);
+    });
+
+    // Hai
     // Id job is null => should return 403
     // Id Job is not found => expect return 404
+
+    // Duy Tran
     // title is null
-    // title is undefined => should return 404
     // level is null => should return 404
-    // level is undefined => should return 404
     // salaryType is null => should return 404
-    // salaryType is undefined => should return 404
+
+    // Huy Truong
     // startDate is null => should return 404
-    // startDate is undefined => should return 404
     // endDate is null => should return 404
-    // endDate is undefined => should return 404
-    // status is null => should return 404
-    // status is undefined => should return 404
   });
 });

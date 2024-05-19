@@ -30,4 +30,17 @@ describe('Start unit test for update job API', () => {
       message: 'OK',
     });
   });
+
+  // Hai
+  // Id job is null => should return 403
+  // Id Job is not found => expect return 404
+
+  // Duy Tran
+  // title is null
+  // level is null => should return 404
+  // salaryType is null => should return 404
+
+  // Huy Truong
+  // startDate is null => should return 404
+  // endDate is null => should return 404
 });

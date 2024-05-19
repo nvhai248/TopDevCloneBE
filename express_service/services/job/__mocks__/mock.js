@@ -29,6 +29,9 @@ const jobs = [
       '<ul><li>Competitive salary with performance-based bonuses</li><li>Remote work flexibility with a focus on work-life balance</li><li>Healthcare benefits and retirement plans</li><li>Opportunity for professional growth and development</li></ul>',
     skillRequirements: 'Hihi haha',
   },
+  {
+    title: undefined,
+  },
 ];
 
 module.exports = { jobs };
