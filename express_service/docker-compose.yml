@@ -97,48 +97,6 @@ services:
     networks:
       - topdev
 
-  job-db1:
-    image: postgres:13
-    container_name: job-db1
-    environment:
-      POSTGRES_DB: jobservice
-      POSTGRES_USER: topdev
-      POSTGRES_PASSWORD: job
-    ports:
-      - '5551:5432'
-    volumes:
-      - job-db1_data:/var/lib/postgresql/data
-    networks:
-      - topdev
-
-  job-db2:
-    image: postgres:13
-    container_name: job-db2
-    environment:
-      POSTGRES_DB: jobservice
-      POSTGRES_USER: topdev
-      POSTGRES_PASSWORD: job
-    ports:
-      - '5552:5432'
-    volumes:
-      - job-db2_data:/var/lib/postgresql/data
-    networks:
-      - topdev
-
-  job-db3:
-    image: postgres:13
-    container_name: job-db3
-    environment:
-      POSTGRES_DB: jobservice
-      POSTGRES_USER: topdev
-      POSTGRES_PASSWORD: job
-    ports:
-      - '5553:5432'
-    volumes:
-      - job-db3_data:/var/lib/postgresql/data
-    networks:
-      - topdev
-
   job:
     build:
       dockerfile: Dockerfile
@@ -158,10 +116,6 @@ services:
     ports:
       - '5002:5002'
     restart: always
-    depends_on:
-      - job-db1
-      - job-db2
-      - job-db3
     volumes:
       - .:/app
       - /app/services/job/node_modules
@@ -173,8 +127,3 @@ networks:
     driver: bridge
   topdev:
     driver: bridge
-
-volumes:
-  job-db1_data:
-  job-db2_data:
-  job-db3_data:
