@@ -125,3 +125,6 @@ networks:
     driver: bridge
   topdev:
     driver: bridge
+
+volumes:
+  job_data:

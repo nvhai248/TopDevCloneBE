@@ -1,7 +1,7 @@
-const companyRouter = require("./company");
-const jobRouter = require("./job");
+const companyRouter = require('./company');
+const jobRouter = require('./job');
 
 module.exports = (app) => {
-  app.use("/", jobRouter);
-  app.use("/companies", companyRouter);
+  app.use('/', jobRouter);
+  app.use('/companies', companyRouter);
 };

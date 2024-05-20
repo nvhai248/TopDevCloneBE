@@ -11,50 +11,89 @@ const Company = sequelize.define(
       primaryKey: true,
       autoIncrement: true,
     },
+    logo: {
+      type: DataTypes.STRING,
+      allowNull: true,
+      default: null,
+    },
     name: {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    address: {
+    tagline: {
       type: DataTypes.STRING,
       allowNull: true,
+      default: null,
     },
-    url: {
-      type: DataTypes.STRING,
+    nationality: {
+      type: DataTypes.JSON,
       allowNull: true,
+      default: null,
     },
     companySize: {
       type: DataTypes.STRING,
       allowNull: true,
+      default: null,
     },
-    skills: {
+    industry: {
       type: DataTypes.JSON,
       allowNull: true,
+      default: null,
     },
-    nations: {
+    techStack: {
       type: DataTypes.JSON,
       allowNull: true,
+      default: null,
+    },
+    website: {
+      type: DataTypes.STRING,
+      allowNull: true,
+      default: null,
+    },
+    socialMedia: {
+      type: DataTypes.JSON,
+      allowNull: true,
+      defaultValue: null,
+    },
+    addresses: {
+      type: DataTypes.JSON,
+      allowNull: true,
+      defaultValue: null,
     },
     benefits: {
       type: DataTypes.JSON,
       allowNull: true,
+      default: null,
     },
-    fields: {
+    coverPhoto: {
+      type: DataTypes.STRING,
+      allowNull: true,
+      default: null,
+    },
+    galleries: {
       type: DataTypes.JSON,
       allowNull: true,
+      default: null,
     },
-    about: {
-      type: DataTypes.TEXT,
+    topConcerns: {
+      type: DataTypes.JSON,
       allowNull: true,
+      default: null,
+    },
+    products: {
+      type: DataTypes.JSON,
+      allowNull: true,
+      default: null,
     },
     status: {
       type: DataTypes.INTEGER,
       allowNull: false,
       defaultValue: 0,
     },
-    image: {
-      type: DataTypes.STRING,
-      allowNull: true,
+    followedCount: {
+      type: DataTypes.SMALLINT,
+      allowNull: false,
+      defaultValue: 0,
     },
     createdAt: {
       type: DataTypes.DATE,
@@ -66,22 +105,9 @@ const Company = sequelize.define(
       allowNull: false,
       defaultValue: DataTypes.NOW,
     },
-    followedCount: {
-      type: DataTypes.SMALLINT,
-      allowNull: false,
+    applicationCount: {
+      type: DataTypes.INTEGER,
       defaultValue: 0,
-    },
-    cover: {
-      type: DataTypes.STRING,
-      allowNull: true,
-    },
-    images: {
-      type: DataTypes.JSON,
-      allowNull: true,
-    },
-    slogan: {
-      type: DataTypes.STRING,
-      allowNull: true,
     },
   },
   { sequelize },

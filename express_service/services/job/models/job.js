@@ -27,11 +27,10 @@ const Job = sequelize.define(
     level: {
       type: DataTypes.STRING,
       allowNull: false,
+      set(value) {
+        this.setDataValue('level', value.join('|'));
+      },
     },
-    // salary: {
-    //   type: DataTypes.INTEGER,
-    //   allowNull: true,
-    // },
     salaryType: {
       type: DataTypes.STRING,
       allowNull: false,
@@ -51,21 +50,17 @@ const Job = sequelize.define(
         this.setDataValue('technicals', value.join('|'));
       },
     },
-    // minExperience: {
-    //   type: DataTypes.INTEGER,
-    //   allowNull: true,
-    // },
-    // maxExperience: {
-    //   type: DataTypes.INTEGER,
-    //   allowNull: true,
-    // },
     experience: {
       type: DataTypes.STRING,
       allowNull: true,
     },
     endDate: {
       type: DataTypes.STRING, // YYYY-MM-DD
-      allowNull: false,
+      allowNull: true,
+    },
+    startDate: {
+      type: DataTypes.STRING, // YYYY-MM-DD
+      allowNull: true,
     },
     jobType: {
       type: DataTypes.STRING,
@@ -75,10 +70,14 @@ const Job = sequelize.define(
       type: DataTypes.STRING,
       allowNull: true,
     },
-    // workingPlace: {
-    //   type: DataTypes.STRING,
-    //   allowNull: true,
-    // },
+    benefit: {
+      type: DataTypes.TEXT,
+      allowNull: true,
+    },
+    skillRequirements: {
+      type: DataTypes.TEXT,
+      allowNull: true,
+    },
     interviewProcess: {
       type: DataTypes.TEXT,
       allowNull: true,
@@ -104,6 +103,14 @@ const Job = sequelize.define(
       type: DataTypes.INTEGER,
       allowNull: true,
       defaultValue: 0,
+    },
+    address: {
+      type: DataTypes.TEXT,
+      allowNull: true,
+    },
+    district: {
+      type: DataTypes.TEXT,
+      allowNull: true,
     },
     reason: {
       type: DataTypes.STRING,
