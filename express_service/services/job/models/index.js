@@ -9,4 +9,4 @@ async function syncModals() {
   await Job.sync({ alter: true }); */
 }
 
-module.exports = syncModals;
+module.exports = { syncModals };

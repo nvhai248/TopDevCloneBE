@@ -49,6 +49,7 @@ services:
       - BASE_URL_USER_SERVICE=http://user:5001
       - BASE_URL_JOB_SERVICE=http://job:5002
       - BASE_URL_APPLICATION_SERVICE=http://application:5003
+      - BASE_URL_AUTHENTICATION_SERVICE=http://localhost:5004
     volumes:
       - .:/app
       - /app/gateway/node_modules
@@ -105,6 +106,7 @@ services:
     environment:
       - PORT=5002
       - DB_PG_URI=postgresql://jobservice_owner:nvrek9T0KdAS@ep-old-cherry-a1vxzzc9.ap-southeast-1.aws.neon.tech/jobservice?sslmode=require
+      - DB_MONGO_URI=mongodb://mongo-router:27017/jobservice
       - PROTO_PATH=../proto/job-service.proto
       - GRPC_JOB_SERVER=job:8002
       - ES_HOST=http://elasticsearch:9200
