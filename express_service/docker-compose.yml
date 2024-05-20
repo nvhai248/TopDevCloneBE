@@ -105,9 +105,7 @@ services:
     environment:
       - PORT=5002
       - DB_PG_URI=postgresql://jobservice_owner:nvrek9T0KdAS@ep-old-cherry-a1vxzzc9.ap-southeast-1.aws.neon.tech/jobservice?sslmode=require
-      - DB_URI_1=postgresql://topdev:job@job-db1:5432/jobservice?sslmode=disable
-      - DB_URI_2=postgresql://topdev:job@job-db2:5432/jobservice?mode=disable
-      - DB_URI_3=postgresql://topdev:job@job-db3:5432/jobservice?mode=disable
+      - DB_MONGO_URI=mongodb://mongo-router:27017/jobservice
       - PROTO_PATH=../proto/job-service.proto
       - GRPC_JOB_SERVER=job:8002
       - ES_HOST=http://elasticsearch:9200

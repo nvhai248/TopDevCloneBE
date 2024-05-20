@@ -1,0 +1,118 @@
+version: '3.8'
+
+services:
+  configserver1:
+    image: mongo
+    container_name: configserver1
+    command: mongod --configsvr --replSet cfgrs --port 27017 --dbpath /data/db --bind_ip 0.0.0.0
+    volumes:
+      - configserver1:/data/db
+    networks:
+      - express_service_topdev
+
+  configserver2:
+    image: mongo
+    container_name: configserver2
+    command: mongod --configsvr --replSet cfgrs --port 27017 --dbpath /data/db --bind_ip 0.0.0.0
+    volumes:
+      - configserver2:/data/db
+    networks:
+      - express_service_topdev
+
+  configserver3:
+    image: mongo
+    container_name: configserver3
+    command: mongod --configsvr --replSet cfgrs --port 27017 --dbpath /data/db --bind_ip 0.0.0.0
+    volumes:
+      - configserver3:/data/db
+    networks:
+      - express_service_topdev
+
+  shard1server1:
+    container_name: shard1server1
+    image: mongo
+    command: mongod --shardsvr --replSet shard1rs --port 27017 --dbpath /data/db --bind_ip 0.0.0.0
+    volumes:
+      - shard1server1:/data/db
+    networks:
+      - express_service_topdev
+
+  shard1server2:
+    container_name: shard1server2
+    image: mongo
+    command: mongod --shardsvr --replSet shard1rs --port 27017 --dbpath /data/db --bind_ip 0.0.0.0
+    volumes:
+      - shard1server2:/data/db
+    networks:
+      - express_service_topdev
+
+  shard1server3:
+    container_name: shard1server3
+    image: mongo
+    command: mongod --shardsvr --replSet shard1rs --port 27017 --dbpath /data/db --bind_ip 0.0.0.0
+    volumes:
+      - shard1server3:/data/db
+    networks:
+      - express_service_topdev
+
+  shard2server1:
+    container_name: shard2server1
+    image: mongo
+    command: mongod --shardsvr --replSet shard2rs --port 27017 --dbpath /data/db --bind_ip 0.0.0.0
+    volumes:
+      - shard2server1:/data/db
+    networks:
+      - express_service_topdev
+
+  shard2server2:
+    container_name: shard2server2
+    image: mongo
+    command: mongod --shardsvr --replSet shard2rs --port 27017 --dbpath /data/db --bind_ip 0.0.0.0
+    volumes:
+      - shard2server2:/data/db
+    networks:
+      - express_service_topdev
+
+  shard2server3:
+    container_name: shard2server3
+    image: mongo
+    command: mongod --shardsvr --replSet shard2rs --port 27017 --dbpath /data/db --bind_ip 0.0.0.0
+    volumes:
+      - shard2server3:/data/db
+    networks:
+      - express_service_topdev
+
+  mongo-router:
+    container_name: mongo-router
+    image: mongo
+    command: mongos --configdb cfgrs/configserver1:27017,configserver2:27017,configserver3:27017 --port 27017 --bind_ip 0.0.0.0
+    ports:
+      - 27017:27017
+    depends_on:
+      - configserver1
+      - configserver2
+      - configserver3
+      - shard1server1
+      - shard1server2
+      - shard1server3
+      - shard2server1
+      - shard2server2
+      - shard2server3
+    networks:
+      - express_service_topdev
+
+volumes:
+  configserver1:
+  configserver2:
+  configserver3:
+  shard1server1:
+  shard1server2:
+  shard1server3:
+  shard2server1:
+  shard2server2:
+  shard2server3:
+
+networks:
+  express_service_topdev:
+    external:
+      name: express_service_topdev
