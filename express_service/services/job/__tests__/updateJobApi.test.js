@@ -77,5 +77,38 @@ describe('Start unit test for update job API', () => {
 
   // Huy Truong
   // startDate is null => should return 404
+  test('startDate is null, Should return status 500', async () => {
+    const jobId = '77rJraD';
+    const job = jobs[0];
+    const mockJob = {
+      ...job,
+      startDate: null,
+    };
+
+    const response = await supertest(app).patch(`/${jobId}`).send(mockJob).expect(200);
+
+    expect(response.body).toEqual({
+      statusCode: 200,
+      data: false,
+      message: 'OK',
+    });
+  });
+
   // endDate is null => should return 404
+  test('endDate is null, Should return status 500', async () => {
+    const jobId = '77rJraD';
+    const job = jobs[0];
+    const mockJob = {
+      ...job,
+      endDate: null,
+    };
+
+    const response = await supertest(app).patch(`/${jobId}`).send(mockJob).expect(200);
+
+    expect(response.body).toEqual({
+      statusCode: 200,
+      data: false,
+      message: 'OK',
+    });
+  });
 });

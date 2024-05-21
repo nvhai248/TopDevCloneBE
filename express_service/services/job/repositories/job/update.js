@@ -15,6 +15,8 @@ const UpdateJobInfo = async (jobId, data, transaction = null) => {
     // Update job information with the provided data
     await job.update(data, { transaction });
 
+    if (job.dataValues?.startDate == null) return false;
+
     // Return updated job data
     return job.dataValues ? true : false;
   } catch (error) {
