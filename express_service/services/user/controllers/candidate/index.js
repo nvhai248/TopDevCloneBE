@@ -1,9 +1,10 @@
 const ListCandidates = require("./list");
 const CandidateInfo = require("./info");
 const UpdateInfo = require('./update');
-const ListCVs = require('./listCV');
-const MainCV = require('./mainCV');
-const UploadCV = require('./uploadCV');
+const ListCVs = require('./cv_list');
+const MainCV = require('./cv_main');
+const UploadCV = require('./cv_upload');
+const DeleteCV = require('./cv_delete');
 
 class CandidateController {
   // [GET] /admin/candidates
@@ -23,6 +24,9 @@ class CandidateController {
 
   // [POST] /upload-cv
   uploadCV = UploadCV;
+
+  // [DELETE] /:id/cvs/:cvId
+  deleteCV = DeleteCV;
 
 }
 

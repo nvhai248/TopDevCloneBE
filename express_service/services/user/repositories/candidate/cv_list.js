@@ -5,7 +5,8 @@ const listCVs = async (user_id) => {
   try {
     const CVs = await CVModel.findAll({
       where: {
-        user_id: user_id
+        user_id: user_id,
+        archive: false
       }
     });
     return CVs ? CVs.map(user => user.dataValues) : CVs;
