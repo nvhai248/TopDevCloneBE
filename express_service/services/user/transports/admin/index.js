@@ -1,8 +1,8 @@
-const ListCandidates = require('./feats/listCandidates');
-const CandidateInfo = require('./feats/candidateInfo');
-const ListEmployers = require("./feats/listEmployers");
-const EmployerInfo = require("./feats/employerInfo");
-const UpdateEmployer = require('./feats/updateEmployer');
+const ListCandidates = require('./feats/candidate_list');
+const CandidateInfo = require('./feats/candidate_info');
+const ListEmployers = require("./feats/employer_list");
+const EmployerInfo = require("./feats/employer_info");
+const UpdateEmployer = require('./feats/employer_update');
 
 class AdminTransport {
   /////////////////////////////// CANDIDATE /////////////////////////////////

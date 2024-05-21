@@ -4,13 +4,19 @@ const { repository } = require("./instance");
 
 const UpdateInfo = async (id, data) => {
     try {
-        const decodedId = unmaskId(id, DBTypeUser);
-        let user = await repository.updateCandidate(decodedId, data);
-        user = {
+        let decodedId;
+        try {
+            decodedId = unmaskId(id, DBTypeUser);
+        } catch (error) {
+            throw new BadRequestError("Not valid id!", "Require correct id!");
+        }
+        const user = await repository.updateCandidate(decodedId, data);
+        if (user === null)  throw new BadRequestError("Not found!", "User not found!");
+        const formatUser = {
             ...user,
             id: id,
         }
-        return user;
+        return formatUser;
     } catch (error) {
         throw error;
     }

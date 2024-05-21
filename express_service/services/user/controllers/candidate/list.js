@@ -10,7 +10,6 @@ const ListCandidates = async () => {
             id: maskId(candidate.id, DBTypeUser)
         }))
 
-        //candidates = candidates.map(candidate => FormatCandidate(candidate));
         return candidates;
     } catch (error) {
         throw error;
