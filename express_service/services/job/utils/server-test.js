@@ -1,11 +1,11 @@
 // express-app.js
 const express = require('express');
 const bodyParser = require('body-parser');
-const routers = require('../routers');
-const StartSubscriber = require('../utils/pubsub_rabbitmq/jobs/sub');
+const routers = require('./routers');
+const StartSubscriber = require('./utils/pubsub_rabbitmq/jobs/sub');
 const grpc = require('@grpc/grpc-js');
-const grpcJobServer = require('../grpc-server');
-const { GRPC_JOB_SERVER } = require('../configs');
+const grpcJobServer = require('./grpc-server');
+const { GRPC_JOB_SERVER } = require('./configs');
 
 const createServer = async () => {
   const app = express();

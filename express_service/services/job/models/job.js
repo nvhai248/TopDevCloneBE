@@ -99,14 +99,6 @@ const Job = sequelize.define(
       allowNull: true,
       defaultValue: 0,
     },
-    address: {
-      type: DataTypes.INTEGER,
-      allowNull: true,
-    },
-    district: {
-      type: DataTypes.INTEGER,
-      allowNull: true,
-    },
     appliedCount: {
       type: DataTypes.INTEGER,
       allowNull: true,
