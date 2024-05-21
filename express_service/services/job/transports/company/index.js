@@ -4,6 +4,9 @@ const ListJobsByCompanyId = require('./listJobs');
 const UpdateCompany = require('./update');
 const ListCompanySlider = require('./slider');
 const FilterCompany = require('./filter');
+const CreateCompanyWithSharding = require('./createCompanySharding');
+const FindCompanyByIdWithSharding = require('./findCompanySharding');
+const FilterCompanyWithSharding = require('./filterCompanySharding');
 class CompanyTransport {
   // [GET] /companies/:id/jobs
   listJobsByCompanyId = ListJobsByCompanyId;
@@ -17,6 +20,12 @@ class CompanyTransport {
   listCompanySlider = ListCompanySlider;
   // [GET] /companies
   filterCompany = FilterCompany;
+  // [POST] /companies/create
+  createCompanyWithSharding = CreateCompanyWithSharding;
+  // [GET] /companies/find/:id
+  findCompanyByIdWithSharding = FindCompanyByIdWithSharding;
+  //
+  filterCompanyWithSharding = FilterCompanyWithSharding;
 }
 
 module.exports = CompanyTransport;
