@@ -6,6 +6,9 @@ const EmployerInfo = async (id) => {
     const user = await EmployerModel.findOne({
         where: {
             id: id,
+        },
+        attributes: {
+          exclude: ["createdAt", "updatedAt"]
         }
     });
 

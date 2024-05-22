@@ -4,9 +4,12 @@ const { CandidateModel } = require("./instance");
 const UpdateInfo = async (id, data) => {
   try {
     const user = await CandidateModel.findOne({
-        where: {
-            id: id,
-        }
+      where: {
+        id: id,
+      },
+      attributes: {
+        exclude: ["createdAt", "updatedAt"]
+      }
     });
     user.update(data);
 

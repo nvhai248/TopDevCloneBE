@@ -6,6 +6,9 @@ const CandidateInfo = async (id) => {
     const user = await CandidateModel.findOne({
         where: {
             id: id,
+        },
+        attributes: {
+          exclude: ["createdAt", "updatedAt"]
         }
     });
 

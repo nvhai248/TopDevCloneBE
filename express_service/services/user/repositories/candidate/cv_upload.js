@@ -20,7 +20,11 @@ const UploadCV = async (data) => {
     if (cvs.length === 0) {
       data.is_main = true;
     }
-    const cv = await CVModel.create(data);
+    const cv = await CVModel.create(data, {
+      attributes: {
+        exclude: ["createdAt", "updatedAt"]
+      }
+    });
     return cv ? cv.dataValues : cv;
   } catch (error) {
     throw new DBError(error.message, "Something went wrong with user DB");

@@ -2,9 +2,9 @@ const { maskId } = require("../../utils/mask");
 const { DBTypeUser } = require("../../utils/const");
 const { repository } = require("./instance");
 
-const ListCandidates = async () => {
+const ListCandidates = async (limit, offset) => {
     try {
-        let candidates = await repository.listCandidates();
+        let candidates = await repository.listCandidates(limit, offset);
         candidates = candidates.map(candidate => ({
             ...candidate,
             id: maskId(candidate.id, DBTypeUser)

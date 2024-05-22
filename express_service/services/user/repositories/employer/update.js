@@ -4,9 +4,12 @@ const { EmployerModel } = require("./instance");
 const UpdateEmployer = async (employerId, data) => {
   try {
     const user = await EmployerModel.findOne({
-        where: {
-            id: employerId,
-        }
+      where: {
+        id: employerId,
+      },
+      attributes: {
+        exclude: ["createdAt", "updatedAt"]
+      }
     });
     await user.update(data);
 

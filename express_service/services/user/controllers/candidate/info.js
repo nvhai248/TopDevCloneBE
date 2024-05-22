@@ -5,7 +5,7 @@ const { BadRequestError } = require("../../utils/app-errors");
 
 const CandidateInfo = async (id) => {
     try {
-        let decodedId = data.user_id;
+        let decodedId;
         try {
             decodedId = unmaskId(id, DBTypeUser);
         } catch (error) {
