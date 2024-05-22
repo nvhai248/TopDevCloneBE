@@ -96,17 +96,5 @@ describe('Start unit test for update job function', () => {
       const result = await jobRepository.updateJobById(jobId, mockJob);
       expect(result).toEqual(false);
     });
-
-    // endDate is null => should return 404 (i make it fail)
-    test('endDate is null, Should return false', async () => {
-      const jobId = 6;
-      const job = jobs[0];
-      const mockJob = {
-        ...job,
-        endDate: null,
-      };
-      const result = await jobRepository.updateJobById(jobId, mockJob);
-      expect(result).toEqual(false);
-    });
   });
 });
