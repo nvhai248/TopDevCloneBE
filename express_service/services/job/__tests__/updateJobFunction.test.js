@@ -1,4 +1,5 @@
 const { JobRepository } = require('../repositories');
+const { DBError } = require('../utils/app-errors');
 const sequelize = require('../database/pg');
 const { jobs } = require('../__mocks__/mock');
 
@@ -50,9 +51,38 @@ describe('Start unit test for update job function', () => {
     });
 
     // Duy Tran
-    // title is null
-    // level is null => should return 404
-    // salaryType is null => should return 404
+    test('title is null, should throw DBError', async () => {
+      const jobId = 6;
+      const job = jobs[0];
+      const mockJob = {
+        ...job,
+        title: null,
+      };
+
+      await expect(jobRepository.updateJobById(jobId, mockJob)).rejects.toThrow(DBError);
+    });
+
+    test('level is null, should throw DBError', async () => {
+      const jobId = 6;
+      const job = jobs[0];
+      const mockJob = {
+        ...job,
+        level: null,
+      };
+
+      await expect(jobRepository.updateJobById(jobId, mockJob)).rejects.toThrow(DBError);
+    });
+
+    test('salaryType is null, should throw DBError', async () => {
+      const jobId = 6;
+      const job = jobs[0];
+      const mockJob = {
+        ...job,
+        salaryType: null,
+      };
+
+      await expect(jobRepository.updateJobById(jobId, mockJob)).rejects.toThrow(DBError);
+    });
 
     // Huy Truong
     // startDate is null => should return 404

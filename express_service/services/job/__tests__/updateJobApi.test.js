@@ -71,9 +71,58 @@ describe('Start unit test for update job API', () => {
   });
 
   // Duy Tran
-  // title is null
-  // level is null => should return 404
-  // salaryType is null => should return 404
+  // title is null => should return 400
+  test('title is null, Should return status 400', async () => {
+    const jobId = '77rJraD';
+    const job = jobs[0];
+    const mockJob = {
+      ...job,
+      title: null,
+    };
+
+    const response = await supertest(app).patch(`/${jobId}`).send(mockJob).expect(400);
+
+    expect(response.body).toMatchObject({
+      statusCode: 400,
+      name: 'Error Database',
+      description: expect.stringMatching('job.title cannot be null'),
+    });
+  });
+
+  // level is null => should return 400
+  test('level is null, Should return status 400', async () => {
+    const jobId = '77rJraD';
+    const job = jobs[0];
+    const mockJob = {
+      ...job,
+      level: null,
+    };
+
+    const response = await supertest(app).patch(`/${jobId}`).send(mockJob).expect(400);
+
+    expect(response.body).toMatchObject({
+      statusCode: 400,
+      name: 'Error Database',
+    });
+  });
+
+  // salaryType is null => should return 400
+  test('salaryType is null, Should return status 400', async () => {
+    const jobId = '77rJraD';
+    const job = jobs[0];
+    const mockJob = {
+      ...job,
+      salaryType: null,
+    };
+
+    const response = await supertest(app).patch(`/${jobId}`).send(mockJob).expect(400);
+
+    expect(response.body).toMatchObject({
+      statusCode: 400,
+      name: 'Error Database',
+      description: expect.stringMatching('job.salaryType cannot be null'),
+    });
+  });
 
   // Huy Truong
   // startDate is null => should return 404
