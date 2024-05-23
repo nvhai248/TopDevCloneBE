@@ -21,7 +21,6 @@ pipeline {
                 script {
                   dir('express_service/services/job'){
                     sh 'npm i'
-                    sh 'npm i mongoose'
                     sh 'cp .env.example .env'
                     sh 'npm test -- --forceExit'
                   }
