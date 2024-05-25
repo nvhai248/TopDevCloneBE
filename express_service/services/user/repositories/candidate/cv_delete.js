@@ -3,18 +3,24 @@ const { CVModel } = require("./instance");
 
 const deleteCV = async (id) => {
   try {
-    const deletedCV = await CVModel.update(
+    /// Find the CV
+    const cv = await CVModel.findOne({
+      where: {
+        id: id
+      }
+    });
+    /// If the CV is not found, return null
+    if (cv === null) {
+      return null;
+    }
+
+    /// Update the CV
+    await cv.update(
       {
         archive: true
-      },
-      {
-        where: {
-          id: id
-        }
       }
     );
-
-    return deletedCV ? deletedCV[0] : deletedCV;
+    return cv.dataValues;
   } catch (error) {
     throw new DBError(error.message, "Something went wrong with user DB");
   }

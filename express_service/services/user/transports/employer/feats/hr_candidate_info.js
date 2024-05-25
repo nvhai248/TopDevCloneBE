@@ -7,8 +7,7 @@ const HrGetCandidateInfo = async (req, res, next) => {
     try {
         const id = req.params.id;
         const candidate = await candidateController.candidateInfo(id);
-        if (candidate === null) throw new Error("Candidate not found");
-        else SetResponse(res, STATUS_CODES.OK, candidate, "OK", null);
+        SetResponse(res, STATUS_CODES.OK, candidate, "OK", null);
     } catch (error) {
         ErrorResponse(error, res);
     }

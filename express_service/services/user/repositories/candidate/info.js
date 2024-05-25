@@ -12,7 +12,7 @@ const CandidateInfo = async (id) => {
         }
     });
 
-    return user ? user.dataValues : user;
+    return user !== null ? user.dataValues : user;
   } catch (error) {
     throw new DBError(error.message, "Something went wrong with user DB");
   }

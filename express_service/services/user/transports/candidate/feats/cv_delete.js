@@ -6,8 +6,8 @@ const { candidateController } = require("../instance");
 const DeleteCV = async (req, res, next) => {
     try {
         const id = req.params.id;
-        const deletedCV = await candidateController.deleteCV(id);
-        SetResponse(res, STATUS_CODES.OK, null, "OK", null);
+        await candidateController.deleteCV(id);
+        SetResponse(res, STATUS_CODES.OK, { isDeleted: true }, "OK", null);
     } catch (error) {
         ErrorResponse(error, res);
     }

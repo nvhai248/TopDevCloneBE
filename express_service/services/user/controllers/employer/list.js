@@ -4,7 +4,10 @@ const { repository } = require("./instance");
 
 const ListEmployers = async (limit, offset) => {
     try {
+        /// Get the list of employers
         let employers = await repository.listEmployers(limit, offset);
+
+        /// Format the employers
         employers = employers.map(employer => ({
             ...employer,
             id: maskId(employer.id, DBTypeUser),

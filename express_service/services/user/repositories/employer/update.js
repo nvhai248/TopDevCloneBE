@@ -3,6 +3,7 @@ const { EmployerModel } = require("./instance");
 
 const UpdateEmployer = async (employerId, data) => {
   try {
+    /// Find the user
     const user = await EmployerModel.findOne({
       where: {
         id: employerId,
@@ -11,9 +12,14 @@ const UpdateEmployer = async (employerId, data) => {
         exclude: ["createdAt", "updatedAt"]
       }
     });
-    await user.update(data);
+    /// If the user is not found, return null
+    if (user === null) {
+      return null;
+    }
 
-    return user ? user.dataValues : user;
+    /// Update the user
+    await user.update(data);
+    return user.dataValues;
   } catch (error) {
     throw new DBError(error.message, "Something went wrong with user DB");
   }
