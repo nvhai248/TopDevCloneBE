@@ -1,26 +1,39 @@
 const { sequelize } = require('../../database/pg');
 const { DBError } = require('../../utils/app-errors');
-const { Company, Job } = require('./instance');
+const { Company } = require('./instance');
 
 async function GetTopCompaniesWithMostJobs(limit) {
   try {
-    const countCompanyHasNoJob = await Company.count({
-      where: sequelize.literal('id NOT IN (SELECT DISTINCT "companyId" FROM "jobs")'),
-    });
-
     const topCompanies = await Company.findAll({
-      include: [
-        {
-          model: Job,
-          attributes: [],
-        },
+      attributes: [
+        'id',
+        'name',
+        'companySize',
+        'benefits',
+        'status',
+        'followedCount',
+        'createdAt',
+        'updatedAt',
+        'logo',
+        'tagline',
+        'nationality',
+        'industry',
+        'techStack',
+        'website',
+        'socialMedia',
+        'addresses',
+        'coverPhoto',
+        'galleries',
+        'topConcerns',
+        'products',
+        'applicationCount',
+        'viewedCount',
+        'phoneNumber',
+        [sequelize.literal('(SELECT COUNT(*) FROM "jobs" WHERE "jobs"."companyId" = "company"."id")'), '"count_job"'],
       ],
-      attributes: ['id', 'name', [sequelize.fn('COUNT', sequelize.col('jobs.id')), 'job_count']],
-      group: ['Company.id'],
-      order: [[sequelize.literal('job_count'), 'DESC']],
+      order: sequelize.literal('"count_job" DESC'), // Use sequelize.literal for sorting
       limit: limit,
-      offset: countCompanyHasNoJob,
-      subQuery: false,
+      raw: true,
     });
 
     return topCompanies;
