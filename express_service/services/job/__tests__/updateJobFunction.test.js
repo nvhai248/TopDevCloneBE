@@ -1,6 +1,6 @@
 const { JobRepository } = require('../repositories');
 const { DBError } = require('../utils/app-errors');
-const sequelize = require('../database/pg');
+const { sequelize } = require('../database/pg');
 const { jobs } = require('../__mocks__/mock');
 
 describe('Start unit test for update job function', () => {
@@ -16,7 +16,7 @@ describe('Start unit test for update job function', () => {
     await sequelize.close();
   });
 
-  describe('Test CreateJob function()', () => {
+  describe('Test Updated function()', () => {
     test('data is OK, Should return 1', async () => {
       const jobId = 6;
       const job = jobs[0];
