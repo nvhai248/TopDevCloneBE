@@ -113,6 +113,14 @@ const Company = sequelize.define(
       type: DataTypes.INTEGER,
       defaultValue: 0,
     },
+    phoneNumber: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    /* hrId: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    }, */
   },
   { sequelize },
 );

@@ -8,6 +8,7 @@ const CreateCompanyWithSharding = require('./createCompanySharding');
 const FindCompanyByIdWithSharding = require('./findCompanySharding');
 const FilterCompanyWithSharding = require('./filterCompanySharding');
 const Follow = require('./follow');
+const GetListByType = require('./getListByType');
 class CompanyTransport {
   // [GET] /companies/:id/jobs
   listJobsByCompanyId = ListJobsByCompanyId;
@@ -29,6 +30,8 @@ class CompanyTransport {
   filterCompanyWithSharding = FilterCompanyWithSharding;
 
   follow = Follow;
+
+  getListByType = GetListByType;
 }
 
 module.exports = CompanyTransport;

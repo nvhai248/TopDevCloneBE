@@ -4,11 +4,13 @@ const { Company } = require('./instance');
 const FilterCompanyByConditions = async (searchConditions, limit, offset, ordering) => {
   try {
     let orderCriteria = [];
-    orderCriteria = [['createdAt', 'DESC']];
+    orderCriteria = [['updatedAt', 'DESC']];
     if (ordering === 'high-light') {
       orderCriteria = [['applicationCount', 'DESC']];
     } else if (ordering === 'popular') {
       orderCriteria = [['followedCount', 'DESC']];
+    } else if (ordering === 'most-viewed') {
+      orderCriteria = [['viewedCount', 'DESC']];
     }
 
     const companies = await Company.findAll({
