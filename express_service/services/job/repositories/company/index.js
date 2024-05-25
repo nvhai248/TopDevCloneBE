@@ -10,6 +10,7 @@ const CreateCompanyWithSharding = require('./createCompanySharding');
 const FindCompanyByIdWithSharding = require('./findCompanySharding');
 const FilterCompanyWithSharding = require('./filterCompanySharding');
 const GetSearchConditionListJob = require('./searchConditionListJob');
+const IncreaseFollowedCount = require('./increaseFollowCount');
 
 class CompanyRepository {
   // [GET] /companies/:id/jobs
@@ -41,6 +42,9 @@ class CompanyRepository {
   filterCompanyWithSharding = FilterCompanyWithSharding;
 
   getSearchConditionListJob = GetSearchConditionListJob;
+
+  // follow company
+  increaseFollowedCount = IncreaseFollowedCount;
 }
 
 module.exports = CompanyRepository;

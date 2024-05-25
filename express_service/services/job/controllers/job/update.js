@@ -1,8 +1,7 @@
 const { BadRequestError } = require('../../utils/app-errors');
 const { repository } = require('./instance');
-const { DBTypeJob, DBTypeCompany, DBTypeUser } = require('../../utils/const');
-const { unmaskId, maskId } = require('../../utils/mask');
-const { FormatJob } = require('../../utils/format-result');
+const { DBTypeJob } = require('../../utils/const');
+const { unmaskId } = require('../../utils/mask');
 
 const UpdateJob = async (jobId, data) => {
   try {

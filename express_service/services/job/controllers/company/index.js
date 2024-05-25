@@ -7,6 +7,7 @@ const FilterCompanyByConditions = require('./filter');
 const CreateCompanyBySharding = require('./createCompanySharding');
 const FindCompanyByIdWithSharding = require('./findCompanySharding');
 const FilterCompanyWithSharding = require('./filterCompanySharding');
+const Follow = require('./follow');
 
 class CompanyController {
   // [GET] /companies/:id/jobs
@@ -27,6 +28,8 @@ class CompanyController {
   findCompanyByIdWithSharding = FindCompanyByIdWithSharding;
   //
   filterCompanyWithSharding = FilterCompanyWithSharding;
+
+  follow = Follow;
 }
 
 module.exports = CompanyController;

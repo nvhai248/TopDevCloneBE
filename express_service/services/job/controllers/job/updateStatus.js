@@ -58,7 +58,6 @@ const UpdateStatus = async (user, data) => {
 
     transaction.commit();
 
-    
     return true;
   } catch (error) {
     if (transaction) await transaction.rollback();

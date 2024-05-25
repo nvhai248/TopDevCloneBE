@@ -109,6 +109,10 @@ const Company = sequelize.define(
       type: DataTypes.INTEGER,
       defaultValue: 0,
     },
+    viewedCount: {
+      type: DataTypes.INTEGER,
+      defaultValue: 0,
+    },
   },
   { sequelize },
 );
