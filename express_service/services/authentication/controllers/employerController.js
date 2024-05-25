@@ -170,7 +170,7 @@ const employerController = {
         return ErrorResponse(new Error('Failed to create company'), res);
       }
 
-      return SetResponse(res, STATUS_CODES.OK, null, 'OK', null);
+      return SetResponse(res, STATUS_CODES.OK, {}, 'OK', null);
     } catch (error) {
       console.error('Error during registration:', error);
       return ErrorResponse(error, res);
