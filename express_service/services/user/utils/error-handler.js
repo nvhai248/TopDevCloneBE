@@ -19,7 +19,7 @@ const ErrorResponse = (error, res) => {
     res
       .status(500)
       .send(
-        new InternalServerError("Internal Job Server Error", error.message)
+        new InternalServerError("Internal User Server Error", error.message)
       );
   }
 };

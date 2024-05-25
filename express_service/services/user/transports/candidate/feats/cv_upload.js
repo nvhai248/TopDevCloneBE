@@ -5,10 +5,14 @@ const { candidateController } = require("../instance");
 
 const UploadCV = async (req, res, next) => {
     try {
-        let data = req.body;
-        data.is_main = data.is_main ? data.is_main : true;
-        data.changeable = false;
-        data.archive = false;
+        const data = {
+            user_id: req.body.user_id,
+            url: req.body.url,
+            is_main: req.body.is_main !== undefined ? req.body.is_main : true,
+            changeable: false,
+            archive: false,
+            
+        }
         const CV = await candidateController.uploadCV(data);
         SetResponse(res, STATUS_CODES.OK, CV, "OK", null);
     } catch (error) {
