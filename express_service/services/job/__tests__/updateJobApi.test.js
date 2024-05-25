@@ -19,7 +19,7 @@ describe('Start unit test for update job API', () => {
   });
 
   test('data is OK, Should return status 200', async () => {
-    const jobId = '77rJraD';
+    const jobId = '77rJraD'; // assuming jobId should be an integer
     const job = jobs[0];
 
     const response = await supertest(app).patch(`/${jobId}`).send(job).expect(200);
@@ -30,7 +30,6 @@ describe('Start unit test for update job API', () => {
       message: 'OK',
     });
   });
-
   // Duy Tran
   // title is null => should return 400
   test('title is null, Should return status 400', async () => {

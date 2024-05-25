@@ -1,5 +1,5 @@
 const { DataTypes } = require('sequelize');
-const sequelize = require('../database/pg');
+const { sequelize } = require('../database/pg');
 const { JOB_STATUS } = require('../utils/const');
 // const sequelize = require('../database/mysql'); // use for local
 
@@ -98,14 +98,6 @@ const Job = sequelize.define(
       type: DataTypes.INTEGER,
       allowNull: true,
       defaultValue: 0,
-    },
-    address: {
-      type: DataTypes.INTEGER,
-      allowNull: true,
-    },
-    district: {
-      type: DataTypes.INTEGER,
-      allowNull: true,
     },
     appliedCount: {
       type: DataTypes.INTEGER,
