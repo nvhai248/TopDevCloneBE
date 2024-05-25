@@ -1,5 +1,5 @@
 const { DataTypes } = require('sequelize');
-const sequelize = require('../database/pg');
+const { sequelize } = require('../database/pg');
 // const sequelize = require('../database/mysql'); // use for local
 
 const Company = sequelize.define(
