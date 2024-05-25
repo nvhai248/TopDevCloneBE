@@ -4,7 +4,8 @@ const protoLoader = require('@grpc/proto-loader');
 const { GRPC_JOB_SERVER, PORT } = require('../configs/index.js');
 const packageDefinition = protoLoader.loadSync(path.join(__dirname, '../../proto/job-service.proto'));
 const proto = grpc.loadPackageDefinition(packageDefinition);
-// const { createJob, getJob, getJobs, updateJob, deleteJob } = require('../controllers/job.js');
+const { GetJobInformation } = require('../grpc-server-function/job/get-job-grpc.js');
+const { UpdateApplyCountGrpc } = require('../grpc-server-function/job/update-apply-count-grpc.js');
 
 const createCompany = async (call, callback) => {
   const userId = call.request.userId;
@@ -39,6 +40,8 @@ const startGrpcServer = () => {
 
   server.addService(proto.JobService.service, {
     createCompany,
+    GetJobInformation: GetJobInformation,
+    UpdateApplyCountGrpc: UpdateApplyCountGrpc,
   });
 
   server.bindAsync(`${GRPC_JOB_SERVER}`, grpc.ServerCredentials.createInsecure(), (err, port) => {
