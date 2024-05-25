@@ -17,8 +17,7 @@ const createCompany = require('../grpc/client');
 
 const employerController = {
   auth: (req, res, next) => {
-    // return SetResponse(res, STATUS_CODES.OK, 'Employer authenticated', 'OK', null);
-    res.status(200).send('Employer authorized');
+    res.status(200).send({ data: 'Employer authorized' });
   },
 
   login: async (req, res, next) => {
