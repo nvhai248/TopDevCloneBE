@@ -4,26 +4,28 @@ const { unmaskId, maskId } = require('../../utils/mask');
 const { repository, companyRepository } = require('./instance');
 
 const FindJob = async (jobId) => {
-    try {
-        jobId = unmaskId(jobId, DBTypeJob);
+  try {
+    jobId = unmaskId(jobId, DBTypeJob);
 
-        let job = await repository.findJobById(jobId);
+    let job = await repository.findJobById(jobId);
 
-        // implement search company here
-        job.company = await companyRepository.findCompanyById(job.companyId);
-        delete job.companyId;
+    await repository.updateJobById(jobId, { viewedCount: job.viewedCount + 1 });
 
-        job.id = maskId(job.id, DBTypeJob);
-        job.company.id = maskId(job.company.id, DBTypeCompany);
-        job.createdBy = maskId(job.createdBy, DBTypeUser);
+    // implement search company here
+    job.company = await companyRepository.findCompanyById(job.companyId);
+    delete job.companyId;
 
-        // format data return
-        job = FormatJob(job);
+    job.id = maskId(job.id, DBTypeJob);
+    job.company.id = maskId(job.company.id, DBTypeCompany);
+    job.createdBy = maskId(job.createdBy, DBTypeUser);
 
-        return job;
-    } catch (error) {
-        throw error;
-    }
+    // format data return
+    job = FormatJob(job);
+
+    return job;
+  } catch (error) {
+    throw error;
+  }
 };
 
 module.exports = FindJob;
