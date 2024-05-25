@@ -13,6 +13,7 @@ const getCredentials = require('../utils/get-credentials');
 const setRole = require('../utils/set-role');
 const getRole = require('../utils/get-role');
 const getUser = require('../utils/get-user');
+const createCompany = require('../grpc/client');
 
 const employerController = {
   auth: (req, res, next) => {
@@ -71,9 +72,10 @@ const employerController = {
         throw new Error('Failed to get user info');
       }
 
-      const { firstName, lastName, email } = user;
+      const { id, firstName, lastName, email } = user;
 
       const responseData = {
+        id,
         username,
         firstName,
         lastName,
@@ -92,10 +94,23 @@ const employerController = {
   },
 
   register: async (req, res, next) => {
-    const { username, password, email, firstName, lastName } = req.body;
+    const {
+      username: _username,
+      password: _password,
+      email: _email,
+      firstName: _firstName,
+      lastName: _lastName,
+      companyName: _companyName,
+      phoneNumber: _phoneNumber,
+    } = req.body;
 
-    if (!username || !password || !email || !firstName || !lastName) {
-      return ErrorResponse(new Error('Username, password, email, first name and last name are required'), res);
+    if (!_username || !_password || !_email || !_firstName || !_lastName || !_companyName || !_phoneNumber) {
+      return ErrorResponse(
+        new Error(
+          'All fields are required: username, password, email, first name, last name, company name, phone number',
+        ),
+        res,
+      );
     }
 
     try {
@@ -113,16 +128,16 @@ const employerController = {
           Authorization: `Bearer ${credentials.access_token}`,
         },
         body: JSON.stringify({
-          username,
-          email,
-          firstName,
-          lastName,
+          username: _username,
+          email: _email,
+          firstName: _firstName,
+          lastName: _lastName,
           enabled: true,
           emailVerified: false,
           credentials: [
             {
               type: 'password',
-              value: password,
+              value: _password,
               temporary: false,
             },
           ],
@@ -135,10 +150,25 @@ const employerController = {
       }
 
       // Set role
-      const responseRole = await setRole(username, KC_EMPLOYER_ROLE_ID, KC_EMPLOYER_ROLE, credentials);
+      const responseRole = await setRole(_username, KC_EMPLOYER_ROLE_ID, KC_EMPLOYER_ROLE, credentials);
 
       if (!responseRole) {
         return ErrorResponse(new Error('Failed to set role'), res);
+      }
+
+      // Get user info
+      const user = await getUser(_username, credentials);
+
+      if (!user) {
+        throw new Error('Failed to get user info');
+      }
+
+      const { id } = user;
+
+      const responseCompany = await createCompany(id, _companyName, _phoneNumber);
+
+      if (!responseCompany) {
+        return ErrorResponse(new Error('Failed to create company'), res);
       }
 
       return SetResponse(res, STATUS_CODES.OK, null, 'OK', null);
