@@ -2,9 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const routers = require('./routers');
 const StartSubscriber = require('./utils/pubsub_rabbitmq/jobs/sub');
-const grpc = require("@grpc/grpc-js");
-const grpcJobServer = require("./grpc-server");
-const { GRPC_JOB_SERVER } = require("./configs");
+const StartGrpcServer = require('./grpc/server');
 
 module.exports = async (app) => {
   app.use(express.json({ limit: '1mb' }));
@@ -16,21 +14,7 @@ module.exports = async (app) => {
 
   StartSubscriber();
 
-
-  grpcJobServer.bindAsync(
-    GRPC_JOB_SERVER,
-    grpc.ServerCredentials.createInsecure(),
-    (err, port) => {
-      if (err) {
-        console.error("Server bind failed:", err);
-      } else {
-        console.log(
-          "gRPC server for Service Transaction running on port",
-          port
-        );
-      }
-    }
-  );
+  StartGrpcServer();
 
   routers(app);
 };

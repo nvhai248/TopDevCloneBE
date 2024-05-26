@@ -9,6 +9,6 @@ jobRouter.get('/', transport.listJobByConditions);
 jobRouter.get('/:id', transport.findJob);
 jobRouter.patch('/:id', transport.updateJob);
 jobRouter.post('/', transport.createJob);
-jobRouter.get('/admin/all', auth('admin'), transport.listAllJob);
+jobRouter.get('/admin/all', auth(['admin', 'employer']), transport.listAllJob); // example: for admin or employer
 
 module.exports = jobRouter;
