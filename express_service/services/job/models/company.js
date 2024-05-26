@@ -117,10 +117,10 @@ const Company = sequelize.define(
       type: DataTypes.STRING,
       allowNull: true,
     },
-    /* hrId: {
+    hrId: {
       type: DataTypes.STRING,
       allowNull: false,
-    }, */
+    },
   },
   { sequelize },
 );
