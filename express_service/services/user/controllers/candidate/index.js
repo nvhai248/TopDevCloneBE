@@ -5,6 +5,8 @@ const ListCVs = require('./cv_list');
 const MainCV = require('./cv_main');
 const UploadCV = require('./cv_upload');
 const DeleteCV = require('./cv_delete');
+const ListCandidatesByCondition = require("./listByCondition");
+
 
 class CandidateController {
   // [GET] /admin/candidates
@@ -28,6 +30,8 @@ class CandidateController {
   // [DELETE] /:id/cvs/:cvId
   deleteCV = DeleteCV;
 
+  // [GET] /admin/candidates/condition
+  listCandidatesByCondition = ListCandidatesByCondition;
 }
 
 module.exports = CandidateController;
