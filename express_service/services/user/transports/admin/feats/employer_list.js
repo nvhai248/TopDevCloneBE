@@ -8,7 +8,7 @@ const ListEmployers = async (req, res, next) => {
         const limit = req.query.limit || 5;
         const offset = req.query.offset || 0;
         const employers = await employerController.listEmployers(limit, offset);
-        SetResponse(res, STATUS_CODES.OK, employers, "OK", null);
+        SetResponse(res, STATUS_CODES.OK, employers, "OK", { limit: limit, offset: offset });
     } catch (error) {
         ErrorResponse(error, res);
     }

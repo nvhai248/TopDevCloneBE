@@ -9,7 +9,7 @@ const ListCVs = async (req, res, next) => {
         const offset = req.query.offset || 0;
         const id = req.params.id;
         const CVs = await candidateController.listCVbyUserId(id, limit, offset);
-        SetResponse(res, STATUS_CODES.OK, CVs, "OK", null);
+        SetResponse(res, STATUS_CODES.OK, CVs, "OK", { limit: limit, offset: offset });
     } catch (error) {
         ErrorResponse(error, res);
     }
