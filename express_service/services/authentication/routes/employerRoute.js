@@ -12,7 +12,5 @@ router.get('/', keycloak.protect(`${KC_CLIENT_ID}:${KC_EMPLOYER_ROLE}`), employe
 router.post('/login', employerController.login);
 // [POST] /auth/employer/register
 router.post('/register', employerController.register);
-// [POST] /auth/employer/logout
-router.post('/logout', keycloak.protect(`${KC_CLIENT_ID}:${KC_EMPLOYER_ROLE}`), employerController.logout);
 
 module.exports = router;
