@@ -10,27 +10,19 @@ const CVModel = sequelize.define("cvs", {
   },
   user_id: {
     type: DataTypes.INTEGER,
-    allowNull: true,
-  },
-  changeable: {
-    type: DataTypes.BOOLEAN,
-    allowNull: true,
-  },
-  cv_data: {
-    type: DataTypes.TEXT,
-    allowNull: true,
-  },
-  url: {
-    type: DataTypes.TEXT, 
-    allowNull: true,
-  },
-  is_main: {
-    type: DataTypes.BOOLEAN,
     allowNull: false,
   },
-  archive: {
-    type: DataTypes.BOOLEAN,
+  name: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
+  listJobApplied: {
+    type: DataTypes.ARRAY(DataTypes.STRING),
     allowNull: true,
+  },
+  link: {
+    type: DataTypes.STRING, 
+    allowNull: false,
   },
   createdAt: {
     type: DataTypes.DATE,
