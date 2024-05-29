@@ -13,6 +13,7 @@ const GetSearchConditionListJob = require('./searchConditionListJob');
 const IncreaseFollowedCount = require('./increaseFollowCount');
 const GetTopCompaniesWithMostJobs = require('./getListCompanyWithMostJob');
 const GetTopCompaniesWithRecentJobs = require('./getListCompanyWithLatestJob');
+const FindCompanyByName = require('./findByName');
 
 class CompanyRepository {
   // [GET] /companies/:id/jobs
@@ -51,6 +52,8 @@ class CompanyRepository {
   getTopCompaniesWithMostJobs = GetTopCompaniesWithMostJobs;
 
   getTopCompaniesWithRecentJobs = GetTopCompaniesWithRecentJobs;
+
+  findByName = FindCompanyByName;
 }
 
 module.exports = CompanyRepository;

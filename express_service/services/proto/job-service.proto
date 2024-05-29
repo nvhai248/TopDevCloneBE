@@ -22,6 +22,7 @@ message CreateCompanyRequest {
 
 message CreateCompanyResponse {
     string companyId = 1;
+    bool isOk = 2;
 }
 
 service JobService {

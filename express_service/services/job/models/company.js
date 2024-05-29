@@ -121,6 +121,15 @@ const Company = sequelize.define(
       type: DataTypes.STRING,
       allowNull: false,
     },
+    jobCount: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
+      defaultValue: 0,
+    },
+    introduction: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
   },
   { sequelize },
 );
