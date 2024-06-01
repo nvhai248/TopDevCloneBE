@@ -4,6 +4,7 @@ const UpdateJob = require('./update');
 const ListJobByConditions = require('./list');
 const ListAllJob = require('./listAll');
 const UpdateStatus = require('./updateStatus');
+const Follow = require('./follow');
 
 class JobController {
   // [GET] /jobs?keywords=???&level=???&type=???&typeContract=???&address=???&page=??&limit=??&cursor=???&keywords=???
@@ -23,6 +24,8 @@ class JobController {
 
   // [PATCH] /jobs/change-status
   updateStatus = UpdateStatus;
+
+  follow = Follow;
 }
 
 module.exports = JobController;

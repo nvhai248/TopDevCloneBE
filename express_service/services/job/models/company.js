@@ -109,6 +109,27 @@ const Company = sequelize.define(
       type: DataTypes.INTEGER,
       defaultValue: 0,
     },
+    viewedCount: {
+      type: DataTypes.INTEGER,
+      defaultValue: 0,
+    },
+    phoneNumber: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    hrId: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    jobCount: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
+      defaultValue: 0,
+    },
+    introduction: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
   },
   { sequelize },
 );

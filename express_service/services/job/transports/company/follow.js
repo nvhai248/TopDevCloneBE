@@ -3,15 +3,14 @@ const { ErrorResponse } = require('../../utils/error-handler');
 const { SetResponse } = require('../../utils/success-response');
 const { controller } = require('./instance');
 
-const FindCompanyById = async (req, res, next) => {
-  const id = req.params.id;
-
+const Follow = async (req, res, next) => {
+  const { id } = req.params;
   try {
-    const company = await controller.findCompanyById(id);
+    const company = await controller.follow(id);
     SetResponse(res, STATUS_CODES.OK, company, 'OK', null);
   } catch (error) {
     ErrorResponse(error, res);
   }
 };
 
-module.exports = FindCompanyById;
+module.exports = Follow;

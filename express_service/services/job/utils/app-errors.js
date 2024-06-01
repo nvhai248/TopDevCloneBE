@@ -60,6 +60,12 @@ class DBError extends APICustomError {
   }
 }
 
+class NotFoundException extends APICustomError {
+  constructor(description, message) {
+    super('Error Database', STATUS_CODES.NOT_FOUND, description, message, true);
+  }
+}
+
 module.exports = {
   AppErr,
   InternalServerError,
@@ -68,5 +74,6 @@ module.exports = {
   UnauthorizeError,
   DBError,
   STATUS_CODES,
+  NotFoundException,
   ForbiddenError,
 };

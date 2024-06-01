@@ -10,6 +10,10 @@ const CreateCompanyWithSharding = require('./createCompanySharding');
 const FindCompanyByIdWithSharding = require('./findCompanySharding');
 const FilterCompanyWithSharding = require('./filterCompanySharding');
 const GetSearchConditionListJob = require('./searchConditionListJob');
+const IncreaseFollowedCount = require('./increaseFollowCount');
+const GetTopCompaniesWithMostJobs = require('./getListCompanyWithMostJob');
+const GetTopCompaniesWithRecentJobs = require('./getListCompanyWithLatestJob');
+const FindCompanyByName = require('./findByName');
 
 class CompanyRepository {
   // [GET] /companies/:id/jobs
@@ -41,6 +45,15 @@ class CompanyRepository {
   filterCompanyWithSharding = FilterCompanyWithSharding;
 
   getSearchConditionListJob = GetSearchConditionListJob;
+
+  // follow company
+  increaseFollowedCount = IncreaseFollowedCount;
+
+  getTopCompaniesWithMostJobs = GetTopCompaniesWithMostJobs;
+
+  getTopCompaniesWithRecentJobs = GetTopCompaniesWithRecentJobs;
+
+  findByName = FindCompanyByName;
 }
 
 module.exports = CompanyRepository;

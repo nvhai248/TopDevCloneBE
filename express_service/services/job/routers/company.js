@@ -4,6 +4,9 @@ const { CompanyTransport } = require('../transports');
 const companyRouter = express.Router();
 const transport = new CompanyTransport();
 
+companyRouter.get('/homepage', transport.homepage);
+companyRouter.get('/listByType', transport.getListByType);
+companyRouter.patch('/:id/followed', transport.follow);
 companyRouter.post('/create', transport.createCompanyWithSharding);
 companyRouter.get('/search', transport.filterCompanyWithSharding);
 companyRouter.get('/find/:id', transport.findCompanyByIdWithSharding);

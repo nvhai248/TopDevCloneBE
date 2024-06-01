@@ -4,6 +4,7 @@ const { JobTransport } = require('../transports');
 const jobRouter = express.Router();
 const transport = new JobTransport();
 
+jobRouter.patch('/:id/followed', transport.follow);
 jobRouter.patch('/update-status', transport.updateStatus);
 jobRouter.get('/', transport.listJobByConditions);
 jobRouter.get('/:id', transport.findJob);

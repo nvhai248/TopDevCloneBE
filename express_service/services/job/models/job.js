@@ -121,6 +121,10 @@ const Job = sequelize.define(
       allowNull: false,
       defaultValue: JOB_STATUS.PENDING,
     },
+    viewedCount: {
+      type: DataTypes.INTEGER,
+      defaultValue: 0,
+    },
   },
   { sequelize },
 );

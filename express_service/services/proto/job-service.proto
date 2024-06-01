@@ -15,18 +15,18 @@ message JobResponse {
 }
 
 message CreateCompanyRequest {
-    string userId = 1;
-    string companyName = 2;
+    string hrId = 1;
+    string name = 2;
     string phoneNumber = 3;
 }
 
 message CreateCompanyResponse {
-    bool success = 1;
-    string message = 2;
+    string companyId = 1;
+    bool isOk = 2;
 }
 
 service JobService {
     rpc GetJobInformation (JobRequest) returns (JobResponse);
     rpc UpdateApplyCountGrpc (JobRequest) returns (JobResponse);
-    rpc CreateCompany(CreateCompanyRequest) returns (CreateCompanyResponse);
+    rpc CreateCompanyGrpc (CreateCompanyRequest) returns (CreateCompanyResponse);
 }

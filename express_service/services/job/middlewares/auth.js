@@ -1,4 +1,5 @@
 const isValidToken = require('../grpc/client.js'); // for grpc
+const { UnauthorizeError } = require('../utils/app-errors.js');
 // const checkAuth = require('../utils/auth.js'); // for rest
 const { ErrorResponse } = require('../utils/error-handler');
 
@@ -20,7 +21,7 @@ const auth = (roles) => {
       // const valid = roleValidations.some(result => result); // for rest
 
       if (!valid) {
-        throw new Error('Invalid token');
+        throw new UnauthorizeError('Invalid token');
       }
 
       next();
