@@ -1,8 +1,10 @@
 const ListCandidates = require("./list");
 const CandidateInfo = require("./info");
 const UpdateInfo = require('./update');
-const ListCVs = require('./listCV');
-const UploadCV = require('./uploadCV');
+const ListCVs = require('./cv_list');
+const UploadCV = require('./cv_upload');
+const DeleteCV = require('./cv_delete');
+const ListCandidatesByCondition = require('./listByCondition');
 
 class CandidateRepository {
     // [GET] /admin/candidates
@@ -19,6 +21,12 @@ class CandidateRepository {
 
     // [POST] /upload-cv
     uploadCV = UploadCV;
+
+    // [DELETE] /:id/cvs/:id
+    deleteCV = DeleteCV;
+
+    // [GET] /admin/candidates/condition
+    listCandidatesByCondition = ListCandidatesByCondition;
 
 }
 

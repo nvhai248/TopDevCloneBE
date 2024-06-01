@@ -104,13 +104,6 @@ const adminController = {
       return ErrorResponse(new Error('Error getting credentials'), res);
     }
   },
-
-  logout: (req, res, next) => {
-    // res.clearCookie('access_token');
-    // res.clearCookie('refresh_token');
-    // return res.status(200).send('Logout successful');
-    return SetResponse(res, STATUS_CODES.OK, null, 'OK', null);
-  },
 };
 
 module.exports = adminController;

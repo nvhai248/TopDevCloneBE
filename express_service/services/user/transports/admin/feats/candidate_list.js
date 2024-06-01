@@ -5,8 +5,10 @@ const { candidateController } = require("../instance");
 
 const ListCandidates = async (req, res, next) => {
     try {
-        const candidates = await candidateController.listCandidates();
-        SetResponse(res, STATUS_CODES.OK, candidates, "OK", null);
+        const limit = req.query.limit || 5;
+        const offset = req.query.offset || 0;
+        const candidates = await candidateController.listCandidates(limit, offset);
+        SetResponse(res, STATUS_CODES.OK, candidates, "OK", { limit: limit, offset: offset });
     } catch (error) {
         ErrorResponse(error, res);
     }

@@ -12,7 +12,5 @@ router.get('/', keycloak.protect(`${KC_CLIENT_ID}:${KC_ADMIN_ROLE}`), adminContr
 router.post('/login', adminController.login);
 // [GET] /auth/admin/login
 router.get('/login', adminController.loginWithCredentials);
-// [POST] /auth/admin/logout
-router.post('/logout', keycloak.protect(`${KC_CLIENT_ID}:${KC_ADMIN_ROLE}`), adminController.logout);
 
 module.exports = router;

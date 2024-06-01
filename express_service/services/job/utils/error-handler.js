@@ -1,13 +1,6 @@
-const {
-  APICustomError,
-  BadRequestError,
-  InternalServerError,
-  DBError,
-  UnauthorizeError,
-} = require("./app-errors");
+const { APICustomError, BadRequestError, InternalServerError, DBError, UnauthorizeError } = require('./app-errors');
 
 const ErrorResponse = (error, res) => {
-  console.log(error);
   if (
     error instanceof DBError ||
     error instanceof APICustomError ||
@@ -17,11 +10,7 @@ const ErrorResponse = (error, res) => {
   ) {
     return res.status(error.statusCode).send(error);
   } else {
-    res
-      .status(500)
-      .send(
-        new InternalServerError("Internal Job Server Error", error.message)
-      );
+    res.status(500).send(new InternalServerError('Internal Job Server Error', error.message));
   }
 };
 
