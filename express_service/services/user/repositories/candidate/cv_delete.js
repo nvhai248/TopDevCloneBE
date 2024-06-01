@@ -17,7 +17,7 @@ const deleteCV = async (id) => {
     /// Update the CV
     await cv.update(
       {
-        archive: true
+        archived: true
       }
     );
     return cv.dataValues;

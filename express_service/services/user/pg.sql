@@ -1,45 +1,37 @@
--- Create candidates table
-CREATE TABLE IF NOT EXISTS candidates (
+CREATE TABLE candidates (
     id SERIAL PRIMARY KEY,
-    avatar TEXT,
-    email VARCHAR(255) NOT NULL,
-    display_name VARCHAR(255) NOT NULL,
-    phone VARCHAR(255),
-    gender VARCHAR(255),
+    fullname VARCHAR(255),
+    jobposition VARCHAR(255),
+    avatar VARCHAR(255),
     dob DATE,
-    position VARCHAR(255),
-    yoe INT,
-    location VARCHAR(255),
-    status_profile VARCHAR(255),
-    address VARCHAR(255),
-    linkedin VARCHAR(255),
+    gender VARCHAR(50),
+    yearsofexperience INT DEFAULT 0 NOT NULL,
+    email VARCHAR(255) NOT NULL,
+    phonenumber VARCHAR(50),
+    sociallink VARCHAR(255),
     github VARCHAR(255),
+    technicals TEXT[],
     summary TEXT,
-    skills JSONB,
-    experiences JSONB [],
-    educations JSONB [],
-    projects JSONB [],
-    languages JSONB [],
-    interests TEXT,
-    ref JSONB [],
-    activities JSONB [],
-    certificates JSONB [],
-    additional JSONB [],
-    cover_letter TEXT,
-    willing_to_work BOOLEAN,
+    softskills TEXT[],
+    workExperience JSONB[],
+    education JSONB[],
+    projects JSONB[],
+    languages JSONB[],
+    hobbies TEXT[],
+    activities JSONB[],
+    otherinformations JSONB[],
     "createdAt" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
-
 -- Create cvs table
-CREATE TABLE IF NOT EXISTS cvs (
+CREATE TABLE cvs (
     id SERIAL PRIMARY KEY,
-    user_id INT NOT NULL,
-    changeable BOOLEAN,
-    cv_data JSONB,
-    url TEXT,
-    is_main BOOLEAN,
-    archive BOOLEAN,
+    user_id INTEGER,
+    name VARCHAR(50), 
+	link VARCHAR(255),
+    listjob VARCHAR(50)[],
+    is_main BOOLEAN DEFAULT false,
+    archived BOOLEAN DEFAULT false,
     "createdAt" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
@@ -56,262 +48,91 @@ CREATE TABLE IF NOT EXISTS employers (
     "updatedAt" TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- Function to update updatedAt field for candidates
-CREATE
-OR REPLACE FUNCTION update_candidates_updated_at() RETURNS TRIGGER AS $$ BEGIN NEW."updatedAt" := CURRENT_TIMESTAMP;
 
-RETURN NEW;
+INSERT INTO candidates (
+    fullname, jobposition, avatar, dob, gender, yearsofexperience, email, phonenumber,
+    sociallink, github, technicals, summary, softskills, workexperience, education,
+    projects, languages, hobbies, activities, otherinformations
+) VALUES 
+(
+    'John Doe', 'Software Engineer', 'https://example.com/avatar1.jpg', '1990-01-01', 'Male', 5, 'johndoe@example.com',
+    '123-456-7890', 'https://linkedin.com/in/johndoe', 'https://github.com/johndoe', 
+    ARRAY['JavaScript', 'React', 'Node.js'], 'Experienced software engineer with a focus on web development.',
+    ARRAY['Communication', 'Problem-solving'], 
+    ARRAY['{"position": "Software Engineer", "company": "Tech Corp", "isCurrentJob": true, "startDate": "2020-01-01", "endDate": null, "description": "Developing web applications.", "skills": ["JavaScript", "React"], "projects": [{"name": "Project A", "time": "2021-06", "position": "Lead Developer", "description": "Developed the frontend."}]}'::JSONB], 
+    ARRAY['{"schoolName": "University of Technology", "major": "Computer Science", "isCurrentSchool": false, "startDate": "2010-09-01", "endDate": "2014-06-01", "description": "Studied computer science."}'::JSONB], 
+    ARRAY['{"name": "Open Source Project", "time": "2022-01", "position": "Contributor", "description": "Contributed to open source."}'::JSONB], 
+    ARRAY['{"type": "English", "level": "Fluent"}'::JSONB], 
+    ARRAY['Reading', 'Hiking'], 
+    ARRAY['{"name": "Volunteer Work", "isCurrentActivity": false, "startDate": "2019-01-01", "endDate": "2019-12-31", "description": "Volunteered at a local shelter."}'::JSONB], 
+    ARRAY['{"name": "Certification", "description": "Certified in AWS."}'::JSONB]
+),
+(
+    'Jane Smith', 'Data Scientist', 'https://example.com/avatar2.jpg', '1985-05-15', 'Female', 8, 'janesmith@example.com',
+    '987-654-3210', 'https://linkedin.com/in/janesmith', 'https://github.com/janesmith', 
+    ARRAY['Python', 'Machine Learning', 'Data Analysis'], 'Experienced data scientist with a background in machine learning.',
+    ARRAY['Analytical thinking', 'Teamwork'], 
+    ARRAY['{"position": "Data Scientist", "company": "Data Inc.", "isCurrentJob": true, "startDate": "2018-03-01", "endDate": null, "description": "Analyzing data and building models.", "skills": ["Python", "Machine Learning"], "projects": [{"name": "Project B", "time": "2019-09", "position": "Lead Data Scientist", "description": "Developed a machine learning model."}]}'::JSONB], 
+    ARRAY['{"schoolName": "Institute of Technology", "major": "Data Science", "isCurrentSchool": false, "startDate": "2005-09-01", "endDate": "2009-06-01", "description": "Studied data science."}'::JSONB], 
+    ARRAY['{"name": "AI Research Project", "time": "2020-01", "position": "Researcher", "description": "Conducted research on AI."}'::JSONB], 
+    ARRAY['{"type": "Spanish", "level": "Intermediate"}'::JSONB], 
+    ARRAY['Cooking', 'Traveling'], 
+    ARRAY['{"name": "Mentorship Program", "isCurrentActivity": true, "startDate": "2021-05-01", "endDate": null, "description": "Mentoring junior data scientists."}'::JSONB], 
+    ARRAY['{"name": "Publication", "description": "Published a paper on data science."}'::JSONB]
+),
+(
+    'Alice Johnson', 'UI/UX Designer', 'https://example.com/avatar3.jpg', '1992-11-22', 'Female', 4, 'alicejohnson@example.com',
+    '555-123-4567', 'https://linkedin.com/in/alicejohnson', 'https://github.com/alicejohnson', 
+    ARRAY['Figma', 'Sketch', 'Adobe XD'], 'Creative UI/UX designer with a passion for user-centered design.',
+    ARRAY['Creativity', 'Attention to detail'], 
+    ARRAY['{"position": "UI/UX Designer", "company": "Design Studio", "isCurrentJob": true, "startDate": "2019-07-01", "endDate": null, "description": "Designing user interfaces and experiences.", "skills": ["Figma", "Sketch"], "projects": [{"name": "Project C", "time": "2020-10", "position": "Lead Designer", "description": "Designed a mobile app."}]}'::JSONB], 
+    ARRAY['{"schoolName": "Art School", "major": "Graphic Design", "isCurrentSchool": false, "startDate": "2011-09-01", "endDate": "2015-06-01", "description": "Studied graphic design."}'::JSONB], 
+    ARRAY['{"name": "Freelance Project", "time": "2021-05", "position": "Freelancer", "description": "Designed a website for a client."}'::JSONB], 
+    ARRAY['{"type": "French", "level": "Beginner"}'::JSONB], 
+    ARRAY['Drawing', 'Photography'], 
+    ARRAY['{"name": "Design Conference", "isCurrentActivity": true, "startDate": "2022-01-01", "endDate": null, "description": "Speaking at design conferences."}'::JSONB], 
+    ARRAY['{"name": "Award", "description": "Won a design award."}'::JSONB]
+),
+(
+    'Bob Brown', 'DevOps Engineer', 'https://example.com/avatar4.jpg', '1988-07-19', 'Male', 6, 'bobbrown@example.com',
+    '654-321-0987', 'https://linkedin.com/in/bobbrown', 'https://github.com/bobbrown', 
+    ARRAY['AWS', 'Docker', 'Kubernetes'], 'Skilled DevOps engineer with experience in cloud infrastructure.',
+    ARRAY['Problem-solving', 'Collaboration'], 
+    ARRAY['{"position": "DevOps Engineer", "company": "Cloud Services", "isCurrentJob": true, "startDate": "2017-04-01", "endDate": null, "description": "Managing cloud infrastructure.", "skills": ["AWS", "Docker"], "projects": [{"name": "Project D", "time": "2018-08", "position": "DevOps Lead", "description": "Implemented CI/CD pipelines."}]}'::JSONB], 
+    ARRAY['{"schoolName": "Tech University", "major": "Information Technology", "isCurrentSchool": false, "startDate": "2006-09-01", "endDate": "2010-06-01", "description": "Studied information technology."}'::JSONB], 
+    ARRAY['{"name": "Automation Project", "time": "2020-03", "position": "Lead Engineer", "description": "Automated infrastructure deployment."}'::JSONB], 
+    ARRAY['{"type": "German", "level": "Advanced"}'::JSONB], 
+    ARRAY['Cycling', 'Gaming'], 
+    ARRAY['{"name": "Tech Meetup", "isCurrentActivity": true, "startDate": "2021-02-01", "endDate": null, "description": "Organizing local tech meetups."}'::JSONB], 
+    ARRAY['{"name": "Certification", "description": "Certified Kubernetes Administrator."}'::JSONB]
+),
+(
+    'Charlie Davis', 'Product Manager', 'https://example.com/avatar5.jpg', '1995-03-14', 'Male', 3, 'charliedavis@example.com',
+    '321-654-9870', 'https://linkedin.com/in/charliedavis', 'https://github.com/charliedavis', 
+    ARRAY['Agile', 'Scrum', 'Product Management'], 'Product manager with experience in agile methodologies.',
+    ARRAY['Leadership', 'Strategic thinking'], 
+    ARRAY['{"position": "Product Manager", "company": "Tech Innovations", "isCurrentJob": true, "startDate": "2021-05-01", "endDate": null, "description": "Managing product development.", "skills": ["Agile", "Scrum"], "projects": [{"name": "Project E", "time": "2022-09", "position": "Product Lead", "description": "Launched a new product feature."}]}'::JSONB], 
+    ARRAY['{"schoolName": "Business School", "major": "Business Administration", "isCurrentSchool": false, "startDate": "2013-09-01", "endDate": "2017-06-01", "description": "Studied business administration."}'::JSONB], 
+    ARRAY['{"name": "Startup Project", "time": "2021-10", "position": "Founder", "description": "Started a tech company."}'::JSONB], 
+    ARRAY['{"type": "Japanese", "level": "Intermediate"}'::JSONB], 
+    ARRAY['Cooking', 'Traveling'], 
+    ARRAY['{"name": "Startup Incubator", "isCurrentActivity": true, "startDate": "2023-01-01", "endDate": null, "description": "Mentoring startups."}'::JSONB], 
+    ARRAY['{"name": "Publication", "description": "Published a book on product management."}'::JSONB]
+);
 
-END;
 
-$$ LANGUAGE plpgsql;
+INSERT INTO cvs (user_id, name, link, listjob, is_main) VALUES 
+(1, 'cv1.pdf', 'https://example.com/cv1.pdf', ARRAY['job1', 'job2'], true),
+(1, 'cv2.pdf', 'https://example.com/cv2.pdf', ARRAY['job3', 'job4'], false),
+(2, 'cv3.pdf', 'https://example.com/cv3.pdf', ARRAY['job1', 'job2'], true),
+(2, 'cv4.pdf', 'https://example.com/cv4.pdf', ARRAY['job3', 'job4'], false),
+(3, 'cv5.pdf', 'https://example.com/cv5.pdf', ARRAY['job1', 'job2'], true),
+(3, 'cv6.pdf', 'https://example.com/cv6.pdf', ARRAY['job3', 'job4'], false),
+(4, 'cv7.pdf', 'https://example.com/cv7.pdf', ARRAY['job1', 'job2'], true),
+(4, 'cv8.pdf', 'https://example.com/cv8.pdf', ARRAY['job3', 'job4'], false),
+(5, 'cv9.pdf', 'https://example.com/cv9.pdf', ARRAY['job1', 'job2'], true),
+(5, 'cv10.pdf', 'https://example.com/cv10.pdf', ARRAY['job3', 'job4'], false);
 
--- Trigger to update candidates.updatedAt
-CREATE TRIGGER candidates_updated_at_trigger BEFORE
-UPDATE
-    ON candidates FOR EACH ROW EXECUTE FUNCTION update_candidates_updated_at();
-
--- Function to update updatedAt field for cvs
-CREATE
-OR REPLACE FUNCTION update_cvs_updated_at() RETURNS TRIGGER AS $$ BEGIN NEW."updatedAt" := CURRENT_TIMESTAMP;
-
-RETURN NEW;
-
-END;
-
-$$ LANGUAGE plpgsql;
-
--- Trigger to update cvs.updatedAt
-CREATE TRIGGER cvs_updated_at_trigger BEFORE
-UPDATE
-    ON cvs FOR EACH ROW EXECUTE FUNCTION update_cvs_updated_at();
-
--- Function to update updatedAt field for employers
-CREATE
-OR REPLACE FUNCTION update_employers_updated_at() RETURNS TRIGGER AS $$ BEGIN NEW."updatedAt" := CURRENT_TIMESTAMP;
-
-RETURN NEW;
-
-END;
-
-$$ LANGUAGE plpgsql;
-
--- Trigger to update employers.updatedAt
-CREATE TRIGGER employers_updated_at_trigger BEFORE
-UPDATE
-    ON employers FOR EACH ROW EXECUTE FUNCTION update_employers_updated_at();
-
--- Insert mock data into candidates table
-INSERT INTO
-    candidates (
-        avatar,
-        email,
-        display_name,
-        phone,
-        gender,
-        dob,
-        position,
-        yoe,
-        location,
-        status_profile,
-        address,
-        linkedin,
-        github,
-        summary,
-        skills,
-        experiences,
-        educations,
-        projects,
-        languages,
-        interests,
-        ref,
-        activities,
-        certificates,
-        additional,
-        cover_letter,
-        willing_to_work
-    )
-VALUES
-    (
-        'https://example.com/avatar1.jpg',
-        'candidate1@example.com',
-        'John Doe',
-        '123-456-7890',
-        'Male',
-        '1990-05-15',
-        'Software Developer',
-        5,
-        'San Francisco, CA',
-        'Open to new opportunities',
-        '123 Main St, San Francisco, CA',
-        'https://www.linkedin.com/in/johndoe',
-        'https://github.com/johndoe',
-        'Experienced software developer specializing in web technologies.',
-        '{"tech_skills": ["JavaScript", "HTML/CSS", "React", "Node.js"]}',
-        ARRAY ['{"title": "Senior Software Engineer", "company": "ABC Inc."}'::JSONB],
-        ARRAY ['{"degree": "BS in Computer Science", "university": "University XYZ"}'::JSONB],
-        ARRAY ['{"name": "XYZ project", "description": "Increased company revenue by 20%."}'::JSONB],
-        ARRAY ['{"English": "beginner"}'::JSONB],
-        'Hiking, Photography',
-        ARRAY ['{"Reference name": "ABC ref"}'::JSONB],
-        ARRAY ['{"Active name": "ABC Contest"}'::JSONB],
-        ARRAY ['{"Active name": "AWS Beginner"}'::JSONB],
-        ARRAY ['{"name": "Something special"}'::JSONB],
-        'Seeking new opportunities in software development.',
-        false
-    ),
-    (
-        'https://example.com/avatar2.jpg',
-        'candidate2@example.com',
-        'Jane Smith',
-        '987-654-3210',
-        'Female',
-        '1988-09-25',
-        'Frontend Developer',
-        7,
-        'New York, NY',
-        'Actively seeking new challenges',
-        '456 Elm St, New York, NY',
-        'https://www.linkedin.com/in/janesmith',
-        'https://github.com/janesmith',
-        'Experienced frontend developer with expertise in React and Vue.js.',
-        '{"tech_skills": ["JavaScript", "React", "Vue.js", "HTML/CSS"]}',
-        ARRAY ['{"title": "Lead Frontend Developer", "company": "XYZ Corp."}'::JSONB],
-        ARRAY ['{"degree": "BSc in Computer Engineering", "university": "Tech University"}'::JSONB],
-        ARRAY ['{"name": "ABC project", "description": "Implemented scalable frontend architecture."}'::JSONB],
-        ARRAY ['{"Spanish": "proficient"}'::JSONB],
-        'Reading, Painting',
-        ARRAY ['{"Reference name": "XYZ ref"}'::JSONB],
-        ARRAY ['{"Active name": "Hackathon XYZ"}'::JSONB],
-        ARRAY ['{"Active name": "AWS Certified Developer"}'::JSONB],
-        ARRAY ['{"name": "Special project"}'::JSONB],
-        'Passionate about frontend development and design.',
-        true -- Change to true if willing to work
-    ),
-    (
-        'https://example.com/avatar3.jpg',
-        'candidate3@example.com',
-        'Mike Johnson',
-        '555-123-4567',
-        'Male',
-        '1992-03-10',
-        'Backend Developer',
-        6,
-        'Chicago, IL',
-        'Open to backend development roles',
-        '789 Oak St, Chicago, IL',
-        'https://www.linkedin.com/in/mikejohnson',
-        'https://github.com/mikejohnson',
-        'Skilled backend developer proficient in Python and Django.',
-        '{"tech_skills": ["Python", "Django", "Flask", "SQL"]}',
-        ARRAY ['{"title": "Senior Backend Developer", "company": "Tech Solutions"}'::JSONB],
-        ARRAY ['{"degree": "MS in Computer Science", "university": "University of Illinois"}'::JSONB],
-        ARRAY ['{"name": "XYZ backend project", "description": "Optimized database performance."}'::JSONB],
-        ARRAY ['{"French": "intermediate"}'::JSONB],
-        'Playing guitar, Traveling',
-        ARRAY ['{"Reference name": "Tech Solutions ref"}'::JSONB],
-        ARRAY ['{"Active name": "Coding Competition"}'::JSONB],
-        ARRAY ['{"Active name": "AWS Certified Solutions Architect"}'::JSONB],
-        ARRAY ['{"name": "Open source contributor"}'::JSONB],
-        'Passionate about backend development and data optimization.',
-        true -- Change to true if willing to work
-    ),
-    (
-        'https://example.com/avatar4.jpg',
-        'candidate4@example.com',
-        'Anna Lee',
-        '333-999-8888',
-        'Female',
-        '1995-12-03',
-        'Data Scientist',
-        4,
-        'Seattle, WA',
-        'Seeking data science opportunities',
-        '321 Pine St, Seattle, WA',
-        'https://www.linkedin.com/in/annalee',
-        'https://github.com/annalee',
-        'Experienced data scientist with skills in machine learning and analytics.',
-        '{"tech_skills": ["Python", "R", "Machine Learning", "Data Analysis"]}',
-        ARRAY ['{"title": "Data Scientist", "company": "Data Analytics Inc."}'::JSONB],
-        ARRAY ['{"degree": "PhD in Statistics", "university": "University of Washington"}'::JSONB],
-        ARRAY ['{"name": "Data Analytics project", "description": "Implemented predictive models."}'::JSONB],
-        ARRAY ['{"Spanish": "beginner"}'::JSONB],
-        'Yoga, Cooking',
-        ARRAY ['{"Reference name": "Data Analytics Inc. ref"}'::JSONB],
-        ARRAY ['{"Active name": "Data Science Bootcamp"}'::JSONB],
-        ARRAY ['{"Active name": "AWS Certified Big Data Specialist"}'::JSONB],
-        ARRAY ['{"name": "Research publication"}'::JSONB],
-        'Passionate about data science and analytics.',
-        true -- Change to true if willing to work
-    ),
-    (
-        'https://example.com/avatar5.jpg',
-        'candidate5@example.com',
-        'Alex Johnson',
-        '777-444-5555',
-        'Male',
-        '1985-07-20',
-        'Project Manager',
-        10,
-        'San Diego, CA',
-        'Project management professional seeking leadership roles',
-        '567 Harbor Dr, San Diego, CA',
-        'https://www.linkedin.com/in/alexjohnson',
-        'https://github.com/alexjohnson',
-        'Experienced project manager with successful track record in delivering complex projects.',
-        '{"management_skills": ["Project Planning", "Team Leadership", "Budget Management"]}',
-        ARRAY ['{"title": "Senior Project Manager", "company": "Global Projects LLC"}'::JSONB],
-        ARRAY ['{"degree": "MBA", "university": "University of California, San Diego"}'::JSONB],
-        ARRAY ['{"name": "Global Projects", "description": "Managed international projects."}'::JSONB],
-        ARRAY ['{"German": "basic"}'::JSONB],
-        'Playing basketball, Gardening',
-        ARRAY ['{"Reference name": "Global Projects LLC ref"}'::JSONB],
-        ARRAY ['{"Active name": "Project Management Certification"}'::JSONB],
-        ARRAY ['{"Active name": "Scrum Master Certification"}'::JSONB],
-        ARRAY ['{"name": "Leadership Award"}'::JSONB],
-        'Passionate about project management and leadership.',
-        true -- Change to true if willing to work
-    );
-
--- Insert mock data into cvs table
-INSERT INTO
-    cvs (user_id, cv_data, url, is_main, archive)
-VALUES
-    (
-        1,
-        '{"profile": "Senior Software Developer"}' :: JSONB,
-        'https://example.com/cv/user1_cv.pdf',
-        true,
-        false
-    ),
-    (
-        3,
-        '{"profile": "Database Administrator"}' :: JSONB,
-        'https://example.com/cv/user3_cv.pdf',
-        true,
-        false
-    ),
-    (
-        4,
-        '{"profile": "Software Engineer"}' :: JSONB,
-        'https://example.com/cv/user4_cv.pdf',
-        true,
-        false
-    ),
-    (
-        5,
-        '{"profile": "UX/UI Designer"}' :: JSONB,
-        'https://example.com/cv/user5_cv.pdf',
-        true,
-        false
-    ),
-    (
-        6,
-        '{"profile": "Network Engineer"}' :: JSONB,
-        'https://example.com/cv/user6_cv.pdf',
-        true,
-        false
-    );
 
 -- Insert mock data into employers table
 INSERT INTO

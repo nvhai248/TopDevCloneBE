@@ -7,10 +7,11 @@ const UploadCV = async (req, res, next) => {
     try {
         const data = {
             user_id: req.body.user_id,
-            url: req.body.url,
-            is_main: req.body.is_main !== undefined ? req.body.is_main : true,
-            changeable: false,
-            archive: false,
+            name: req.body.name,
+            link: req.body.link,
+            isMain: req.body.is_main !== undefined ? req.body.is_main : true,
+            //changeable: false,
+            archived: false,
             
         }
         const CV = await candidateController.uploadCV(data);
