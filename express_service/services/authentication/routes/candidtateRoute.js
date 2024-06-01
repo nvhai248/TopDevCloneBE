@@ -3,6 +3,7 @@ const router = express.Router();
 const keycloak = require('../services/keycloak.js');
 
 const { KC_CLIENT_ID } = require('../configuration/keycloak.js');
+const candidateController = require('../controllers/candidateController.js');
 const ROLE = 'user';
 
 router.get('/', keycloak.protect(`${KC_CLIENT_ID}:${ROLE}`), (req, res, next) => {
@@ -10,13 +11,7 @@ router.get('/', keycloak.protect(`${KC_CLIENT_ID}:${ROLE}`), (req, res, next) =>
 });
 
 // User login
-router.post('/login', (req, res, next) => {
-  // redirect to keycloak login page
-  const { username, password } = req.body;
-  if (!username || !password) {
-    return res.status(400).send('Username and password are required');
-  }
-});
+router.post('/login', candidateController.login);
 
 // User logout
 router.post('/logout', (req, res, next) => {
