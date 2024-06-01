@@ -9,7 +9,7 @@ const listCandidatesByCondition = async (condition, limit, offset) => {
             switch (condition.type) {
                 case "name":
                     inlineCondition = {
-                        display_name: {
+                        fullName: {
                             [Op.iLike]: `%${condition.value}%`
                         }
                     };

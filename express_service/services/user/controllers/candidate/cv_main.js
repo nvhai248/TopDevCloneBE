@@ -19,7 +19,7 @@ const MainCVs = async (user_id) => {
             user_id: maskId(cv.user_id, DBTypeUser)
         }))
         const mainCV = cvs.find(cv => {
-            return cv.is_main == true;
+            return cv.isMain == true;
         })
 
         /// If the main CV is not found, throw an error

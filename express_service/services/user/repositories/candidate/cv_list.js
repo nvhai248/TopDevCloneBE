@@ -6,13 +6,13 @@ const listCVs = async (user_id, limit, offset) => {
     const CVs = await CVModel.findAll({
       where: {
         user_id: user_id,
-        //archive: false
+        archived: false
       },
       limit: limit,
       offset: offset,
       order: [["createdAt", "DESC"], ["updatedAt", "DESC"]],
       attributes: {
-        exclude: ["updatedAt"]
+        exclude: ["archived", "updatedAt"]
       }
     });
     return CVs ? CVs.map(user => user.dataValues) : CVs;

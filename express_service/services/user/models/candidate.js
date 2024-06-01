@@ -11,10 +11,12 @@ const CandidateModel = sequelize.define("candidates", {
     fullName: {
         type: DataTypes.STRING,
         allowNull: true,
+        field: 'fullname',
     },
     jobPosition: {
         type: DataTypes.STRING,
         allowNull: true,
+        field: 'jobposition',
     },
     avatar: {
         type: DataTypes.STRING,
@@ -32,6 +34,7 @@ const CandidateModel = sequelize.define("candidates", {
         type: DataTypes.NUMBER,
         allowNull: false,
         defaultValue: 0,
+        field: 'yearsofexperience',
     },
     email: {
         type: DataTypes.STRING,
@@ -40,10 +43,12 @@ const CandidateModel = sequelize.define("candidates", {
     phoneNumber: {
         type: DataTypes.STRING,
         allowNull: true,
+        field: 'phonenumber',
     },
     socialLink: {
         type: DataTypes.STRING,
         allowNull: true,
+        field: 'sociallink',
     },
     github: {
         type: DataTypes.STRING,
@@ -60,10 +65,12 @@ const CandidateModel = sequelize.define("candidates", {
     softSkills: {
         type: DataTypes.ARRAY(DataTypes.STRING),
         allowNull: true,
+        field: 'softskills',
     },
     workExperience: {
         type: DataTypes.ARRAY(DataTypes.JSONB),
         allowNull: true,
+        field: 'workexperience',
     },
     education: {
         type: DataTypes.ARRAY(DataTypes.JSONB),
@@ -88,10 +95,7 @@ const CandidateModel = sequelize.define("candidates", {
     otherInformations: {
         type: DataTypes.ARRAY(DataTypes.JSONB),
         allowNull: true,
-    },
-    myCVs: {
-        type: DataTypes.ARRAY(DataTypes.STRING),
-        allowNull: true,
+        field: 'otherinformations',
     },
     createdAt: {
         type: DataTypes.DATE,
