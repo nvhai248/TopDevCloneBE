@@ -6,10 +6,13 @@ const CandidateInfo = async (id) => {
     const user = await CandidateModel.findOne({
         where: {
             id: id,
+        },
+        attributes: {
+          exclude: ["createdAt", "updatedAt"]
         }
     });
 
-    return user ? user.dataValues : user;
+    return user !== null ? user.dataValues : user;
   } catch (error) {
     throw new DBError(error.message, "Something went wrong with user DB");
   }
