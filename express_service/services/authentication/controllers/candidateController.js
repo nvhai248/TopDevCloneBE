@@ -33,7 +33,7 @@ function parseQueryString(queryString) {
 }
 
 const keycloakCreateUserAndLogin = async (data) => {
-  // given_name: firstName, family_name: lastName. 2 keys is retuned from google
+  // given_name === firstName, family_name === lastName. 2 keys is retuned from google
   // user email for google login, initUserName for github login
   let { email, given_name, family_name, initUserName } = data;
   if (!given_name || !family_name) {
@@ -55,9 +55,9 @@ const keycloakCreateUserAndLogin = async (data) => {
   let inUsedUsername;
 
   if (initUserName) {
-    inUsedUsername = initUserName;
     // because github api can not get email if email is not public, so we need to create a fake email here to create account in keycloak
     // if not have email, account is still created but can not login
+    inUsedUsername = initUserName;
     email = initUserName + '@github.com';
   } else {
     inUsedUsername = email;
@@ -71,7 +71,6 @@ const keycloakCreateUserAndLogin = async (data) => {
   if (!createdUser) {
     // 2.1 user is not existed in keycloak, create a new one, assign to createdUser
     // 2.1.0 create account in keycloak
-    console.log('create account in keycloak');
     const responseRegister = await fetch(`${KC_SERVER_URL}/admin/realms/${KC_REALM}/users`, {
       method: 'POST',
       headers: {
@@ -117,7 +116,7 @@ const keycloakCreateUserAndLogin = async (data) => {
     createdUser = await getUser(inUsedUsername, credentials);
   }
 
-  // 2.2 user is existed, continue to login
+  // 2.2 application go to this row meaning user is existed in keycloak, continue to login
   if (!createdUser) {
     return {
       error: {
@@ -125,8 +124,6 @@ const keycloakCreateUserAndLogin = async (data) => {
       },
     };
   }
-
-  console.log('createdUser>>', createdUser);
 
   const response = await fetch(`${KC_SERVER_URL}/realms/${KC_REALM}/protocol/openid-connect/token`, {
     method: 'POST',
@@ -151,7 +148,6 @@ const keycloakCreateUserAndLogin = async (data) => {
   } else if (!response.ok) {
     const resp = await response.json();
     const { errorMessage } = resp;
-    console.log('error>>', resp);
     return {
       error: {
         message: errorMessage,
@@ -190,7 +186,6 @@ const googleLoginHandler = async (token = '', res) => {
       return ErrorResponse(new Error(data.error?.message || 'Can not login with google, try again'), res);
     }
 
-    // create account in keycloak
     const responseKeycloak = await keycloakCreateUserAndLogin(data);
 
     if (responseKeycloak.error) {
@@ -235,19 +230,12 @@ const githubLoginHandler = async (token = '', res) => {
     });
 
     const userData = await response.json();
-    console.log('data>>', userData);
 
-    const { email, login, name } = userData;
+    const { login, name } = userData;
 
     const nameTokens = name.split(' ');
     const family_name = nameTokens[nameTokens.length - 1];
     const given_name = nameTokens.slice(0, nameTokens.length - 1).join(' ');
-
-    console.log('family_name>>', {
-      initUserName: login,
-      family_name,
-      given_name,
-    });
 
     const responseKeycloak = await keycloakCreateUserAndLogin({
       initUserName: login,
