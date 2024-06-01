@@ -1,6 +1,6 @@
 const { BadRequestError, ForbiddenError } = require('../../utils/app-errors');
 const { repository } = require('./instance');
-const sequelize = require('../../database/pg');
+const { sequelize } = require('../../database/pg');
 const { USER_ROLE, DBTypeJob, JOB_STATUS } = require('../../utils/const');
 const { unmaskId } = require('../../utils/mask');
 
