@@ -9,9 +9,9 @@ const proto = grpc.loadPackageDefinition(packageDefinition);
 
 const jobStub = new proto.JobService(GRPC_JOB_SERVER, grpc.credentials.createInsecure());
 
-const createCompany = (userId, companyName, phoneNumber) => {
+const createCompany = (hrId, name, phoneNumber) => {
   return new Promise((resolve, reject) => {
-    jobStub.createCompany({ userId, companyName, phoneNumber }, (err, response) => {
+    jobStub.CreateCompanyGrpc({ hrId, name, phoneNumber }, (err, response) => {
       if (err) {
         reject(err);
       } else {
