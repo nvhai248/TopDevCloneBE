@@ -4,6 +4,7 @@ const { CompanyTransport } = require('../transports');
 const companyRouter = express.Router();
 const transport = new CompanyTransport();
 
+companyRouter.patch('/update-status', auth(['admin']), transport.updateStatusCompany);
 companyRouter.get('/homepage', transport.homepage);
 companyRouter.get('/listByType', transport.getListByType);
 companyRouter.patch('/:id/followed', transport.follow);

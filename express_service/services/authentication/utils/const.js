@@ -2,9 +2,11 @@ const DBTypeJob = 'job';
 const DBTypeCompany = 'company';
 const DBTypeUser = 'user';
 
-const CPN_STATUS_PENDING = 0;
-const CPN_STATUS_DELETED = -1;
-const CPN_STATUS_ACTIVE = 1;
+const COMPANY_STATUS = {
+  PENDING: 0,
+  DELETED: -1,
+  ACTIVE: 1,
+};
 
 const JOB_STATUS = {
   PENDING: 'PENDING',
@@ -55,9 +57,7 @@ module.exports = {
   DBTypeJob,
   DBTypeCompany,
   DBTypeUser,
-  CPN_STATUS_ACTIVE,
-  CPN_STATUS_DELETED,
-  CPN_STATUS_PENDING,
+  COMPANY_STATUS,
   JOB_STATUS,
   JOB_TYPE,
   CONTRACT_TYPE,

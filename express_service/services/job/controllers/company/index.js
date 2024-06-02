@@ -10,6 +10,7 @@ const FilterCompanyWithSharding = require('./filterCompanySharding');
 const Follow = require('./follow');
 const GetListByType = require('./getListByType');
 const HomePage = require('./homepage');
+const UpdateCompaniesStatus = require('./update-status');
 
 class CompanyController {
   // [GET] /companies/:id/jobs
@@ -36,6 +37,8 @@ class CompanyController {
   getListByType = GetListByType;
 
   homepage = HomePage;
+
+  updateStatus = UpdateCompaniesStatus;
 }
 
 module.exports = CompanyController;
