@@ -1,6 +1,6 @@
 const { repository } = require('./instance');
 const { sequelize } = require('../../database/pg');
-const { COMPANY_STATUS } = require('../../../authentication/utils/const');
+const { COMPANY_STATUS } = require('../../utils/const');
 
 const UpdateCompaniesStatus = async (data) => {
   let transaction;
