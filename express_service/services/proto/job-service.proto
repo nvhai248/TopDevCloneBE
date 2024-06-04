@@ -25,7 +25,16 @@ message CreateCompanyResponse {
     bool isOk = 2;
 }
 
+message GetCompanyStatusRequest {
+    string hrId = 1;
+}
+
+message GetCompanyStatusResponse {
+    int32 status = 1;
+}
+
 service JobService {
+    rpc GetCompanyStatus (GetCompanyStatusRequest) returns (GetCompanyStatusResponse);
     rpc GetJobInformation (JobRequest) returns (JobResponse);
     rpc UpdateApplyCountGrpc (JobRequest) returns (JobResponse);
     rpc CreateCompanyGrpc (CreateCompanyRequest) returns (CreateCompanyResponse);

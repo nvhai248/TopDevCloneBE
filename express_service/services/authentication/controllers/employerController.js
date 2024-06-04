@@ -13,7 +13,7 @@ const getCredentials = require('../utils/get-credentials');
 const setRole = require('../utils/set-role');
 const getRole = require('../utils/get-role');
 const getUser = require('../utils/get-user');
-const createCompany = require('../grpc/client');
+const { createCompany, getCompanyStatus } = require('../grpc/client');
 
 const employerController = {
   auth: (req, res, next) => {
@@ -72,6 +72,13 @@ const employerController = {
       }
 
       const { id, firstName, lastName, email } = user;
+
+      // Check status
+      const companyStatus = await getCompanyStatus(id);
+
+      if (companyStatus.status !== 1) {
+        return ErrorResponse(new Error('Account is not active'), res);
+      }
 
       const responseData = {
         id,

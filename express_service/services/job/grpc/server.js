@@ -6,6 +6,7 @@ const packageDefinition = protoLoader.loadSync(path.join(__dirname, '../../proto
 const proto = grpc.loadPackageDefinition(packageDefinition);
 const { GetJobInformation } = require('../grpc-server-function/job/get-job-grpc.js');
 const { UpdateApplyCountGrpc } = require('../grpc-server-function/job/update-apply-count-grpc.js');
+const Company = require('../models/company.js');
 
 const CreateCompanyGrpc = async (call, callback) => {
   const hrId = call.request.hrId;
@@ -19,23 +20,44 @@ const CreateCompanyGrpc = async (call, callback) => {
   };
 
   try {
-    const response = await fetch(`http://localhost:${PORT}/companies`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
+    const newCompany = await Company.create(company);
+
+    return callback(null, { companyId: newCompany.id, isOk: true });
+  } catch (error) {
+    console.log(error);
+    return callback(null, { companyId: '', isOk: false });
+  }
+};
+
+const CompanyStatusByHrId = async (hrId) => {
+  try {
+    const company = await Company.findOne({
+      where: {
+        hrId,
       },
-      body: JSON.stringify(company),
+      attributes: ['status'],
     });
 
-    const data = await response.json();
-
-    if (!response.ok) {
-      return callback(null, { companyId: '', isOk: false });
+    if (!company) {
+      throw new Error('Company not found');
     }
 
-    return callback(null, { companyId: data.companyId, isOk: true });
+    return company.status;
   } catch (error) {
-    return callback(null, { companyId: '', isOk: false });
+    throw error;
+  }
+};
+
+const GetCompanyStatus = async (call, callback) => {
+  const hrId = call.request.hrId;
+
+  try {
+    const status = await CompanyStatusByHrId(hrId);
+
+    return callback(null, { status });
+  } catch (error) {
+    console.log(error);
+    return callback(null, { status: -1 });
   }
 };
 
@@ -43,6 +65,7 @@ const startGrpcServer = () => {
   const server = new grpc.Server();
 
   server.addService(proto.JobService.service, {
+    GetCompanyStatus: GetCompanyStatus,
     CreateCompanyGrpc: CreateCompanyGrpc,
     GetJobInformation: GetJobInformation,
     UpdateApplyCountGrpc: UpdateApplyCountGrpc,
