@@ -7,6 +7,7 @@ const proto = grpc.loadPackageDefinition(packageDefinition);
 const { GetJobInformation } = require('../grpc-server-function/job/get-job-grpc.js');
 const { UpdateApplyCountGrpc } = require('../grpc-server-function/job/update-apply-count-grpc.js');
 const Company = require('../models/company.js');
+const { ApproveCompanyGrpc } = require('../grpc-server-function/company/update-status.js');
 
 const CreateCompanyGrpc = async (call, callback) => {
   const hrId = call.request.hrId;
@@ -69,6 +70,7 @@ const startGrpcServer = () => {
     CreateCompanyGrpc: CreateCompanyGrpc,
     GetJobInformation: GetJobInformation,
     UpdateApplyCountGrpc: UpdateApplyCountGrpc,
+    ApproveCompanyGrpc: ApproveCompanyGrpc,
   });
 
   server.bindAsync(`${GRPC_JOB_SERVER}`, grpc.ServerCredentials.createInsecure(), (err, port) => {

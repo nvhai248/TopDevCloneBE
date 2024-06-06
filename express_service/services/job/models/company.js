@@ -133,6 +133,7 @@ const Company = sequelize.define(
     reason: {
       type: DataTypes.STRING,
       allowNull: true,
+      defaultValue: '',
     },
   },
   { sequelize },
