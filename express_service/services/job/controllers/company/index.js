@@ -11,6 +11,7 @@ const Follow = require('./follow');
 const GetListByType = require('./getListByType');
 const HomePage = require('./homepage');
 const UpdateCompaniesStatus = require('./update-status');
+const GetInfoCompany = require('./getInfo');
 
 class CompanyController {
   // [GET] /companies/:id/jobs
@@ -19,6 +20,8 @@ class CompanyController {
   createCompany = CreateCompany;
   // [GET] /companies/:id
   findCompanyById = FindCompanyById;
+  // [GET] /companies/info
+  getInfoCompany = GetInfoCompany;
   // [PATCH] /companies/:id
   updateCompany = UpdateCompany;
   // [GET] /companies/slider

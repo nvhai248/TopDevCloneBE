@@ -1,14 +1,20 @@
 const { DBError } = require('../../utils/app-errors');
 const { DBTypeCompany } = require('../../utils/const');
+const { fillNullValue } = require('../../utils/fill-nullValue');
 const { unmaskId } = require('../../utils/mask');
 const { Company } = require('./instance');
 
 // Implement create job information here and export
 const UpdateCompany = async (id, data, transaction = null) => {
   try {
-    const companyId = unmaskId(id, DBTypeCompany);
+    // handle data before update
+    fillNullValue(['city', 'addressDetail'], data.addresses);
+    fillNullValue(['facebook', 'linkedin', 'youtube', 'instagram'], data.socialMedia);
+    fillNullValue(['question', 'answer'], data.topConcerns);
+    fillNullValue(['productPhoto', 'productName', 'link', 'description'], data.products);
+
     // Find the company by ID
-    const company = await Company.findOne({ where: { id: companyId }, transaction });
+    const company = await Company.findOne({ where: { hrId: id }, transaction });
     // Update company information with the provided data
     await company.update(data, { transaction });
 
