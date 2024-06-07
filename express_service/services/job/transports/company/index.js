@@ -11,6 +11,7 @@ const Follow = require('./follow');
 const GetListByType = require('./getListByType');
 const HomePage = require('./homepage');
 const UpdateStatusCompany = require('./update-status');
+const GetInfoCompany = require('./getInfo');
 class CompanyTransport {
   // [GET] /companies/:id/jobs
   listJobsByCompanyId = ListJobsByCompanyId;
@@ -18,6 +19,8 @@ class CompanyTransport {
   createCompany = CreateCompany;
   // [GET] /companies/:id
   findCompanyById = FindCompanyById;
+  // [GET] /companies/info
+  getInfoCompany = GetInfoCompany;
   // [PATCH] /companies/:id
   updateCompany = UpdateCompany;
   // [GET] /companies/slider

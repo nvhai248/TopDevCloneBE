@@ -15,6 +15,8 @@ const GetTopCompaniesWithMostJobs = require('./getListCompanyWithMostJob');
 const GetTopCompaniesWithRecentJobs = require('./getListCompanyWithLatestJob');
 const FindCompanyByName = require('./findByName');
 const UpdateCompanyByHrId = require('./updateByHrId');
+const GetInfoCompany = require('./getInfo');
+const UpdateViewedCompany = require('./updateViewed');
 
 class CompanyRepository {
   // [GET] /companies/:id/jobs
@@ -22,12 +24,15 @@ class CompanyRepository {
 
   // [GET] /companies/:id
   findCompanyById = FindCompanyById;
+  // [GET] /companies/info
+  getInfoCompany = GetInfoCompany;
 
   // [POST] /companies
   createCompany = CreateCompany;
 
   // [PATCH] /companies/:id
   updateCompany = UpdateCompany;
+  updateViewedCompany = UpdateViewedCompany;
 
   // [GET] /companies/slider
   listCompanySlider = ListCompanySlider;
