@@ -11,17 +11,21 @@ const GetCompaniesStatusGrpc = async (call, callback) => {
     for (let hrId of hrIds) {
       try {
         const company = await repository.findCompanyByHrId(hrId);
-        console.log('company<<<', company);
         result.push({
-          hrId: hrId,
+          hrId,
           companyId: maskId(company.id, DBTypeCompany),
           status: company.status,
+          logo: company.logo || '',
+          name: company.name || '',
+          website: company.website || '',
+          phoneNumber: company.phoneNumber || '',
         });
       } catch (error) {
         console.log('error.message', error.message);
       }
     }
 
+    console.log(result[0]);
     callback(null, {
       result: result,
     });

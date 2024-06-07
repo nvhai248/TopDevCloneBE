@@ -132,11 +132,22 @@ const adminController = {
         throw new Error(errorMessage || 'Failed to get hr accounts');
       }
 
-      const data = await response.json();
-      const hrIds = data.map((item) => item.id);
-
+      const hrAccounts = await response.json();
+      const hrIds = hrAccounts.map((item) => item.id);
       const listInfo = await getCompaniesStatus({ hrIds });
-      console.log('listInfo', listInfo);
+
+      const returnData = listInfo?.result?.map((item) => {
+        const fullData = hrAccounts.find((hr) => hr.id === item.hrId);
+        return {
+          ...item,
+          addresses: item.addresses || [],
+          nationality: item.nationality || [],
+          username: fullData?.username,
+          email: fullData?.email,
+        };
+      });
+
+      return SetResponse(res, STATUS_CODES.OK, returnData, 'OK', null);
     } catch (error) {
       console.error('Error during get hr accounts', error);
       return ErrorResponse(error, res);
