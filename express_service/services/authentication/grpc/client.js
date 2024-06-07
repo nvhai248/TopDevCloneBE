@@ -33,7 +33,22 @@ const createCompany = (hrId, name, phoneNumber) => {
   });
 };
 
+const getCompaniesStatus = ({ hrIds }) => {
+  return new Promise((resolve, reject) => {
+    jobStub.GetCompaniesStatusGrpc({ hrIds }, (err, response) => {
+      console.log('response', response);
+      console.log('err', err);
+      if (err) {
+        reject(err);
+      } else {
+        resolve(response);
+      }
+    });
+  });
+};
+
 module.exports = {
   getCompanyStatus,
   createCompany,
+  getCompaniesStatus,
 };

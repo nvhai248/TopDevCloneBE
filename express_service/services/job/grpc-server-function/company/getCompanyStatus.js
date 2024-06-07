@@ -5,16 +5,21 @@ const { maskId } = require('../../utils/mask');
 const GetCompaniesStatusGrpc = async (call, callback) => {
   try {
     const { hrIds } = call.request;
-
+    console.log('hrIds<<<', hrIds);
     const result = [];
 
     for (let hrId of hrIds) {
-      const company = await repository.findCompanyByHrId(hrId);
-      result.push({
-        hrId: hrId,
-        companyId: maskId(company.id, DBTypeCompany),
-        status: company.status,
-      });
+      try {
+        const company = await repository.findCompanyByHrId(hrId);
+        console.log('company<<<', company);
+        result.push({
+          hrId: hrId,
+          companyId: maskId(company.id, DBTypeCompany),
+          status: company.status,
+        });
+      } catch (error) {
+        console.log('error.message', error.message);
+      }
     }
 
     callback(null, {

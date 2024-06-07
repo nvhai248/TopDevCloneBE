@@ -4,7 +4,9 @@ const {
   KC_REALM,
   KC_SERVER_URL,
   KC_ADMIN_ROLE,
-  KC_ADMIN_ROLE_ID, // for registering admin (but not needed in this case)
+  KC_ADMIN_ROLE_ID,
+  KC_CLIENT_UUID,
+  KC_EMPLOYER_ROLE, // for registering admin (but not needed in this case)
 } = require('../configuration/keycloak.js');
 const { STATUS_CODES } = require('../utils/app-errors');
 const { SetResponse } = require('../utils/success-response');
@@ -12,6 +14,7 @@ const { ErrorResponse } = require('../utils/error-handler');
 const getCredentials = require('../utils/get-credentials');
 const getRole = require('../utils/get-role');
 const getUser = require('../utils/get-user');
+const { getCompaniesStatus } = require('../grpc/client.js');
 
 const adminController = {
   auth: (req, res, next) => {
@@ -103,6 +106,43 @@ const adminController = {
       console.error('Error during loginWithCredentials:', error);
       return ErrorResponse(new Error('Error getting credentials'), res);
     }
+  },
+  getAccountsHR: async (req, res, next) => {
+    const credentials = await getCredentials();
+
+    if (!credentials) {
+      return ErrorResponse(new Error('Error getting credentials'), res);
+    }
+
+    // call keycloak to get all employer account
+    try {
+      const response = await fetch(
+        `${KC_SERVER_URL}/admin/realms/${KC_REALM}/clients/${KC_CLIENT_UUID}/roles/${KC_EMPLOYER_ROLE}/users`,
+        {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+            Authorization: `Bearer ${credentials.access_token}`,
+          },
+        },
+      );
+
+      if (!response.ok) {
+        const { errorMessage } = await response.json();
+        throw new Error(errorMessage || 'Failed to get hr accounts');
+      }
+
+      const data = await response.json();
+      const hrIds = data.map((item) => item.id);
+
+      const listInfo = await getCompaniesStatus({ hrIds });
+      console.log('listInfo', listInfo);
+    } catch (error) {
+      console.error('Error during get hr accounts', error);
+      return ErrorResponse(error, res);
+    }
+
+    return res.status(200).json({ data: ['getAccountsHE', '2'] });
   },
 };
 

@@ -13,4 +13,6 @@ router.post('/login', adminController.login);
 // [GET] /auth/admin/login
 router.get('/login', adminController.loginWithCredentials);
 
+router.get('/accounts/hr', adminController.getAccountsHR);
+
 module.exports = router;
