@@ -22,6 +22,10 @@ const CreateCompanyGrpc = async (call, callback) => {
       isOk: true,
     });
   } catch (error) {
+    callback(null, {
+      companyId: null,
+      isOk: false,
+    });
     console.log(error.message);
   }
 };

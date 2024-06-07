@@ -38,8 +38,28 @@ message ApproveCompanyRequest {
     int32 status = 2;
 }
 
-message ApproveCompanyResponse {
+message UpdateStatusResponse {
     bool isOk = 1;
+}
+
+message RejectCompanyRequest {
+    string hrId = 1;
+    int32 status = 2;
+    string reason = 3; 
+}
+
+message GetCompaniesStatusRequest {
+    repeated string hrIds = 1;
+}
+
+message ItemGetCompaniesStatusResponse {
+    string hrId = 1;
+    string companyId = 2;
+    int32 status = 3;
+}
+
+message GetCompaniesStatusResponse {
+    repeated ItemGetCompaniesStatusResponse result = 1;
 }
 
 service JobService {
@@ -47,5 +67,7 @@ service JobService {
     rpc GetJobInformation (JobRequest) returns (JobResponse);
     rpc UpdateApplyCountGrpc (JobRequest) returns (JobResponse);
     rpc CreateCompanyGrpc (CreateCompanyRequest) returns (CreateCompanyResponse);
-    rpc ApproveCompanyGrpc (ApproveCompanyRequest) returns (ApproveCompanyResponse);
+    rpc ApproveCompanyGrpc (ApproveCompanyRequest) returns (UpdateStatusResponse);
+    rpc RejectCompanyGrpc (RejectCompanyRequest) returns (UpdateStatusResponse);
+    rpc GetCompaniesStatusGrpc (GetCompaniesStatusRequest) returns (GetCompaniesStatusResponse);
 }

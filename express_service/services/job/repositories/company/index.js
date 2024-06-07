@@ -17,7 +17,7 @@ const FindCompanyByName = require('./findByName');
 const UpdateCompanyByHrId = require('./updateByHrId');
 const GetInfoCompany = require('./getInfo');
 const UpdateViewedCompany = require('./updateViewed');
-
+const FindCompanyByHrId = require('./findByHrId');
 class CompanyRepository {
   // [GET] /companies/:id/jobs
   listJobsByCompanyId = ListJobsByCompanyId;
@@ -62,6 +62,8 @@ class CompanyRepository {
   findByName = FindCompanyByName;
 
   updateByHrId = UpdateCompanyByHrId;
+
+  findCompanyByHrId = FindCompanyByHrId;
 }
 
 module.exports = CompanyRepository;

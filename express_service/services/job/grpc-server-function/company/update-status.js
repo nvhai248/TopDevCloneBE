@@ -1,5 +1,6 @@
 const { repository } = require('./instance');
 const { sequelize } = require('../../database/pg');
+const { COMPANY_STATUS } = require('../../utils/const');
 
 const ApproveCompanyGrpc = async (call, callback) => {
   let transaction;
@@ -11,6 +12,7 @@ const ApproveCompanyGrpc = async (call, callback) => {
       if (status === COMPANY_STATUS.ACTIVE) {
         await repository.updateByHrId(hrId, {
           status: Number(status),
+          transaction,
         });
       }
     }
