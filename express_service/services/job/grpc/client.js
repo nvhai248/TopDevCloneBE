@@ -13,7 +13,6 @@ const isValidToken = (token, role) => {
   return new Promise((resolve, reject) => {
     authStub.isValid({ token, role }, (err, response) => {
       //   console.log('Token:', token);
-      console.log('response>>>', response);
       if (err) {
         reject(err);
       } else {

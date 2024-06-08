@@ -15,6 +15,13 @@ const ApproveCompanyGrpc = async (call, callback) => {
           transaction,
         });
       }
+
+      if (status === COMPANY_STATUS.DELETED) {
+        await repository.updateByHrId(hrId, {
+          status: Number(status),
+          transaction,
+        });
+      }
     }
 
     transaction.commit();

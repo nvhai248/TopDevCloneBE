@@ -14,9 +14,15 @@ const { ErrorResponse } = require('../utils/error-handler');
 const getCredentials = require('../utils/get-credentials');
 const getRole = require('../utils/get-role');
 const getUser = require('../utils/get-user');
-const { getCompaniesStatus, activeCompaniesStatus } = require('../grpc/client.js');
+const { getCompaniesStatus, updateCompaniesStatus } = require('../grpc/client.js');
 const { PORT } = require('../configuration/app.js');
 const jwt = require('jsonwebtoken');
+
+function paginate(data, page, limit) {
+  const startIndex = (page - 1) * limit;
+  const endIndex = startIndex + limit;
+  return data.slice(startIndex, endIndex);
+}
 
 const adminController = {
   auth: (req, res, next) => {
@@ -110,6 +116,7 @@ const adminController = {
     }
   },
   getAccountsHR: async (req, res, next) => {
+    const { page = 1, limit = 10 } = req.query;
     const credentials = await getCredentials();
 
     if (!credentials) {
@@ -134,11 +141,12 @@ const adminController = {
         throw new Error(errorMessage || 'Failed to get hr accounts');
       }
 
-      const hrAccounts = await response.json();
+      let hrAccounts = await response.json();
+      console.log('hrAccounts>>>', hrAccounts);
       const hrIds = hrAccounts.map((item) => item.id);
       const listInfo = await getCompaniesStatus({ hrIds });
 
-      const returnData = listInfo?.result?.map((item) => {
+      let returnData = listInfo?.result?.map((item) => {
         const fullData = hrAccounts.find((hr) => hr.id === item.hrId);
         return {
           ...item,
@@ -150,21 +158,48 @@ const adminController = {
         };
       });
 
-      return SetResponse(res, STATUS_CODES.OK, returnData, 'OK', null);
+      const pagingData = {
+        paging: {
+          limit,
+          page,
+          total: returnData.length,
+        },
+        data: paginate(returnData, page, limit),
+      };
+
+      return SetResponse(res, STATUS_CODES.OK, pagingData, 'OK', null);
     } catch (error) {
       console.error('Error during get hr accounts', error);
       return ErrorResponse(error, res);
     }
   },
   updateStatusHR: async (req, res, next) => {
-    const { hrIds } = req.body;
+    let { hrIds, status } = req.body;
+
+    status = Number(status);
+    console.log('status>>>', status);
+
+    if (!status || [-1, 0, 1].indexOf(status) === -1) {
+      return ErrorResponse(new Error('status must be -1, 0 or 1'), res);
+    }
+
     if (!hrIds.length) {
       return ErrorResponse(new Error('hrIds can not be empty'), res);
     }
 
-    const data = await activeCompaniesStatus({ hrIds });
+    const data = await updateCompaniesStatus({ hrIds, status });
+    console.log('data>>>', data);
+    if (data.isOk) {
+      return SetResponse(res, STATUS_CODES.OK, 'Update status HR successfully', 'OK', null);
+    } else {
+      return ErrorResponse(new Error('Error during update status HR'), res);
+    }
+  },
 
-    if (data.isOK) {
+  rejectHRWithReason: async (req, res, next) => {
+    let { hrId, reason } = req.body;
+    const resp = await rejectHRWithReason({ hrId, reason });
+    if (resp.isOk) {
       return SetResponse(res, STATUS_CODES.OK, 'Update status HR successfully', 'OK', null);
     } else {
       return ErrorResponse(new Error('Error during update status HR'), res);
