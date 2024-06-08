@@ -19,6 +19,11 @@ router.post(
   keycloak.protect(`${KC_CLIENT_ID}:${KC_ADMIN_ROLE}`),
   adminController.updateStatusHR,
 );
+router.post(
+  '/accounts/hr/status/reject',
+  keycloak.protect(`${KC_CLIENT_ID}:${KC_ADMIN_ROLE}`),
+  adminController.rejectHR,
+);
 
 router.get('/test', adminController.test);
 

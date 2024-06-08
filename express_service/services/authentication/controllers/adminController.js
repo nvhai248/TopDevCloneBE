@@ -196,7 +196,7 @@ const adminController = {
     }
   },
 
-  rejectHRWithReason: async (req, res, next) => {
+  rejectHR: async (req, res, next) => {
     let { hrId, reason } = req.body;
     const resp = await rejectHRWithReason({ hrId, reason });
     if (resp.isOk) {
