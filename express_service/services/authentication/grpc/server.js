@@ -4,6 +4,7 @@ const protoLoader = require('@grpc/proto-loader');
 const { GRPC_AUTH_SERVER, PORT } = require('../configuration/app.js');
 const packageDefinition = protoLoader.loadSync(path.join(__dirname, '../../proto/auth-service.proto'));
 const proto = grpc.loadPackageDefinition(packageDefinition);
+const jwt = require('jsonwebtoken');
 // const keycloak = require('../services/keycloak.js');
 
 const verifyToken = async (token, role) => {
@@ -15,7 +16,12 @@ const verifyToken = async (token, role) => {
       },
     });
 
-    return response.status === 200;
+    const data = jwt.decode(token);
+
+    return {
+      status: response.status === 200,
+      userId: data?.sub,
+    };
   } catch (error) {
     console.error('Token verification failed:', error.message);
     return false;
@@ -37,8 +43,9 @@ const isValid = async (call, callback) => {
   }
 
   try {
-    const isValid = await verifyToken(token, role);
-    return callback(null, { valid: isValid });
+    const resp = await verifyToken(token, role);
+    const { status, userId } = resp;
+    return callback(null, { valid: status, userId });
   } catch (error) {
     console.error('Error in isValid function:', error);
     return callback({

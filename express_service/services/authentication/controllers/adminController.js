@@ -15,6 +15,8 @@ const getCredentials = require('../utils/get-credentials');
 const getRole = require('../utils/get-role');
 const getUser = require('../utils/get-user');
 const { getCompaniesStatus } = require('../grpc/client.js');
+const { PORT } = require('../configuration/app.js');
+const jwt = require('jsonwebtoken');
 
 const adminController = {
   auth: (req, res, next) => {
@@ -142,6 +144,7 @@ const adminController = {
           ...item,
           addresses: item.addresses || [],
           nationality: item.nationality || [],
+          industry: item.industry || [],
           username: fullData?.username,
           email: fullData?.email,
         };
@@ -152,8 +155,46 @@ const adminController = {
       console.error('Error during get hr accounts', error);
       return ErrorResponse(error, res);
     }
+  },
+  updateStatusHR: async (req, res, next) => {
+    const { status } = req.body;
+    const validStatus = [-1, 0, 1];
 
-    return res.status(200).json({ data: ['getAccountsHE', '2'] });
+    if (!status || !validStatus.includes(status)) {
+      return ErrorResponse(new Error('Invalid status'), res);
+    }
+
+    console.log('req.user', req.user);
+
+    return res.status(200).json({ data: ['updateStatusHR', '2'] });
+  },
+
+  test: (req, res, next) => {
+    const token = req.headers.authorization.split(' ')[1];
+
+    const verifyToken = async (token, role) => {
+      try {
+        const response = await fetch(`http://localhost:${PORT}/${role}`, {
+          method: 'GET',
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        const data = jwt.decode(token);
+        console.log(data);
+
+        return {
+          status: response.status === 200,
+          // userId:
+        };
+      } catch (error) {
+        console.error('Token verification failed:', error.message);
+        return false;
+      }
+    };
+
+    verifyToken(token, 'admin');
   },
 };
 

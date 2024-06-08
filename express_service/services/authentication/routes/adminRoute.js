@@ -13,6 +13,13 @@ router.post('/login', adminController.login);
 // [GET] /auth/admin/login
 router.get('/login', adminController.loginWithCredentials);
 
-router.get('/accounts/hr', adminController.getAccountsHR);
+router.get('/accounts/hr', keycloak.protect(`${KC_CLIENT_ID}:${KC_ADMIN_ROLE}`), adminController.getAccountsHR);
+router.post(
+  '/accounts/hr/status',
+  keycloak.protect(`${KC_CLIENT_ID}:${KC_ADMIN_ROLE}`),
+  adminController.updateStatusHR,
+);
+
+router.get('/test', adminController.test);
 
 module.exports = router;

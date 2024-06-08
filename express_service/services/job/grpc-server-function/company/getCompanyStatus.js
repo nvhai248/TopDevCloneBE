@@ -19,6 +19,9 @@ const GetCompaniesStatusGrpc = async (call, callback) => {
           name: company.name || '',
           website: company.website || '',
           phoneNumber: company.phoneNumber || '',
+          addresses: company.addresses || [],
+          nationality: company.nationality || [],
+          industry: company.industry || [],
         });
       } catch (error) {
         console.log('error.message', error.message);

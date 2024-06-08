@@ -67,7 +67,7 @@ message ItemGetCompaniesStatusResponse {
     string website = 7;
     string phoneNumber = 8;
     repeated ItemAddress addresses = 9;
-    
+    repeated string industry = 10;
 }
 
 message GetCompaniesStatusResponse {

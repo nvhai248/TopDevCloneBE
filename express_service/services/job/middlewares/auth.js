@@ -24,6 +24,11 @@ const auth = (roles) => {
         throw new UnauthorizeError('Invalid token');
       }
 
+      const userId = roleValidations.find((result) => result.valid).userId;
+      req.user = { id: userId };
+
+      // need to pass companyId to req.user
+
       next();
     } catch (error) {
       console.error(`Error in RequireRole middleware for roles ${roles}:`, error);
