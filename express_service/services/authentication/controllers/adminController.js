@@ -14,7 +14,7 @@ const { ErrorResponse } = require('../utils/error-handler');
 const getCredentials = require('../utils/get-credentials');
 const getRole = require('../utils/get-role');
 const getUser = require('../utils/get-user');
-const { getCompaniesStatus } = require('../grpc/client.js');
+const { getCompaniesStatus, activeCompaniesStatus } = require('../grpc/client.js');
 const { PORT } = require('../configuration/app.js');
 const jwt = require('jsonwebtoken');
 
@@ -157,16 +157,18 @@ const adminController = {
     }
   },
   updateStatusHR: async (req, res, next) => {
-    const { status } = req.body;
-    const validStatus = [-1, 0, 1];
-
-    if (!status || !validStatus.includes(status)) {
-      return ErrorResponse(new Error('Invalid status'), res);
+    const { hrIds } = req.body;
+    if (!hrIds.length) {
+      return ErrorResponse(new Error('hrIds can not be empty'), res);
     }
 
-    console.log('req.user', req.user);
+    const data = await activeCompaniesStatus({ hrIds });
 
-    return res.status(200).json({ data: ['updateStatusHR', '2'] });
+    if (data.isOK) {
+      return SetResponse(res, STATUS_CODES.OK, 'Update status HR successfully', 'OK', null);
+    } else {
+      return ErrorResponse(new Error('Error during update status HR'), res);
+    }
   },
 
   test: (req, res, next) => {

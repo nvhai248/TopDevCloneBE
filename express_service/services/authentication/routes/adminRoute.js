@@ -15,7 +15,7 @@ router.get('/login', adminController.loginWithCredentials);
 
 router.get('/accounts/hr', keycloak.protect(`${KC_CLIENT_ID}:${KC_ADMIN_ROLE}`), adminController.getAccountsHR);
 router.post(
-  '/accounts/hr/status',
+  '/accounts/hr/status/active',
   keycloak.protect(`${KC_CLIENT_ID}:${KC_ADMIN_ROLE}`),
   adminController.updateStatusHR,
 );

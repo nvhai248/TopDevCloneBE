@@ -46,8 +46,22 @@ const getCompaniesStatus = ({ hrIds }) => {
   });
 };
 
+const activeCompaniesStatus = ({ hrIds }) => {
+  return new Promise((resolve, reject) => {
+    jobStub.ApproveCompanyGrpc({ hrIds, status: 1 }, (err, response) => {
+      console.log('response', response);
+      if (err) {
+        reject(err);
+      } else {
+        resolve(response);
+      }
+    });
+  });
+};
+
 module.exports = {
   getCompanyStatus,
   createCompany,
   getCompaniesStatus,
+  activeCompaniesStatus,
 };
