@@ -12,6 +12,9 @@ const getCredentials = require('../utils/get-credentials');
 const getUser = require('../utils/get-user');
 const setRole = require('../utils/set-role');
 const { SetResponse } = require('../utils/success-response');
+const { BadRequestError } = require('../utils/app-errors');
+const CandidateModel = require('../models/candidate');
+const CVModel = require('../models/candidate');
 
 function parseQueryString(queryString) {
   // Split the query string by '&'
@@ -169,6 +172,17 @@ const keycloakCreateUserAndLogin = async (data) => {
     expires_in,
     refresh_expires_in,
   };
+
+  //  create user in database
+  const user = await CandidateModel.create({ where: { email: email } });
+  if (!user) {
+    return {
+      error: {
+        message: 'Failed to create user in database',
+      },
+    };
+  }
+
   return responseData;
 };
 
@@ -273,6 +287,105 @@ const candidateController = {
 
     return ErrorResponse(new Error('Invalid type login'), res);
   },
+
+  getInfo: async (req, res) => {
+    try {
+      console.log("get info start processing");
+      const { email } = req.params;
+      const credentials = await getCredentials();
+      // get user info from keycloak and database
+      const kc_response = await getUser(email, credentials);
+      if (!kc_response) {
+        return ErrorResponse(new Error('Failed to get user info'), res);
+      }
+      const pre_db_response = await CandidateModel.findOne({ email: email });
+      const db_response = pre_db_response ? pre_db_response.dataValues : pre_db_response;
+      const pre_cvs = await CVModel.findAll({ where: { email: email } });
+      const CVs = pre_cvs ? pre_cvs.map(user => user.dataValues) : pre_cvs;
+      const data = {
+        email: email,
+        fullName: `${kc_response.firstName} ${kc_response.lastName}`,
+        ...db_response,
+        myCVs: CVs,
+      };
+
+      return SetResponse(res, STATUS_CODES.OK, data, 'OK', null);
+    } catch (error) {
+      return ErrorResponse(new Error('Can not get user data'), res);
+    }
+  },
+
+  updateInfo: async (req, res) => {
+    try {
+      console.log("update info start processing");
+      const { email } = req.params;
+      const data = req.body;
+
+      // check invalid field in data (email, id)
+      if (data.email || data.id) {
+        return ErrorResponse(new Error('Invalid field'), res);
+      }
+
+      // check last name and first name in data
+      const { firstName, lastName, ...rest } = data;
+      const credentials = await getCredentials();
+      // change first name in keycloak
+      if (firstName) {
+        const response = await fetch(`${KC_SERVER_URL}/admin/realms/${KC_REALM}/users/${email}`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${credentials.access_token}`,
+          },
+          body: JSON.stringify({
+            firstName: firstName,
+          }),
+        });
+        if (!response.ok) {
+          return ErrorResponse(new Error('Failed to change first name'), res);
+        }
+      }
+      // change last name in keycloak
+      if (lastName) {
+        const response = await fetch(`${KC_SERVER_URL}/admin/realms/${KC_REALM}/users/${email}`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${credentials.access_token}`,
+          },
+          body: JSON.stringify({
+            lastName: lastName,
+          }),
+        });
+        if (!response.ok) {
+          return ErrorResponse(new Error('Failed to change last name'), res);
+        }
+      }
+
+      // update user data in database
+      const db_response = await CandidateModel.update(rest, { where: { email: email } });
+      if (!db_response) {
+        return ErrorResponse(new Error('Failed to update user data'), res);
+      }
+
+      return SetResponse(res, STATUS_CODES.OK, null, 'Update successfully!', null);
+    } catch (error) {
+      return ErrorResponse(new Error('Can not update user data'), res);
+    }
+  },
+  
+  uploadCV: async (req, res) => {
+    try {
+      const { email } = req.params;
+      const res = await CVModel.create({ email: email, ...req.body });
+      if (!res) {
+        return ErrorResponse(new Error('Failed to upload CV'), res);
+      }
+      return SetResponse(res, STATUS_CODES.OK, null, 'Upload successfully!', null);
+    } catch (error) {
+      return ErrorResponse(new Error('Can not upload CV'), res);
+    }
+  }
 };
 
 module.exports = candidateController;

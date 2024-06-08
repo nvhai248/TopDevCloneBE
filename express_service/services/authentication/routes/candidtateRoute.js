@@ -18,4 +18,16 @@ router.post('/logout', (req, res, next) => {
   // redirect to keycloak logout page
 });
 
+// User profile
+router.get("/profile/:id", candidateController.getInfo);
+
+// Update user profile
+router.patch("/profile/:id", candidateController.updateInfo);
+
+//router.get("/:id/cvs", auth, candidateController.listCVbyUserId);
+//router.get("/:id/main-cv", auth, candidateController.mainCV);
+router.post("/upload-cv", candidateController.uploadCV);
+//router.post("/create-cv", candidateController.createCV);
+//router.delete("/delete-cv/:id", candidateController.deleteCV);
+
 module.exports = router;
