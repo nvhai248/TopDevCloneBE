@@ -66,7 +66,7 @@ services:
       - DB_PG_URI=postgresql://applicationservice_owner:ogutmx7v0cGd@ep-lucky-violet-a1cihzw1.ap-southeast-1.aws.neon.tech/applicationservice?sslmode=require
       - PROTO_PATH=../proto/job-service.proto
       - GRPC_JOB_SERVER=job:8002
-      - GRPC_AUTH_SERVER=authentication:8004
+      - GRPC_AUTH_SERVER=job:8004
       - REDIS_URL=redis:6379
       - REDIS_EXPIRATION=3600
     ports:
