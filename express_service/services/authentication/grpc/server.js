@@ -24,10 +24,14 @@ const isValid = async (call, callback) => {
 
   try {
     const resp = await verifyToken(token, role);
-    const { status, userId } = resp;
-    const companies = await getCompaniesStatus({ hrIds: [userId] });
+    const { status, userId, email } = resp;
 
-    return callback(null, { valid: status, userId, companyId: companies?.result[0]?.companyId });
+    if (role == 'employer') {
+      const companies = await getCompaniesStatus({ hrIds: [userId] });
+      return callback(null, { valid: status, userId, companyId: companies?.result[0]?.companyId, email });
+    }
+    return callback(null, { valid: status, userId, email });
+
   } catch (error) {
     console.error('Error in isValid function:', error);
     return callback({

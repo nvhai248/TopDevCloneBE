@@ -211,7 +211,8 @@ const adminController = {
 
     const verifyToken = async (token, role) => {
       try {
-        const response = await fetch(`http://localhost:${PORT}/${role}`, {
+        const uri = `${process.env.AUTHENTICATION_HOST}/${role}` || `http://localhost:${PORT}/${role}`
+        const response = await fetch(uri, {
           method: 'GET',
           headers: {
             Authorization: `Bearer ${token}`,
