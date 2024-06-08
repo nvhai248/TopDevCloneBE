@@ -13,6 +13,10 @@ const Job = sequelize.define(
       primaryKey: true,
     },
     createdBy: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    companyId: {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
