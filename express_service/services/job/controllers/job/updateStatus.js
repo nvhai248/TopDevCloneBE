@@ -11,21 +11,13 @@ const UpdateStatus = async (user, data) => {
     transaction = await sequelize.transaction();
     const status_allowed = [];
 
-    if (true) {
+    if (user.companyId) {
       status_allowed.push(JOB_STATUS.APPROVED);
       status_allowed.push(JOB_STATUS.REJECTED);
-      status_allowed.push(JOB_STATUS.HIDE);
-      status_allowed.push(JOB_STATUS.PUBLIC);
-      status_allowed.push(JOB_STATUS.DELETED);
-    } else if (user.role == USER_ROLE.ADMIN) {
-      status_allowed.push(JOB_STATUS.APPROVED);
-      status_allowed.push(JOB_STATUS.REJECTED);
-    } else if (user.role == USER_ROLE.HR) {
-      status_allowed.push(JOB_STATUS.HIDE);
-      status_allowed.push(JOB_STATUS.PUBLIC);
-      status_allowed.push(JOB_STATUS.DELETED);
     } else {
-      throw new ForbiddenError('You are not had permission!', 'Please try another action');
+      status_allowed.push(JOB_STATUS.HIDE);
+      status_allowed.push(JOB_STATUS.PUBLIC);
+      status_allowed.push(JOB_STATUS.DELETED);
     }
 
     for (let miniData of data) {
