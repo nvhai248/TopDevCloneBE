@@ -33,7 +33,46 @@ const createCompany = (hrId, name, phoneNumber) => {
   });
 };
 
+const getCompaniesStatus = ({ hrIds }) => {
+  return new Promise((resolve, reject) => {
+    jobStub.GetCompaniesStatusGrpc({ hrIds }, (err, response) => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(response);
+      }
+    });
+  });
+};
+
+const updateCompaniesStatus = ({ hrIds, status }) => {
+  return new Promise((resolve, reject) => {
+    jobStub.ApproveCompanyGrpc({ hrIds, status }, (err, response) => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(response);
+      }
+    });
+  });
+};
+
+const rejectHRWithReason = ({ hrId, reason }) => {
+  return new Promise((resolve, reject) => {
+    jobStub.RejectCompanyGrpc({ hrId, status: -1, reason }, (err, response) => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(response);
+      }
+    });
+  });
+};
+
 module.exports = {
   getCompanyStatus,
   createCompany,
+  getCompaniesStatus,
+  updateCompaniesStatus,
+  rejectHRWithReason,
 };

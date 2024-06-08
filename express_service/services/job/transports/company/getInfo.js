@@ -4,7 +4,7 @@ const { SetResponse } = require('../../utils/success-response');
 const { controller } = require('./instance');
 
 const GetInfoCompany = async (req, res, next) => {
-  const { hrId } = req.body;
+  const hrId = req?.user?.id;
   try {
     if (!hrId) return next(new BadRequestError('Miss field', 'hr Id is required'));
     const company = await controller.getInfoCompany(hrId);

@@ -60,6 +60,8 @@ const employerController = {
       const { access_token, refresh_token, expires_in, refresh_expires_in } = await response.json();
       const roles = await getRole(username, credentials);
 
+      console.log(access_token);
+
       if (!roles || !roles.includes(KC_EMPLOYER_ROLE)) {
         return ErrorResponse(new Error('Unauthorized'), res);
       }

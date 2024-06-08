@@ -5,10 +5,10 @@ const { controller } = require('./instance');
 
 const UpdateCompany = async (req, res, next) => {
   const data = req.body;
+  const hrId = req?.user?.id;
   try {
-    const { hrId, ...newCompany } = data;
     if (!hrId) return next(new BadRequestError('Miss field', 'hr Id is required'));
-    const company = await controller.updateCompany(hrId, newCompany);
+    const company = await controller.updateCompany(hrId, data);
     SetResponse(res, STATUS_CODES.OK, company, 'OK', null);
   } catch (error) {
     ErrorResponse(error, res);

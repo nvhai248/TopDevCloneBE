@@ -1,26 +1,11 @@
 const path = require('path');
 const grpc = require('@grpc/grpc-js');
 const protoLoader = require('@grpc/proto-loader');
-const { GRPC_AUTH_SERVER, PORT } = require('../configuration/app.js');
+const { GRPC_AUTH_SERVER } = require('../configuration/app.js');
+const verifyToken = require('../utils/verify.js');
 const packageDefinition = protoLoader.loadSync(path.join(__dirname, '../../proto/auth-service.proto'));
 const proto = grpc.loadPackageDefinition(packageDefinition);
 // const keycloak = require('../services/keycloak.js');
-
-const verifyToken = async (token, role) => {
-  try {
-    const response = await fetch(`http://localhost:${PORT}/${role}`, {
-      method: 'GET',
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-
-    return response.status === 200;
-  } catch (error) {
-    console.error('Token verification failed:', error.message);
-    return false;
-  }
-};
 
 const isValid = async (call, callback) => {
   const token = call.request.token;
@@ -37,8 +22,9 @@ const isValid = async (call, callback) => {
   }
 
   try {
-    const isValid = await verifyToken(token, role);
-    return callback(null, { valid: isValid });
+    const resp = await verifyToken(token, role);
+    const { status, userId } = resp;
+    return callback(null, { valid: status, userId });
   } catch (error) {
     console.error('Error in isValid function:', error);
     return callback({
