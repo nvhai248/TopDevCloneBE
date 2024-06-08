@@ -10,6 +10,7 @@ message AuthRequest {
 message AuthResponse {
     bool valid = 1;
     string userId = 2;
+    string companyId = 3;
 }
 
 service AuthService {
