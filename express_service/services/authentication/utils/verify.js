@@ -3,7 +3,8 @@ const jwt = require('jsonwebtoken');
 
 const verifyToken = async (token, role) => {
   try {
-    const response = await fetch(`http://localhost:${PORT}/${role}`, {
+    const uri = `${process.env.AUTHENTICATION_HOST}/${role}` || `http://localhost:${PORT}/${role}`
+    const response = await fetch(uri, {
       method: 'GET',
       headers: {
         Authorization: `Bearer ${token}`,
@@ -15,6 +16,7 @@ const verifyToken = async (token, role) => {
     return {
       status: response.status === 200,
       userId: data?.sub,
+      email: data?.email,
     };
   } catch (error) {
     console.error('Token verification failed:', error.message);

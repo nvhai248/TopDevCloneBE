@@ -20,6 +20,6 @@ router.post(
   adminController.updateStatusHR,
 );
 
-router.get('/test', adminController.test);
+//router.get('/test', adminController.test);
 
 module.exports = router;
