@@ -22,6 +22,10 @@ const GetSearchConditions = (conditions) => {
     searchConditions[Op.and].push({ address: { [Op.like]: `%${conditions.address}%` } });
   }
 
+  if (conditions.status) {
+    searchConditions[Op.and].push({ status: { [Op.in]: [conditions.status] } });
+  }
+
   return searchConditions;
 };
 

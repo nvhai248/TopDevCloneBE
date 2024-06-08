@@ -25,7 +25,8 @@ const auth = (roles) => {
       }
 
       const userId = roleValidations.find((result) => result.valid).userId;
-      req.user = { id: userId };
+      const companyId = roleValidations.find((result) => result.valid).companyId;
+      req.user = { id: userId, companyId: companyId };
 
       // need to pass companyId to req.user
 
