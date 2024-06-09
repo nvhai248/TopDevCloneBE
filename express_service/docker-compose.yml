@@ -112,7 +112,7 @@ services:
       - DB_MONGO_URI=mongodb://mongo-router:27017/jobservice
       - PROTO_PATH=../proto/job-service.proto
       - GRPC_JOB_SERVER=job:8002
-      - AUTH_HOST=http://localhost:5004
+      - AUTH_HOST=authentication:5004
       - GRPC_AUTH_SERVER=authentication:8004
       - ES_HOST=http://elasticsearch:9200
       - ES_USERNAME=elastic
