@@ -9,7 +9,7 @@ const auth = (roles) => {
       let token = req.headers.authorization;
 
       if (!token) {
-        throw new Error('Unauthorized');
+        throw new UnauthorizeError('Unauthorized');
       }
 
       token = token.split(' ')[1];
@@ -32,8 +32,9 @@ const auth = (roles) => {
 
       next();
     } catch (error) {
-      console.error(`Error in RequireRole middleware for roles ${roles}:`, error);
-      ErrorResponse(error, res);
+      console.error(`Error in RequireRole middleware for roles ${roles}`);
+
+      ErrorResponse(new UnauthorizeError('Unauthorized', 'Please login first'), res);
     }
   };
 };

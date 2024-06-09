@@ -42,6 +42,8 @@ class CompanyController {
   homepage = HomePage;
 
   updateStatus = UpdateCompaniesStatus;
+
+  unFollow = UnFollow;
 }
 
 module.exports = CompanyController;

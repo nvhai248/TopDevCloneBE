@@ -12,6 +12,7 @@ const GetListByType = require('./getListByType');
 const HomePage = require('./homepage');
 const UpdateStatusCompany = require('./update-status');
 const GetInfoCompany = require('./getInfo');
+const UnFollow = require('./unFollow');
 class CompanyTransport {
   // [GET] /companies/:id/jobs
   listJobsByCompanyId = ListJobsByCompanyId;
@@ -41,6 +42,8 @@ class CompanyTransport {
   homepage = HomePage;
 
   updateStatusCompany = UpdateStatusCompany;
+
+  unFollow = UnFollow;
 }
 
 module.exports = CompanyTransport;
