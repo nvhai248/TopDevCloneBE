@@ -11,7 +11,7 @@ const UpdateStatus = async (user, data) => {
     transaction = await sequelize.transaction();
     const status_allowed = [];
 
-    if (user.companyId) {
+    if (!user.companyId) {
       status_allowed.push(JOB_STATUS.APPROVED);
       status_allowed.push(JOB_STATUS.REJECTED);
     } else {

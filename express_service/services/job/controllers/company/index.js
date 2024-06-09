@@ -12,6 +12,7 @@ const GetListByType = require('./getListByType');
 const HomePage = require('./homepage');
 const UpdateCompaniesStatus = require('./update-status');
 const GetInfoCompany = require('./getInfo');
+const UnFollow = require('./unFollow');
 
 class CompanyController {
   // [GET] /companies/:id/jobs

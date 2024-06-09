@@ -4,7 +4,7 @@ const { JobTransport } = require('../transports');
 const jobRouter = express.Router();
 const transport = new JobTransport();
 
-companyRouter.patch('/:id/unfollowed', auth(['candidate']), transport.unFollow);
+jobRouter.patch('/:id/unfollowed', auth(['candidate']), transport.unFollow);
 jobRouter.patch('/:id/followed', auth(['candidate']), transport.follow);
 jobRouter.patch('/update-status', auth(['admin', 'employer']), transport.updateStatus);
 jobRouter.get('/', transport.listJobByConditions);

@@ -14,6 +14,7 @@ companyRouter.post('/create', transport.createCompanyWithSharding);
 companyRouter.get('/search', transport.filterCompanyWithSharding);
 companyRouter.get('/find/:id', transport.findCompanyByIdWithSharding);
 companyRouter.get('/filter', transport.filterCompany);
+//companyRouter.get('/:id/jobs', transport.listJobsByCompanyId);
 companyRouter.get('/info', auth(['employer']), transport.getInfoCompany);
 companyRouter.get('/:id', transport.findCompanyById);
 companyRouter.post('/', auth(['employer', 'admin']), transport.createCompany);
