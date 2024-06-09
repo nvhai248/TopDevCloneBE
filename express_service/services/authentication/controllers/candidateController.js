@@ -358,37 +358,22 @@ const candidateController = {
 
       // check last name and first name in data
       const { firstName, lastName, ...rest } = data;
-      const credentials = await getCredentials();
-      // change first name in keycloak
-      if (firstName) {
-        const response = await fetch(`${KC_SERVER_URL}/admin/realms/${KC_REALM}/users/${email}`, {
+      if (firstName || lastName) {
+        const credentials = await getCredentials();
+        const user = await getUser(email, credentials);
+        const response = await fetch(`${KC_SERVER_URL}/admin/realms/${KC_REALM}/users/${user.id}`, {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json',
             Authorization: `Bearer ${credentials.access_token}`,
           },
           body: JSON.stringify({
-            firstName: firstName,
+            firstName: firstName ? firstName : user.firstName,
+            lastName: lastName ? lastName : user.lastName,
           }),
         });
         if (!response.ok) {
           return ErrorResponse(new Error('Failed to change first name'), res);
-        }
-      }
-      // change last name in keycloak
-      if (lastName) {
-        const response = await fetch(`${KC_SERVER_URL}/admin/realms/${KC_REALM}/users/${email}`, {
-          method: 'PUT',
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${credentials.access_token}`,
-          },
-          body: JSON.stringify({
-            lastName: lastName,
-          }),
-        });
-        if (!response.ok) {
-          return ErrorResponse(new Error('Failed to change last name'), res);
         }
       }
 
