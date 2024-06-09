@@ -197,7 +197,7 @@ const googleLoginHandler = async (token = '', res) => {
       return ErrorResponse(new Error(responseKeycloak.error.message), res);
     }
 
-    return SetResponse(res, STATUS_CODES.OK, responseKeycloak, 'OK', null);
+    return SetResponse(res, STATUS_CODES.OK, { ...responseKeycloak, role: 'candidate' }, 'OK', null);
   } catch (error) {
     console.log('error>>', error);
     return ErrorResponse(new Error('Can not get gooogle user data'), res);
@@ -252,7 +252,7 @@ const githubLoginHandler = async (token = '', res) => {
       return ErrorResponse(new Error(responseKeycloak.error.message), res);
     }
 
-    return SetResponse(res, STATUS_CODES.OK, responseKeycloak, 'OK', null);
+    return SetResponse(res, STATUS_CODES.OK, { ...responseKeycloak, role: 'candidate' }, 'OK', null);
   } catch (error) {
     console.log('error>>', error);
     return ErrorResponse(new Error('Can not get github user data'), res);
