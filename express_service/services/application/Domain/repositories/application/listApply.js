@@ -4,7 +4,7 @@ const { DBTypeJob, DBTypeApplication } = require("../.././utils/const");
 const { maskId } = require("../.././utils/mask");
 const { redisClient, getCacheRedis, setCacheRedis } = require("../../../Infrastructure/redis");
 
-const ListApply = async (id, limit, page) => {
+const ListApply = async (id, status, limit, page) => {
   try {
     let applications = [];
     const cachedApplications = await getCacheRedis(
@@ -16,12 +16,28 @@ const ListApply = async (id, limit, page) => {
       applications = cachedApplications;
     } else {
       console.log("invalid cachedApplications, start caching");
-      applications = await ApplicationModal.findAll({
-        where: { jobId: id },
-        limit: limit,
-        offset: (page - 1) * limit,
-        order: [["createdAt", "DESC"]],
-      });
+      if (status == "") {
+        applications = await ApplicationModal.findAll({
+          where: {
+            jobId: id
+          },
+          limit: limit,
+          offset: (page - 1) * limit,
+          order: [["createdAt", "DESC"]],
+        });
+      }
+      else {
+        applications = await ApplicationModal.findAll({
+          where: {
+            jobId: id,
+            status: status
+          },
+          limit: limit,
+          offset: (page - 1) * limit,
+          order: [["createdAt", "DESC"]],
+        });
+      }
+
       await setCacheRedis(`applications:${id}:${limit}:${page}`, applications);
     }
 

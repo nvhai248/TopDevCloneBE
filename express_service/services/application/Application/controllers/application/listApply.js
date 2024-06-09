@@ -3,13 +3,13 @@ const { maskId, unmaskId } = require("../../../Domain/utils/mask");
 const { repository } = require("./instance");
 const grpcJobClient = require("../../../Infrastructure/grpc/grpc-job-client")
 
-const ListApply = async (id, limit, page) => {
+const ListApply = async (id, status, limit, page) => {
     try {
         limit = limit || 20;
         page = page || 1;
         const jobId = unmaskId(id, DBTypeJob)
 
-        const result = await repository.listApply(jobId, limit, page)
+        const result = await repository.listApply(jobId, status, limit, page)
         for (const res of result) {
             idJob = unmaskId(res.jobId, DBTypeJob)
             const infoJob = await new Promise((resolve, reject) => {
