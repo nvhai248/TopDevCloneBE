@@ -1,11 +1,11 @@
-const { DBError } = require("../.././utils/app-errors");
+const { DBError } = require("../../utils/app-errors");
 const { ApplicationModal } = require("./instance");
 
-const CountListApply = async (id) => {
+const CountListApplyOfUser = async (email) => {
     try {
         const applications = await ApplicationModal.findAll({
             where: {
-                jobId: id,
+                email: email,
             }
         });
         return applications.length;
@@ -15,4 +15,4 @@ const CountListApply = async (id) => {
     }
 };
 
-module.exports = CountListApply;
+module.exports = CountListApplyOfUser;

@@ -32,7 +32,7 @@ const ListApplyOfUser = async (email, limit, page) => {
         }
 
 
-        const total = await repository.countListApply(jobId);
+        const total = await repository.countListApplyOfUser(email);
 
         return {
             data: result,
