@@ -33,7 +33,7 @@ const ListApply = async (id, status, limit, page) => {
         }
 
 
-        const total = await repository.countListApply(jobId);
+        const total = await repository.countListApply(jobId, status);
 
         return {
             data: result,
