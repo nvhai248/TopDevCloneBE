@@ -5,7 +5,6 @@ const { maskId } = require('../../utils/mask');
 const GetCompaniesStatusGrpc = async (call, callback) => {
   try {
     const { hrIds } = call.request;
-    console.log('hrIds<<<', hrIds);
     const result = [];
 
     for (let hrId of hrIds) {

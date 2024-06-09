@@ -2,12 +2,12 @@ const express = require('express');
 const router = express.Router();
 const keycloak = require('../services/keycloak.js');
 
-const { KC_CLIENT_ID } = require('../configuration/keycloak.js');
+const { KC_CLIENT_ID, KC_CANDIDATE_ROLE } = require('../configuration/keycloak.js');
 const candidateController = require('../controllers/candidateController.js');
-const ROLE = 'user';
 
-router.get('/', keycloak.protect(`${KC_CLIENT_ID}:${ROLE}`), (req, res, next) => {
-  return next();
+// [GET] /auth/candidate
+router.get('/', keycloak.protect(`${KC_CLIENT_ID}:${KC_CANDIDATE_ROLE}`), (req, res, next) => {
+  return res.status(200).send('Candidate authorized');
 });
 
 // User login

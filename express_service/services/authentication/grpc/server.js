@@ -3,6 +3,7 @@ const grpc = require('@grpc/grpc-js');
 const protoLoader = require('@grpc/proto-loader');
 const { GRPC_AUTH_SERVER } = require('../configuration/app.js');
 const verifyToken = require('../utils/verify.js');
+const { getCompaniesStatus } = require('./client.js');
 const packageDefinition = protoLoader.loadSync(path.join(__dirname, '../../proto/auth-service.proto'));
 const proto = grpc.loadPackageDefinition(packageDefinition);
 // const keycloak = require('../services/keycloak.js');
@@ -23,8 +24,14 @@ const isValid = async (call, callback) => {
 
   try {
     const resp = await verifyToken(token, role);
-    const { status, userId } = resp;
-    return callback(null, { valid: status, userId });
+    const { status, userId, email } = resp;
+
+    if (role == 'employer') {
+      const companies = await getCompaniesStatus({ hrIds: [userId] });
+      return callback(null, { valid: status, userId, companyId: companies?.result[0]?.companyId, email });
+    }
+    return callback(null, { valid: status, userId, email });
+
   } catch (error) {
     console.error('Error in isValid function:', error);
     return callback({

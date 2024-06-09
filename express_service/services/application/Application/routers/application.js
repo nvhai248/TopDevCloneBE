@@ -4,9 +4,10 @@ const { ApplicationTransport } = require("../transports");
 const applicationRouter = express.Router();
 const transport = new ApplicationTransport();
 
-applicationRouter.post("/", auth, transport.applyJob);
-applicationRouter.get("/list-apply/:id", auth, transport.listApply);
-applicationRouter.patch("/:id", auth, transport.updateProcessApplication);
-applicationRouter.get("/:id", auth, transport.detailApply);
+applicationRouter.post("/", transport.applyJob);
+applicationRouter.get("/list-apply/:id", auth(['employer']), transport.listApply);
+applicationRouter.patch("/:id", auth(['employer']), transport.updateProcessApplication);
+applicationRouter.get("/:id", auth(['employer', 'candidate']), transport.detailApply);
+applicationRouter.get("/user/list", auth(['candidate']), transport.listApplyOfUser);
 
 module.exports = applicationRouter;

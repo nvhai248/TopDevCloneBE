@@ -40,12 +40,17 @@ const keycloakCreateUserAndLogin = async (data) => {
   // given_name === firstName, family_name === lastName. 2 keys is retuned from google
   // user email for google login, initUserName for github login
   let { email, given_name, family_name, initUserName } = data;
-  if (!given_name || !family_name) {
+  if (!given_name && !family_name) {
     return {
       error: {
         message: 'All fields are required: first name, last name',
       },
     };
+  }
+
+  if (given_name && !family_name) {
+    family_name = given_name.split(' ')[0];
+    given_name = given_name.split(' ').slice(1).join(' ');
   }
 
   if (!email && !initUserName) {
