@@ -4,7 +4,7 @@ const { CompanyTransport } = require('../transports');
 const companyRouter = express.Router();
 const transport = new CompanyTransport();
 
-companyRouter.get('/:id/jobs', auth(['employer']), transport.listJobsByCompanyId);
+companyRouter.get('/jobs', auth(['employer']), transport.listJobsByCompanyId);
 companyRouter.patch('/update-status', auth(['admin']), transport.updateStatusCompany);
 companyRouter.get('/homepage', transport.homepage);
 companyRouter.get('/listByType', transport.getListByType);
