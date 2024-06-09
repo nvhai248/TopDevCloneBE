@@ -14,7 +14,8 @@ const setRole = require('../utils/set-role');
 const { SetResponse } = require('../utils/success-response');
 const { BadRequestError } = require('../utils/app-errors');
 const CandidateModel = require('../models/candidate');
-const CVModel = require('../models/candidate');
+const CVModel = require('../models/cv');
+const { where } = require('sequelize');
 
 function parseQueryString(queryString) {
   // Split the query string by '&'
@@ -174,7 +175,8 @@ const keycloakCreateUserAndLogin = async (data) => {
   };
 
   //  create user in database
-  const user = await CandidateModel.create({ where: { email: email } });
+  console.log("start create user in database: ", email);
+  const user = await CandidateModel.create({ email: email });
   if (!user) {
     return {
       error: {
@@ -290,7 +292,6 @@ const candidateController = {
 
   getInfo: async (req, res) => {
     try {
-      console.log("get info start processing");
       const { email } = req.params;
       const credentials = await getCredentials();
       // get user info from keycloak and database
@@ -298,15 +299,39 @@ const candidateController = {
       if (!kc_response) {
         return ErrorResponse(new Error('Failed to get user info'), res);
       }
-      const pre_db_response = await CandidateModel.findOne({ email: email });
+      const pre_db_response = await CandidateModel.findOne({
+        where: { email: email },
+        attributes: {
+          exclude: ["createdAt", "id",]
+        }
+      });
       const db_response = pre_db_response ? pre_db_response.dataValues : pre_db_response;
-      const pre_cvs = await CVModel.findAll({ where: { email: email } });
+      console.log(db_response);
+      const pre_cvs = await CVModel.findAll({
+        where: {
+          email: email,
+          archived: false
+        },
+        order: [['createdAt', 'DESC']],
+        attributes: {
+          exclude: ["archived", "createdAt", "email"]
+        }
+      });
       const CVs = pre_cvs ? pre_cvs.map(user => user.dataValues) : pre_cvs;
+      // format date
+      const options = { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric', hour12: false };
+      db_response.updatedAt = new Intl.DateTimeFormat('en-US', { ...options, timeZone: 'Asia/Ho_Chi_Minh' }).format(new Date(db_response.updatedAt));
+      const myCVs = CVs.map(cv => {
+        cv.updatedAt = new Intl.DateTimeFormat('en-US', { ...options, timeZone: 'Asia/Ho_Chi_Minh' }).format(new Date(cv.updatedAt));
+        return cv;
+      });
+
+      // return data
       const data = {
         email: email,
         fullName: `${kc_response.firstName} ${kc_response.lastName}`,
         ...db_response,
-        myCVs: CVs,
+        myCVs: myCVs,
       };
 
       return SetResponse(res, STATUS_CODES.OK, data, 'OK', null);
@@ -373,17 +398,47 @@ const candidateController = {
       return ErrorResponse(new Error('Can not update user data'), res);
     }
   },
-  
+
   uploadCV: async (req, res) => {
     try {
       const { email } = req.params;
-      const res = await CVModel.create({ email: email, ...req.body });
-      if (!res) {
+      const { is_main } = req.body.is_main ? req.body : { is_main: true };
+      // count cv of user to set is)main true or false
+      const cvs = await CVModel.findAndCountAll({ where: { email: email } });
+      if (cvs.count === 0) {
+        is_main = true;
+      }
+      
+      if (is_main === true) {
+        await CVModel.update({ is_main: false },
+          {
+            where: {
+              email: email,
+              is_main: true
+            }
+          });
+      }
+
+      const cv = await CVModel.create({ email: email, ...req.body });
+      if (!cv) {
         return ErrorResponse(new Error('Failed to upload CV'), res);
       }
       return SetResponse(res, STATUS_CODES.OK, null, 'Upload successfully!', null);
     } catch (error) {
       return ErrorResponse(new Error('Can not upload CV'), res);
+    }
+  },
+
+  deleteCV: async (req, res) => {
+    try {
+      const { id } = req.params;
+      const result = await CVModel.update({ archived: true }, { where: { id: id } });
+      if (!result) {
+        return ErrorResponse(new Error('Failed to delete CV'), result);
+      }
+      return SetResponse(res, STATUS_CODES.OK, null, 'Delete successfully!', null);
+    } catch (error) {
+      return ErrorResponse(new Error('Can not delete CV'), res);
     }
   }
 };

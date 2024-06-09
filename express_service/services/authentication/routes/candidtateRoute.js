@@ -19,15 +19,15 @@ router.post('/logout', (req, res, next) => {
 });
 
 // User profile
-router.get("/profile/:id", candidateController.getInfo);
+router.get("/profile/:email", candidateController.getInfo);
 
 // Update user profile
-router.patch("/profile/:id", candidateController.updateInfo);
+router.patch("/profile/:email", candidateController.updateInfo);
 
-//router.get("/:id/cvs", auth, candidateController.listCVbyUserId);
-//router.get("/:id/main-cv", auth, candidateController.mainCV);
-router.post("/upload-cv", candidateController.uploadCV);
-//router.post("/create-cv", candidateController.createCV);
-//router.delete("/delete-cv/:id", candidateController.deleteCV);
+// upload cv
+router.post("/upload-cv/:email", candidateController.uploadCV);
+
+// soft delete cv
+router.delete("/delete-cv/:id", candidateController.deleteCV);
 
 module.exports = router;

@@ -109,4 +109,6 @@ INSERT INTO candidates (
 
 INSERT INTO cvs (email, name, link, listjob, is_main) VALUES 
 ('johndoe@example.com', 'cv1.pdf', 'https://example.com/cv1.pdf', ARRAY['job1', 'job2'], true),
-('johndoe@example.com', 'cv2.pdf', 'https://example.com/cv2.pdf', ARRAY['job3', 'job4'], false);
+('johndoe@example.com', 'cv2.pdf', 'https://example.com/cv2.pdf', ARRAY['job3', 'job4'], false),
+('huy183605@gmail.com', 'cv1.pdf', 'https://example.com/cv1.pdf', ARRAY['job1', 'job2'], true),
+('huy183605@gmail.com', 'cv2.pdf', 'https://example.com/cv2.pdf', ARRAY['job3', 'job4'], false);
