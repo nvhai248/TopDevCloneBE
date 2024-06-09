@@ -9,7 +9,7 @@ const StartServer = async () => {
   await expressApp(app);
 
   await syncModals();
-  // await connectMongo();
+  await connectMongo();
 
   app
     .listen(PORT, () => {
