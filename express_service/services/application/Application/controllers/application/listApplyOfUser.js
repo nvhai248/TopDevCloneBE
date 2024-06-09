@@ -27,7 +27,8 @@ const ListApplyOfUser = async (email, limit, page) => {
                 title: infoJob.title,
                 level: infoJob.level,
                 jobType: infoJob.jobType,
-                endDate: infoJob.endDate
+                endDate: infoJob.endDate,
+                companyName: infoJob.companyName
             };
         }
 

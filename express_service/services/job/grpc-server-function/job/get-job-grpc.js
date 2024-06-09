@@ -9,11 +9,9 @@ const GetJobInformation = async (call, callback) => {
         let job = await repository.findJobById(id);
         // implement search company here
         job.company = await companyRepository.findCompanyById(job.companyId);
-        delete job.companyId;
 
         job.id = maskId(job.id, DBTypeJob);
-        job.company.id = maskId(job.company.id, DBTypeCompany);
-        job.createdBy = maskId(job.createdBy, DBTypeUser);
+        job.companyName = job.company.name
 
         // format data return
         job = FormatJob(job);

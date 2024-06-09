@@ -12,6 +12,7 @@ message JobResponse {
     string level = 3;
     string jobType = 4;
     string endDate = 5;
+    string companyName = 6;
 }
 
 message CreateCompanyRequest {
