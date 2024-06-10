@@ -14,7 +14,7 @@ const { ErrorResponse } = require('../utils/error-handler');
 const getCredentials = require('../utils/get-credentials');
 const getRole = require('../utils/get-role');
 const getUser = require('../utils/get-user');
-const { getCompaniesStatus, updateCompaniesStatus } = require('../grpc/client.js');
+const { getCompaniesStatus, updateCompaniesStatus, rejectHRWithReason } = require('../grpc/client.js');
 const { PORT } = require('../configuration/app.js');
 const jwt = require('jsonwebtoken');
 
@@ -197,7 +197,8 @@ const adminController = {
     }
   },
 
-  rejectHRWithReason: async (req, res, next) => {
+  rejectHR: async (req, res, next) => {
+    console.log('rejectHR', req.body);
     let { hrId, reason } = req.body;
     const resp = await rejectHRWithReason({ hrId, reason });
     if (resp.isOk) {
