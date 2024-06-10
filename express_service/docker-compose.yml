@@ -140,7 +140,7 @@ services:
       - GITHUB_CLIENT_ID=Ov23lifEHe1ghBAepFbw
       - GITHUB_CLIENT_SECRET=ddb3348dfbd668e8a7c8311a858a52417657872e
       - AUTHENTICATION_HOST=http://authentication:5004
-      - DB_POSTGRE_PORT = 5432
+      - DB_POSTGRE_PORT=5432
       - DB_POSTGRE_HOST='ep-mute-wave-a1zmdjxp.ap-southeast-1.aws.neon.tech'
       - DB_POSTGRE_DBNAME='userdb'
       - DB_POSTGRE_USERNAME='userdb_owner'
