@@ -1,11 +1,11 @@
 const { Sequelize } = require('sequelize');
-const { 
-  DB_PG_URI, 
-  DB_POSTGRE_USERNAME, 
-  DB_POSTGRE_PASSWORD, 
-  DB_POSTGRE_DBNAME, 
-  DB_POSTGRE_HOST, 
-  DB_POSTGRE_PORT 
+const {
+  DB_PG_URI,
+  DB_POSTGRE_USERNAME,
+  DB_POSTGRE_PASSWORD,
+  DB_POSTGRE_DBNAME,
+  DB_POSTGRE_HOST,
+  DB_POSTGRE_PORT,
 } = require('../configuration/db_pg');
 
 const sequelize = new Sequelize(DB_PG_URI, {
@@ -13,7 +13,6 @@ const sequelize = new Sequelize(DB_PG_URI, {
   dialect: 'postgres',
   logging: false,
 });
-
 // for local testing
 // const sequelize = new Sequelize(DB_POSTGRE_DBNAME, DB_POSTGRE_USERNAME, DB_POSTGRE_PASSWORD, {
 //   port: DB_POSTGRE_PORT,
@@ -22,7 +21,6 @@ const sequelize = new Sequelize(DB_PG_URI, {
 //   logging: false,
 //   ssl: true,
 // });
-
 
 sequelize
   .authenticate()
