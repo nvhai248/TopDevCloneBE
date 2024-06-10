@@ -6,8 +6,8 @@ const FormatJob = (job) => {
     formattedJob.level = job && job.level ? job.level.split('|') : [];
 
     return formattedJob; // Return the formatted job
-  } catch (error) {
-    console.log(error.message);
+  } catch (error) {/* 
+    console.log(error.message); */
     return job; // Return the original job object if there's an error
   }
 };
@@ -24,8 +24,8 @@ const FormatCompany = (company) => {
     formattedCompany.images = JSON.parse(company.images);
 
     return formattedCompany; // Return the formatted job
-  } catch (error) {
-    console.log(error.message);
+  } catch (error) {/* 
+    console.log(error.message); */
     return company; // Return the original job object if there's an error
   }
 };

@@ -27,7 +27,6 @@ const GetCompaniesStatusGrpc = async (call, callback) => {
       }
     }
 
-    console.log(result[0]);
     callback(null, {
       result: result,
     });

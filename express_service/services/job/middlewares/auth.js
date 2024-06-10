@@ -9,7 +9,7 @@ const auth = (roles) => {
       let token = req.headers.authorization;
 
       if (!token) {
-        throw new Error('Unauthorized');
+        throw new UnauthorizeError('Unauthorized');
       }
 
       token = token.split(' ')[1];
@@ -25,14 +25,16 @@ const auth = (roles) => {
       }
 
       const userId = roleValidations.find((result) => result.valid).userId;
-      req.user = { id: userId };
+      const companyId = roleValidations.find((result) => result.valid).companyId;
+      req.user = { id: userId, companyId: companyId };
 
       // need to pass companyId to req.user
 
       next();
     } catch (error) {
-      console.error(`Error in RequireRole middleware for roles ${roles}:`, error);
-      ErrorResponse(error, res);
+      console.error(`Error in RequireRole middleware for roles ${roles}`);
+
+      ErrorResponse(new UnauthorizeError('Unauthorized', 'Please login first'), res);
     }
   };
 };

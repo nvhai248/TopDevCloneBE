@@ -1,6 +1,7 @@
-const { DBTypeCompany } = require('../../utils/const');
+const { DBTypeCompany, DBTypeJob } = require('../../utils/const');
 const { maskId } = require('../../utils/mask');
-const { repository } = require('./instance');
+const { repository, jobRepository } = require('./instance');
+const { Op } = require('sequelize');
 
 const HomePage = async () => {
   try {
@@ -8,7 +9,28 @@ const HomePage = async () => {
     let featured = []; // top 6 max jobs
     let popular = []; // top 9 view
 
-    popular = await repository.filterCompanyByConditions(null, 9, 0, 'most-viewed');
+    popular = await repository.filterCompanyByConditions(
+      {
+        jobCount: {
+          [Op.gte]: 1, // Greater than or equal to 1
+        },
+      },
+      9,
+      0,
+      'most-viewed',
+    );
+
+    for (let i = 0; i < popular.length; i++) {
+      const job = await jobRepository.findLatestJobByCompanyId(popular[i].id);
+
+      popular[i] = {
+        ...popular[i],
+        job: {
+          ...job,
+          id: maskId(job?.id, DBTypeJob),
+        },
+      };
+    }
 
     supperSpotlight = await repository.filterCompanyByConditions(null, 5, 0, 'popular');
 
@@ -19,7 +41,7 @@ const HomePage = async () => {
         ...company,
         id: maskId(company.id, DBTypeCompany),
       })),
-      supperSpotlight: popular.map((company) => ({
+      supperSpotlight: supperSpotlight.map((company) => ({
         ...company,
         id: maskId(company.id, DBTypeCompany),
       })),
@@ -29,6 +51,8 @@ const HomePage = async () => {
       })),
     };
   } catch (error) {
+    console.log(error);
+
     throw error;
   }
 };

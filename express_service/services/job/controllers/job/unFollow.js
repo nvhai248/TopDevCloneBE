@@ -2,12 +2,12 @@ const { repository } = require('./instance');
 const { DBTypeJob } = require('../../utils/const');
 const { unmaskId } = require('../../utils/mask');
 
-const Follow = async (jobId, userId) => {
+const UnFollow = async (jobId, userId) => {
   try {
     jobId = unmaskId(jobId, DBTypeJob);
 
-    if (await repository.createFollower(userId, jobId)) {
-      await repository.increaseFollowedCount(jobId);
+    if (await repository.decreaseFollowedCount(userId, jobId)) {
+      await repository.decreaseFollowedCount(jobId);
     }
 
     return true;
@@ -16,4 +16,4 @@ const Follow = async (jobId, userId) => {
   }
 };
 
-module.exports = Follow;
+module.exports = UnFollow;

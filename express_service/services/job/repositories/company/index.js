@@ -18,6 +18,8 @@ const UpdateCompanyByHrId = require('./updateByHrId');
 const GetInfoCompany = require('./getInfo');
 const UpdateViewedCompany = require('./updateViewed');
 const FindCompanyByHrId = require('./findByHrId');
+const { CreateFollow, DeleteFollow } = require('./follow');
+const DecreaseFollowedCount = require('./decreaseFollowCount');
 class CompanyRepository {
   // [GET] /companies/:id/jobs
   listJobsByCompanyId = ListJobsByCompanyId;
@@ -54,6 +56,7 @@ class CompanyRepository {
 
   // follow company
   increaseFollowedCount = IncreaseFollowedCount;
+  decreaseFollowedCount = DecreaseFollowedCount;
 
   getTopCompaniesWithMostJobs = GetTopCompaniesWithMostJobs;
 
@@ -64,6 +67,10 @@ class CompanyRepository {
   updateByHrId = UpdateCompanyByHrId;
 
   findCompanyByHrId = FindCompanyByHrId;
+
+  createFollower = CreateFollow;
+
+  deleteFollow = DeleteFollow;
 }
 
 module.exports = CompanyRepository;

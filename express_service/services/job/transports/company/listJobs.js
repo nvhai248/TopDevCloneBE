@@ -5,8 +5,8 @@ const { controller } = require('./instance');
 
 const ListJobsByCompanyId = async (req, res, next) => {
   try {
-    const id = req.params.id;
-
+    const id = req.user.companyId;
+    //const id = req.params.id;
     const { status, keywords, page, limit } = req.query;
 
     const conditions = {
