@@ -19,15 +19,27 @@ router.post('/logout', (req, res, next) => {
 });
 
 // User profile
-router.get("/profile/:email", candidateController.getInfo);
+router.get("/profile",
+  //keycloak.protect(`${KC_CLIENT_ID}:${KC_CANDIDATE_ROLE}`),
+  candidateController.getInfo
+);
 
 // Update user profile
-router.patch("/profile/:email", candidateController.updateInfo);
+router.patch("/profile",
+  //keycloak.protect(`${KC_CLIENT_ID}:${KC_CANDIDATE_ROLE}`),
+  candidateController.updateInfo
+);
 
 // upload cv
-router.post("/upload-cv/:email", candidateController.uploadCV);
+router.post("/upload-cv",
+  //keycloak.protect(`${KC_CLIENT_ID}:${KC_CANDIDATE_ROLE}`),
+  candidateController.uploadCV
+);
 
 // soft delete cv
-router.delete("/delete-cv/:id", candidateController.deleteCV);
+router.delete("/delete-cv",
+  //keycloak.protect(`${KC_CLIENT_ID}:${KC_CANDIDATE_ROLE}`),
+  candidateController.deleteCV
+);
 
 module.exports = router;

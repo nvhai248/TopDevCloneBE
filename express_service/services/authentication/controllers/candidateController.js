@@ -12,10 +12,12 @@ const getCredentials = require('../utils/get-credentials');
 const getUser = require('../utils/get-user');
 const setRole = require('../utils/set-role');
 const { SetResponse } = require('../utils/success-response');
-const { BadRequestError } = require('../utils/app-errors');
+const { UnauthorizeError } = require('../utils/app-errors');
 const CandidateModel = require('../models/candidate');
 const CVModel = require('../models/cv');
-const { where } = require('sequelize');
+const jwt = require('jsonwebtoken');
+const {maskId, unmaskId} = require('../utils/mask');
+const {DBTypeUser} = require('../utils/const');
 
 function parseQueryString(queryString) {
   // Split the query string by '&'
@@ -297,13 +299,11 @@ const candidateController = {
 
   getInfo: async (req, res) => {
     try {
-      const { email } = req.params;
-      const credentials = await getCredentials();
       // get user info from keycloak and database
-      const kc_response = await getUser(email, credentials);
-      if (!kc_response) {
-        return ErrorResponse(new Error('Failed to get user info'), res);
-      }
+      const access_token = req.headers.authorization.split(' ')[1];
+      const at_data = jwt.decode(access_token);
+      const { email, name } = at_data;
+
       const pre_db_response = await CandidateModel.findOne({
         where: { email: email },
         attributes: {
@@ -311,35 +311,42 @@ const candidateController = {
         }
       });
       const db_response = pre_db_response ? pre_db_response.dataValues : pre_db_response;
-      console.log(db_response);
-      const pre_cvs = await CVModel.findAll({
+
+      const {limit = 5, offset = 0} = req.query;
+      const pre_cvs = await CVModel.findAndCountAll({
         where: {
           email: email,
           archived: false
         },
+        limit: limit,
+        offset: offset,
         order: [['createdAt', 'DESC']],
         attributes: {
           exclude: ["archived", "createdAt", "email"]
         }
       });
-      const CVs = pre_cvs ? pre_cvs.map(user => user.dataValues) : pre_cvs;
+      const CVs = pre_cvs ? pre_cvs.rows : pre_cvs;
+      const total = pre_cvs ? pre_cvs.count : 0;
       // format date
       const options = { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric', hour12: false };
       db_response.updatedAt = new Intl.DateTimeFormat('en-US', { ...options, timeZone: 'Asia/Ho_Chi_Minh' }).format(new Date(db_response.updatedAt));
       const myCVs = CVs.map(cv => {
         cv.updatedAt = new Intl.DateTimeFormat('en-US', { ...options, timeZone: 'Asia/Ho_Chi_Minh' }).format(new Date(cv.updatedAt));
+        cv.id = maskId(cv.id, DBTypeUser);
         return cv;
       });
 
       // return data
       const data = {
         email: email,
-        fullName: `${kc_response.firstName} ${kc_response.lastName}`,
+        fullName: name,
         ...db_response,
         myCVs: myCVs,
       };
 
-      return SetResponse(res, STATUS_CODES.OK, data, 'OK', null);
+      return SetResponse(res, STATUS_CODES.OK, data, 'OK', {
+        limit, offset, total
+      });
     } catch (error) {
       return ErrorResponse(new Error('Can not get user data'), res);
     }
@@ -347,29 +354,29 @@ const candidateController = {
 
   updateInfo: async (req, res) => {
     try {
-      console.log("update info start processing");
-      const { email } = req.params;
+      const access_token = req.headers.authorization.split(' ')[1];
+      const at_data = jwt.decode(access_token);
+      const { email, sub: kc_userId, given_name: kc_firstName, family_name: kc_lastName } = at_data;
       const data = req.body;
 
-      // check invalid field in data (email, id)
-      if (data.email || data.id) {
+      // check invalid field in data (email)
+      if (data.email) {
         return ErrorResponse(new Error('Invalid field'), res);
       }
 
-      // check last name and first name in data
+      // check last name and first name and update in keycloak
       const { firstName, lastName, ...rest } = data;
       if (firstName || lastName) {
         const credentials = await getCredentials();
-        const user = await getUser(email, credentials);
-        const response = await fetch(`${KC_SERVER_URL}/admin/realms/${KC_REALM}/users/${user.id}`, {
+        const response = await fetch(`${KC_SERVER_URL}/admin/realms/${KC_REALM}/users/${kc_userId}`, {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json',
             Authorization: `Bearer ${credentials.access_token}`,
           },
           body: JSON.stringify({
-            firstName: firstName ? firstName : user.firstName,
-            lastName: lastName ? lastName : user.lastName,
+            firstName: firstName ? firstName : kc_firstName,
+            lastName: lastName ? lastName : kc_lastName,
           }),
         });
         if (!response.ok) {
@@ -391,14 +398,16 @@ const candidateController = {
 
   uploadCV: async (req, res) => {
     try {
-      const { email } = req.params;
+      const access_token = req.headers.authorization.split(' ')[1];
+      const at_data = jwt.decode(access_token);
+      const { email } = at_data;
       const { is_main } = req.body.is_main ? req.body : { is_main: true };
       // count cv of user to set is)main true or false
       const cvs = await CVModel.findAndCountAll({ where: { email: email } });
       if (cvs.count === 0) {
         is_main = true;
       }
-      
+
       if (is_main === true) {
         await CVModel.update({ is_main: false },
           {
@@ -421,8 +430,18 @@ const candidateController = {
 
   deleteCV: async (req, res) => {
     try {
-      const { id } = req.params;
-      const result = await CVModel.update({ archived: true }, { where: { id: id } });
+      const access_token = req.headers.authorization.split(' ')[1];
+      const at_data = jwt.decode(access_token);
+      const { email } = at_data;
+      const { id } = req.body;
+      const decodedId = unmaskId(id, DBTypeUser);
+
+      const cv = await CVModel.findOne({ where: { id: decodedId } });
+      if (cv.email !== email) {
+        return UnauthorizeError("Unauthorize", "You don't have permission to delete this CV");
+      }
+
+      const result = await CVModel.update({ archived: true }, { where: { id: decodedId } });
       if (!result) {
         return ErrorResponse(new Error('Failed to delete CV'), result);
       }
