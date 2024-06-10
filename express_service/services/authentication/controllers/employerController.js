@@ -92,6 +92,7 @@ const employerController = {
         refresh_token,
         expires_in,
         refresh_expires_in,
+        role: 'employer',
       };
 
       return SetResponse(res, STATUS_CODES.OK, responseData, 'OK', null);

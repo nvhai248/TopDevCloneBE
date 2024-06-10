@@ -1,4 +1,4 @@
-version: "3.7"
+version: '3.7'
 
 services:
   # elasticsearch:
@@ -43,7 +43,7 @@ services:
       context: ./gateway
     container_name: gateway
     ports:
-      - "5000:5000"
+      - '5000:5000'
     restart: always
     environment:
       - BASE_URL_USER_SERVICE=http://user:5001
@@ -70,7 +70,7 @@ services:
       - REDIS_URL=redis:6379
       - REDIS_EXPIRATION=3600
     ports:
-      - "5003:5003"
+      - '5003:5003'
     restart: always
     volumes:
       - .:/app
@@ -84,7 +84,7 @@ services:
       context: ./services/user
     container_name: user
     ports:
-      - "5001:5001"
+      - '5001:5001'
     restart: always
     environment:
       - PORT=5001
@@ -112,13 +112,13 @@ services:
       - DB_MONGO_URI=mongodb://mongo-router:27017/jobservice
       - PROTO_PATH=../proto/job-service.proto
       - GRPC_JOB_SERVER=job:8002
-      - AUTH_HOST=http://localhost:5004
+      - AUTH_HOST=authentication:5004
       - GRPC_AUTH_SERVER=authentication:8004
       - ES_HOST=http://elasticsearch:9200
       - ES_USERNAME=elastic
       - ES_PW=aA@12345678
     ports:
-      - "5002:5002"
+      - '5002:5002'
     restart: always
     volumes:
       - .:/app
@@ -130,7 +130,7 @@ services:
     container_name: redis
     image: redis:latest
     ports:
-      - "6379:6379"
+      - '6379:6379'
     restart: always
     networks:
       - topdev
@@ -139,7 +139,7 @@ services:
     image: quay.io/keycloak/keycloak:24.0.3
     container_name: keycloak
     ports:
-      - "8080:8080"
+      - '8080:8080'
     environment:
       - KC_HEALTH_ENABLED=true
       - KC_METRICS_ENABLED=true
@@ -149,7 +149,7 @@ services:
       - KC_DB_PASSWORD=6V1OocaldpND
       - KC_KEYCLOAK_ADMIN=admin
       - KC_KEYCLOAK_ADMIN_PASSWORD=change_me
-    command: ["start-dev"]
+    command: ['start-dev']
     networks:
       - topdev
 
@@ -175,7 +175,7 @@ services:
       - GITHUB_CLIENT_SECRET=ddb3348dfbd668e8a7c8311a858a52417657872e
       - AUTHENTICATION_HOST=http://authentication:5004
     ports:
-      - "5004:5004"
+      - '5004:5004'
     restart: always
     volumes:
       - .:/app
@@ -190,6 +190,3 @@ networks:
   #   driver: bridge
   topdev:
     driver: bridge
-
-volumes:
-  job_data:

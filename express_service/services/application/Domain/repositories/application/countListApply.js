@@ -1,13 +1,24 @@
 const { DBError } = require("../.././utils/app-errors");
 const { ApplicationModal } = require("./instance");
 
-const CountListApply = async (id) => {
+const CountListApply = async (id, status) => {
     try {
-        const applications = await ApplicationModal.findAll({
-            where: {
-                jobId: id,
-            }
-        });
+        let applications = [];
+        if (status == "") {
+            applications = await ApplicationModal.findAll({
+                where: {
+                    jobId: id,
+                }
+            });
+        }
+        else {
+            applications = await ApplicationModal.findAll({
+                where: {
+                    jobId: id,
+                    status: status
+                }
+            });
+        }
         return applications.length;
 
     } catch (error) {

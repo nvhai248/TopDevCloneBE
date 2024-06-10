@@ -89,6 +89,7 @@ const adminController = {
         refresh_token,
         expires_in,
         refresh_expires_in,
+        role: 'admin',
       };
 
       // Uncomment if you want to set cookies
@@ -212,7 +213,7 @@ const adminController = {
 
     const verifyToken = async (token, role) => {
       try {
-        const uri = `${process.env.AUTHENTICATION_HOST}/${role}` || `http://localhost:${PORT}/${role}`
+        const uri = `${process.env.AUTHENTICATION_HOST}/${role}` || `http://localhost:${PORT}/${role}`;
         const response = await fetch(uri, {
           method: 'GET',
           headers: {
