@@ -1,49 +1,13 @@
-version: "3.7"
+version: '3.7'
 
 services:
-  # elasticsearch:
-  #   image: docker.elastic.co/elasticsearch/elasticsearch:7.9.3
-  #   container_name: elasticsearch
-  #   environment:
-  #     - discovery.type=single-node
-  #     - ELASTIC_PASSWORD=aA@12345678
-  #   ports:
-  #     - "9200:9200"
-  #     - "9300:9300"
-  #   networks:
-  #     - elastic
-
-  # kibana:
-  #   image: docker.elastic.co/kibana/kibana:7.9.3
-  #   container_name: kibana
-  #   environment:
-  #     - ELASTICSEARCH_URL=http://elasticsearch:9200
-  #     - ELASTICSEARCH_USERNAME=elastic
-  #     - ELASTICSEARCH_PASSWORD=aA@12345678
-  #   depends_on:
-  #     - elasticsearch
-  #   ports:
-  #     - "5601:5601"
-  #   networks:
-  #     - elastic
-
-  # rabbitmq:
-  #   image: rabbitmq:3-management
-  #   container_name: rabbitmq
-  #   environment:
-  #     - RABBITMQ_DEFAULT_USER=guest
-  #     - RABBITMQ_DEFAULT_PASS=guest
-  #   ports:
-  #     - "5672:5672"
-  #     - "15672:15672"
-
   gateway:
     build:
       dockerfile: Dockerfile
       context: ./gateway
     container_name: gateway
     ports:
-      - "5000:5000"
+      - '5000:5000'
     restart: always
     environment:
       - BASE_URL_USER_SERVICE=http://user:5001
@@ -70,7 +34,7 @@ services:
       - REDIS_URL=redis:6379
       - REDIS_EXPIRATION=3600
     ports:
-      - "5003:5003"
+      - '5003:5003'
     restart: always
     volumes:
       - .:/app
@@ -84,7 +48,7 @@ services:
       context: ./services/user
     container_name: user
     ports:
-      - "5001:5001"
+      - '5001:5001'
     restart: always
     environment:
       - PORT=5001
@@ -118,8 +82,10 @@ services:
       - ES_USERNAME=elastic
       - ES_PW=aA@12345678
     ports:
-      - "5002:5002"
+      - '5002:5002'
     restart: always
+    depends_on:
+      - mongo-router
     volumes:
       - .:/app
       - /app/services/job/node_modules
@@ -130,7 +96,7 @@ services:
     container_name: redis
     image: redis:latest
     ports:
-      - "6379:6379"
+      - '6379:6379'
     restart: always
     networks:
       - topdev
@@ -139,7 +105,7 @@ services:
     image: quay.io/keycloak/keycloak:24.0.3
     container_name: keycloak
     ports:
-      - "8080:8080"
+      - '8080:8080'
     environment:
       - KC_HEALTH_ENABLED=true
       - KC_METRICS_ENABLED=true
@@ -149,7 +115,7 @@ services:
       - KC_DB_PASSWORD=6V1OocaldpND
       - KC_KEYCLOAK_ADMIN=admin
       - KC_KEYCLOAK_ADMIN_PASSWORD=change_me
-    command: ["start-dev"]
+    command: ['start-dev']
     networks:
       - topdev
 
@@ -174,7 +140,7 @@ services:
       - GITHUB_CLIENT_ID=Ov23lifEHe1ghBAepFbw
       - GITHUB_CLIENT_SECRET=ddb3348dfbd668e8a7c8311a858a52417657872e
       - AUTHENTICATION_HOST=http://authentication:5004
-      - DB_POSTGRE_PORT = 5432
+      - DB_POSTGRE_PORT=5432
       - DB_POSTGRE_HOST='ep-mute-wave-a1zmdjxp.ap-southeast-1.aws.neon.tech'
       - DB_POSTGRE_DBNAME='userdb'
       - DB_POSTGRE_USERNAME='userdb_owner'
@@ -182,7 +148,7 @@ services:
       - ENDPOINT_ID='ep-mute-wave-a1zmdjxp'
       - DB_PG_URI=postgresql://userdb_owner:JtQEusP7FkV1@ep-mute-wave-a1zmdjxp.ap-southeast-1.aws.neon.tech/userdb?sslmode=require
     ports:
-      - "5004:5004"
+      - '5004:5004'
     restart: always
     volumes:
       - .:/app
@@ -192,8 +158,84 @@ services:
     depends_on:
       - keycloak
 
+  configserver1:
+    image: mongo
+    container_name: configserver1
+    command: mongod --configsvr --replSet cfgrs --port 27019 --dbpath /data/db --bind_ip 0.0.0.0
+    volumes:
+      - configserver1:/data/db
+    networks:
+      - topdev
+
+  configserver2:
+    image: mongo
+    container_name: configserver2
+    command: mongod --configsvr --replSet cfgrs --port 27019 --dbpath /data/db --bind_ip 0.0.0.0
+    volumes:
+      - configserver2:/data/db
+    networks:
+      - topdev
+
+  configserver3:
+    image: mongo
+    container_name: configserver3
+    command: mongod --configsvr --replSet cfgrs --port 27019 --dbpath /data/db --bind_ip 0.0.0.0
+    volumes:
+      - configserver3:/data/db
+    networks:
+      - topdev
+
+  shardserver1:
+    container_name: shardserver1
+    image: mongo
+    command: mongod --shardsvr --replSet shardrs --port 27018 --dbpath /data/db --bind_ip 0.0.0.0
+    volumes:
+      - shardserver1:/data/db
+    networks:
+      - topdev
+
+  shardserver2:
+    container_name: shardserver2
+    image: mongo
+    command: mongod --shardsvr --replSet shardrs --port 27018 --dbpath /data/db --bind_ip 0.0.0.0
+    volumes:
+      - shardserver2:/data/db
+    networks:
+      - topdev
+
+  shardserver3:
+    container_name: shardserver3
+    image: mongo
+    command: mongod --shardsvr --replSet shardrs --port 27018 --dbpath /data/db --bind_ip 0.0.0.0
+    volumes:
+      - shardserver3:/data/db
+    networks:
+      - topdev
+
+  mongo-router:
+    container_name: mongo-router
+    image: mongo
+    command: mongos --configdb cfgrs/configserver1:27019,configserver2:27019,configserver3:27019 --port 27017 --bind_ip 0.0.0.0
+    ports:
+      - 27017:27017
+    depends_on:
+      - configserver1
+      - configserver2
+      - configserver3
+      - shardserver1
+      - shardserver2
+      - shardserver3
+    networks:
+      - topdev
+
+volumes:
+  configserver1:
+  configserver2:
+  configserver3:
+  shardserver1:
+  shardserver2:
+  shardserver3:
+
 networks:
-  # elastic:
-  #   driver: bridge
   topdev:
     driver: bridge

@@ -1,4 +1,5 @@
 const { Op } = require('sequelize');
+const { sequelize } = require('../../database/pg');
 
 const GetSearchConditions = (conditions) => {
   let searchConditions = {};
@@ -9,7 +10,7 @@ const GetSearchConditions = (conditions) => {
   // Keyword queries
   const keywordQueries = [];
   conditions.keywords.forEach((keyword) => {
-    keywordQueries.push({ name: { [Op.like]: `%${keyword}%` } });
+    keywordQueries.push({ name: { [Op.iLike]: `%${keyword}%` } });
   });
 
   // Add keyword queries to 'AND' conditions
@@ -19,7 +20,15 @@ const GetSearchConditions = (conditions) => {
 
   // Working place query
   if (conditions.address) {
-    searchConditions[Op.and].push({ address: { [Op.like]: `%${conditions.address}%` } });
+    const addressCondition = conditions.address.replace(/'/g, "''"); // Escape single quotes to prevent SQL injection
+    const addressQuery = sequelize.literal(
+      `jsonb_path_exists(
+      addresses::jsonb,
+      '$[*] ? (@.city like_regex ".*${addressCondition}.*" flag "i" || @.addressDetail like_regex ".*${addressCondition}.*" flag "i")'
+    )`,
+    );
+
+    searchConditions[Op.and].push(addressQuery);
   }
 
   if (conditions.status) {
