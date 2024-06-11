@@ -1,4 +1,5 @@
 const { DBTypeCompany, DBTypeJob } = require('../../utils/const');
+const { FormatJob } = require('../../utils/format-result');
 const { maskId } = require('../../utils/mask');
 const { repository, jobRepository } = require('./instance');
 const { Op } = require('sequelize');
@@ -25,10 +26,10 @@ const HomePage = async () => {
 
       popular[i] = {
         ...popular[i],
-        job: {
+        job: FormatJob({
           ...job,
           id: maskId(job?.id, DBTypeJob),
-        },
+        }),
       };
     }
 
