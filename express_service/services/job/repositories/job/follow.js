@@ -41,4 +41,18 @@ const DeleteFollow = async (userId, jobId) => {
   }
 };
 
-module.exports = { CreateFollow, DeleteFollow };
+const FindALlByUserId = async (userId) => {
+  try {
+    const result = await JobFollow.findAll({
+      where: {
+        userId: userId,
+      },
+    });
+
+    return result ? result.map((item) => item.dataValues) : [];
+  } catch (error) {
+    throw new DBError(error.message, 'Something went wrong with company follow');
+  }
+};
+
+module.exports = { CreateFollow, DeleteFollow, FindALlByUserId };

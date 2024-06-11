@@ -6,7 +6,7 @@ const UnFollow = async (jobId, userId) => {
   try {
     jobId = unmaskId(jobId, DBTypeJob);
 
-    if (await repository.decreaseFollowedCount(userId, jobId)) {
+    if (await repository.deleteFollow(userId, jobId)) {
       await repository.decreaseFollowedCount(jobId);
     }
 

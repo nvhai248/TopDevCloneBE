@@ -18,7 +18,7 @@ const UpdateCompanyByHrId = require('./updateByHrId');
 const GetInfoCompany = require('./getInfo');
 const UpdateViewedCompany = require('./updateViewed');
 const FindCompanyByHrId = require('./findByHrId');
-const { CreateFollow, DeleteFollow } = require('./follow');
+const { CreateFollow, DeleteFollow, FindALlByUserId } = require('./follow');
 const DecreaseFollowedCount = require('./decreaseFollowCount');
 class CompanyRepository {
   // [GET] /companies/:id/jobs
@@ -71,6 +71,8 @@ class CompanyRepository {
   createFollower = CreateFollow;
 
   deleteFollow = DeleteFollow;
+
+  findAllFollowByUserId = FindALlByUserId;
 }
 
 module.exports = CompanyRepository;

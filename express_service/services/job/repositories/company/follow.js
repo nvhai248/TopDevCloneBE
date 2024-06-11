@@ -3,6 +3,10 @@ const { DBError, BadRequestError } = require('../../utils/app-errors');
 
 const CreateFollow = async (userId, companyId) => {
   try {
+    const existingFollow = await CompanyFollow.findOne({
+      where: { userId, companyId },
+    });
+
     if (existingFollow) {
       // Return a notification if the follow already exists
       throw new BadRequestError('you already follow this company', 'you already follow this company');
@@ -37,4 +41,18 @@ const DeleteFollow = async (userId, companyId) => {
   }
 };
 
-module.exports = { CreateFollow, DeleteFollow };
+const FindALlByUserId = async (userId) => {
+  try {
+    const result = await CompanyFollow.findAll({
+      where: {
+        userId: userId,
+      },
+    });
+
+    return result ? result.map((item) => item.dataValues) : [];
+  } catch (error) {
+    throw new DBError(error.message, 'Something went wrong with company follow');
+  }
+};
+
+module.exports = { CreateFollow, DeleteFollow, FindALlByUserId };

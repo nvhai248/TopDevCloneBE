@@ -6,6 +6,7 @@ const ListAllJob = require('./listAll');
 const UpdateStatus = require('./updateStatus');
 const Follow = require('./follow');
 const UnFollow = require('./unFollow');
+const ListFollowOfCandidate = require('./followOfUser');
 class JobController {
   // [GET] /jobs?keywords=???&level=???&type=???&typeContract=???&address=???&page=??&limit=??&cursor=???&keywords=???
   listJobByConditions = ListJobByConditions;
@@ -28,6 +29,8 @@ class JobController {
   follow = Follow;
 
   unFollow = UnFollow;
+
+  listFollowOfCandidate = ListFollowOfCandidate;
 }
 
 module.exports = JobController;

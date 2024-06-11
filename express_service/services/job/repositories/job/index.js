@@ -8,7 +8,7 @@ const GetSearchConditions = require('./searchCondition');
 const IncreaseFollowedCount = require('./increaseFollowCount');
 const DecreaseFollowedCount = require('./decreaseFollowCount');
 const FindLatestJobByCompanyId = require('./findLatest');
-const { CreateFollow, DeleteFollow } = require('./follow');
+const { CreateFollow, DeleteFollow, FindALlByUserId } = require('./follow');
 
 class JobRepository {
   // [GET] /jobs?keywords=???&level=???&type=???&typeContract=???&address=???&page=??&limit=??&cursor=???&keywords=???
@@ -40,6 +40,8 @@ class JobRepository {
   createFollower = CreateFollow;
 
   deleteFollow = DeleteFollow;
+
+  findAllFollowByUserId = FindALlByUserId;
 }
 
 module.exports = JobRepository;

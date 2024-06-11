@@ -31,7 +31,7 @@ const UpdateStatus = async (user, data) => {
       // this action for hr
       if (job.status === JOB_STATUS.REJECTED) {
         throw new BadRequestError('Err repository job layer', 'Job already rejected');
-      } else if (job.status === JOB_STATUS.APPROVED && status_allowed.includes(miniData.status)) {
+      } else if (job.status !== JOB_STATUS.DELETED && status_allowed.includes(miniData.status)) {
         await repository.updateJobById(id, {
           status: miniData.status,
         });
