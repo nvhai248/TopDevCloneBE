@@ -32,3 +32,21 @@ docker-compose up -d && docker-compose -f services/job/sharding/docker-compose.y
 ### Documentation
 
 Documentation link [here](https://documenter.getpostman.com/view/34533462/2sA3Bt1UTM)
+
+docker compose build &&
+docker tag express_service-authentication pbhuy/authentication:latest &&
+docker tag express_service-authentication pbhuy/authentication:latest &&
+docker tag express_service-authentication pbhuy/authentication:latest &&
+docker tag express_service-job pbhuy/job:latest &&
+docker tag express_service-user pbhuy/user:latest &&
+docker tag express_service-application pbhuy/application:latest &&
+docker tag express_service-gateway pbhuy/gateway:latest &&
+docker tag express_service-nginx-loadbalancer pbhuy/nginx-loadbalancer:latest &&
+docker image push pbhuy/job &&
+docker image push pbhuy/user &&
+docker image push pbhuy/authentication &&
+docker image push pbhuy/application &&
+docker image push pbhuy/gateway &&
+docker image push pbhuy/nginx-loadbalancer
+
+docker system prune -f && docker stack deploy -c docker-deploy.yml express_service
