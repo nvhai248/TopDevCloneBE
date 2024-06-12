@@ -21,8 +21,8 @@ services:
         parallelism: 2
         delay: 10s
     volumes:
-      - gateway-app:/app
-      - gateway-node-modules:/app/node_modules
+      - .:/app
+      - /app/gateway/node_modules
     networks:
       - topdev
 
@@ -49,8 +49,8 @@ services:
         parallelism: 2
         delay: 10s
     volumes:
-      - application-app:/app
-      - application-node-modules:/app/node_modules
+      - .:/app
+      - /app/services/application/node_modules
     networks:
       - topdev
 
@@ -103,8 +103,8 @@ services:
         parallelism: 2
         delay: 10s
     volumes:
-      - user-app:/app
-      - user-node-modules:/app/node_modules
+      - .:/app
+      - /app/services/user/node_modules
     networks:
       - topdev
 
@@ -136,8 +136,8 @@ services:
     depends_on:
       - mongo-router
     volumes:
-      - job-app:/app
-      - job-node-modules:/app/node_modules
+      - .:/app
+      - /app/services/job/node_modules
     networks:
       - topdev
 
@@ -206,8 +206,8 @@ services:
         parallelism: 2
         delay: 10s
     volumes:
-      - authentication-app:/app
-      - authentication-node-modules:/app/node_modules
+      - .:/app
+      - /app/services/authentication/node_modules
     networks:
       - topdev
     depends_on:
@@ -216,15 +216,3 @@ services:
 networks:
   topdev:
     driver: overlay
-
-volumes:
-  gateway-app:
-  gateway-node-modules:
-  application-app:
-  application-node-modules:
-  user-app:
-  user-node-modules:
-  job-app:
-  job-node-modules:
-  authentication-app:
-  authentication-node-modules:
