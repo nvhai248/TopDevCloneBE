@@ -47,4 +47,4 @@ docker image push pbhuy/application &&
 docker image push pbhuy/gateway &&
 docker image push pbhuy/nginx-loadbalancer
 
-docker system prune -f && docker stack deploy -c docker-deploy.yml express_service
+docker stack rm express_service && docker system prune -f && docker stack deploy -c docker-deploy.yml express_service
