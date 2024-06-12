@@ -19,6 +19,18 @@ pipeline {
             }
         }
 
+        stage('Run Build') {
+            steps {
+                script {
+                  dir('express_service'){
+                    sh 'docker-compose up -d --build'
+                    // sh 'cp .env.example .env'
+                    // sh 'npm test -- --forceExit'
+                  }
+                }
+            }
+        }
+
         stage('Deploy') {
             steps {
                 script {
