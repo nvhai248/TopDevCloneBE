@@ -3,7 +3,7 @@ version: '3.7'
 services:
   gateway:
     image: pbhuy/gateway
-    container_name: gateway
+    hostname: gateway
     ports:
       - '5000:5000'
     restart: always
@@ -28,7 +28,7 @@ services:
 
   application:
     image: pbhuy/application
-    container_name: application
+    hostname: application
     environment:
       - PORT=5003
       - DB_PG_URI=postgresql://applicationservice_owner:ogutmx7v0cGd@ep-lucky-violet-a1cihzw1.ap-southeast-1.aws.neon.tech/applicationservice?sslmode=require
@@ -56,7 +56,7 @@ services:
 
   nginx-loadbalancer:
     image: pbhuy/nginx-loadbalancer
-    container_name: nginx-loadbalancer
+    hostname: nginx-loadbalancer
     ports:
       - 80:80
     depends_on:
@@ -81,7 +81,7 @@ services:
 
   user:
     image: pbhuy/user
-    container_name: user
+    hostname: user
     ports:
       - '5001:5001'
     restart: always
@@ -110,7 +110,7 @@ services:
 
   job:
     image: pbhuy/job
-    container_name: job
+    hostname: job
     environment:
       - PORT=5002
       - DB_PG_URI=postgresql://jobservice_owner:nvrek9T0KdAS@ep-old-cherry-a1vxzzc9.ap-southeast-1.aws.neon.tech/jobservice?sslmode=require
@@ -142,7 +142,7 @@ services:
       - topdev
 
   redis:
-    container_name: redis
+    hostname: redis
     image: redis:latest
     ports:
       - '6379:6379'
@@ -152,7 +152,7 @@ services:
 
   keycloak:
     image: quay.io/keycloak/keycloak:24.0.3
-    container_name: keycloak
+    hostname: keycloak
     ports:
       - '8080:8080'
     environment:
@@ -170,7 +170,7 @@ services:
 
   authentication:
     image: pbhuy/authentication
-    container_name: authentication
+    hostname: authentication
     environment:
       - PORT=5004
       - GRPC_AUTH_SERVER=authentication:8004
