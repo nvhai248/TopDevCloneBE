@@ -146,7 +146,7 @@ services:
       - DB_POSTGRE_USERNAME='userdb_owner'
       - DB_POSTGRE_PASSWORD='JtQEusP7FkV1'
       - ENDPOINT_ID='ep-mute-wave-a1zmdjxp'
-      - DB_PG_URI=postgresql://userdb_owner:JtQEusP7FkV1@ep-mute-wave-a1zmdjxp.ap-southeast-1.aws.neon.tech/userdb?sslmode=require
+      - DB_PG_URI=postgresql://userdb_owner:JtQEusP7FkV1@ep-mute-wave-a1zmdjxp.ap-southeast-1.aws.neon.tech/userdb1?sslmode=require
     ports:
       - '5004:5004'
     restart: always
