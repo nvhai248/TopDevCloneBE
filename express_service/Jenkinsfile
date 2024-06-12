@@ -22,8 +22,11 @@ pipeline {
         stage('Run Build') {
             steps {
                 script {
+                    withEnv(["PATH=$PATH:~/.local/bin"]){
+                    sh "bash test.sh"
+                }
                   dir('express_service'){
-                    sh 'docker-compose up -d --build'
+                    sh 'docker-compose build'
                     // sh 'cp .env.example .env'
                     // sh 'npm test -- --forceExit'
                   }
