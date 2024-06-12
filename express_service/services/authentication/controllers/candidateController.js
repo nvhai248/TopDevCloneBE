@@ -16,8 +16,8 @@ const { UnauthorizeError } = require('../utils/app-errors');
 const CandidateModel = require('../models/candidate');
 const CVModel = require('../models/cv');
 const jwt = require('jsonwebtoken');
-const {maskId, unmaskId} = require('../utils/mask');
-const {DBTypeUser} = require('../utils/const');
+const { maskId, unmaskId } = require('../utils/mask');
+const { DBTypeUser } = require('../utils/const');
 
 function parseQueryString(queryString) {
   // Split the query string by '&'
@@ -312,7 +312,7 @@ const candidateController = {
       });
       const db_response = pre_db_response ? pre_db_response.dataValues : pre_db_response;
 
-      const {limit = 5, offset = 0} = req.query;
+      const { limit = 5, offset = 0 } = req.query;
       const pre_cvs = await CVModel.findAndCountAll({
         where: {
           email: email,
@@ -401,7 +401,7 @@ const candidateController = {
       const access_token = req.headers.authorization.split(' ')[1];
       const at_data = jwt.decode(access_token);
       const { email } = at_data;
-      const { is_main } = req.body.is_main ? req.body : { is_main: true };
+      let { is_main } = req.body.is_main ? req.body : { is_main: true };
       // count cv of user to set is)main true or false
       const cvs = await CVModel.findAndCountAll({ where: { email: email } });
       if (cvs.count === 0) {
