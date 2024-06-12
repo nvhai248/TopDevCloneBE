@@ -2,10 +2,8 @@ version: '3.7'
 
 services:
   gateway:
-    build:
-      dockerfile: Dockerfile
-      context: ./gateway
-    container_name: gateway
+    image: pbhuy/gateway
+    hostname: gateway
     ports:
       - '5000:5000'
     restart: always
@@ -14,34 +12,23 @@ services:
       - BASE_URL_JOB_SERVICE=http://job:5002
       - BASE_URL_APPLICATION_SERVICE=http://application:5003
       - BASE_URL_AUTHENTICATION_SERVICE=http://authentication:5004
+    deploy:
+      replicas: 2
+      restart_policy:
+        max_attempts: 2
+        condition: on-failure
+      update_config:
+        parallelism: 2
+        delay: 10s
     volumes:
       - .:/app
       - /app/gateway/node_modules
     networks:
       - topdev
 
-  nginx-loadbalancer:
-    build:
-      dockerfile: Dockerfile
-      context: ./nginx
-    container_name: nginx-loadbalancer
-    ports:
-      - 80:80
-    depends_on:
-      - user
-      - job
-      - application
-      - authentication
-      - keycloak
-      - redis
-    networks:
-      - topdev
-
   application:
-    build:
-      dockerfile: Dockerfile
-      context: ./services/application
-    container_name: application
+    image: pbhuy/application
+    hostname: application
     environment:
       - PORT=5003
       - DB_PG_URI=postgresql://applicationservice_owner:ogutmx7v0cGd@ep-lucky-violet-a1cihzw1.ap-southeast-1.aws.neon.tech/applicationservice?sslmode=require
@@ -53,17 +40,48 @@ services:
     ports:
       - '5003:5003'
     restart: always
+    deploy:
+      replicas: 2
+      restart_policy:
+        max_attempts: 2
+        condition: on-failure
+      update_config:
+        parallelism: 2
+        delay: 10s
     volumes:
       - .:/app
       - /app/services/application/node_modules
     networks:
       - topdev
 
+  nginx-loadbalancer:
+    image: pbhuy/nginx-loadbalancer
+    hostname: nginx-loadbalancer
+    ports:
+      - 80:80
+    depends_on:
+      - user
+      - job
+      - application
+      - authentication
+      - keycloak
+      - redis
+    deploy:
+      replicas: 2
+      restart_policy:
+        max_attempts: 2
+        condition: on-failure
+      update_config:
+        parallelism: 2
+        delay: 10s
+      placement:
+        constraints: [node.role == manager]
+    networks:
+      - topdev
+
   user:
-    build:
-      dockerfile: Dockerfile
-      context: ./services/user
-    container_name: user
+    image: pbhuy/user
+    hostname: user
     ports:
       - '5001:5001'
     restart: always
@@ -76,6 +94,14 @@ services:
       - DB_POSTGRE_PASSWORD='JtQEusP7FkV1'
       - ENDPOINT_ID='ep-mute-wave-a1zmdjxp'
       - DB_PG_URI=postgresql://userdb_owner:JtQEusP7FkV1@ep-mute-wave-a1zmdjxp.ap-southeast-1.aws.neon.tech/userdb?sslmode=require
+    deploy:
+      replicas: 2
+      restart_policy:
+        max_attempts: 2
+        condition: on-failure
+      update_config:
+        parallelism: 2
+        delay: 10s
     volumes:
       - .:/app
       - /app/services/user/node_modules
@@ -83,10 +109,8 @@ services:
       - topdev
 
   job:
-    build:
-      dockerfile: Dockerfile
-      context: ./services/job
-    container_name: job
+    image: pbhuy/job
+    hostname: job
     environment:
       - PORT=5002
       - DB_PG_URI=postgresql://jobservice_owner:nvrek9T0KdAS@ep-old-cherry-a1vxzzc9.ap-southeast-1.aws.neon.tech/jobservice?sslmode=require
@@ -101,6 +125,14 @@ services:
     ports:
       - '5002:5002'
     restart: always
+    deploy:
+      replicas: 2
+      restart_policy:
+        max_attempts: 2
+        condition: on-failure
+      update_config:
+        parallelism: 2
+        delay: 10s
     depends_on:
       - mongo-router
     volumes:
@@ -110,8 +142,8 @@ services:
       - topdev
 
   redis:
+    hostname: redis
     image: redis:latest
-    container_name: redis
     ports:
       - '6379:6379'
     restart: always
@@ -120,7 +152,7 @@ services:
 
   keycloak:
     image: quay.io/keycloak/keycloak:24.0.3
-    container_name: keycloak
+    hostname: keycloak
     ports:
       - '8080:8080'
     environment:
@@ -137,10 +169,8 @@ services:
       - topdev
 
   authentication:
-    build:
-      dockerfile: Dockerfile
-      context: ./services/authentication
-    container_name: authentication
+    image: pbhuy/authentication
+    hostname: authentication
     environment:
       - PORT=5004
       - GRPC_AUTH_SERVER=authentication:8004
@@ -163,10 +193,18 @@ services:
       - DB_POSTGRE_USERNAME='userdb_owner'
       - DB_POSTGRE_PASSWORD='JtQEusP7FkV1'
       - ENDPOINT_ID='ep-mute-wave-a1zmdjxp'
-      - DB_PG_URI=postgresql://userdb_owner:JtQEusP7FkV1@ep-mute-wave-a1zmdjxp.ap-southeast-1.aws.neon.tech/userdb1?sslmode=require
+      - DB_PG_URI=postgresql://userdb_owner:JtQEusP7FkV1@ep-mute-wave-a1zmdjxp.ap-southeast-1.aws.neon.tech/userdb?sslmode=require
     ports:
       - '5004:5004'
     restart: always
+    deploy:
+      replicas: 2
+      restart_policy:
+        max_attempts: 2
+        condition: on-failure
+      update_config:
+        parallelism: 2
+        delay: 10s
     volumes:
       - .:/app
       - /app/services/authentication/node_modules
@@ -175,84 +213,6 @@ services:
     depends_on:
       - keycloak
 
-  configserver1:
-    image: mongo
-    container_name: configserver1
-    command: mongod --configsvr --replSet cfgrs --port 27019 --dbpath /data/db --bind_ip 0.0.0.0
-    volumes:
-      - configserver1:/data/db
-    networks:
-      - topdev
-
-  configserver2:
-    image: mongo
-    container_name: configserver2
-    command: mongod --configsvr --replSet cfgrs --port 27019 --dbpath /data/db --bind_ip 0.0.0.0
-    volumes:
-      - configserver2:/data/db
-    networks:
-      - topdev
-
-  configserver3:
-    image: mongo
-    container_name: configserver3
-    command: mongod --configsvr --replSet cfgrs --port 27019 --dbpath /data/db --bind_ip 0.0.0.0
-    volumes:
-      - configserver3:/data/db
-    networks:
-      - topdev
-
-  shardserver1:
-    container_name: shardserver1
-    image: mongo
-    command: mongod --shardsvr --replSet shardrs --port 27018 --dbpath /data/db --bind_ip 0.0.0.0
-    volumes:
-      - shardserver1:/data/db
-    networks:
-      - topdev
-
-  shardserver2:
-    container_name: shardserver2
-    image: mongo
-    command: mongod --shardsvr --replSet shardrs --port 27018 --dbpath /data/db --bind_ip 0.0.0.0
-    volumes:
-      - shardserver2:/data/db
-    networks:
-      - topdev
-
-  shardserver3:
-    container_name: shardserver3
-    image: mongo
-    command: mongod --shardsvr --replSet shardrs --port 27018 --dbpath /data/db --bind_ip 0.0.0.0
-    volumes:
-      - shardserver3:/data/db
-    networks:
-      - topdev
-
-  mongo-router:
-    container_name: mongo-router
-    image: mongo
-    command: mongos --configdb cfgrs/configserver1:27019,configserver2:27019,configserver3:27019 --port 27017 --bind_ip 0.0.0.0
-    ports:
-      - 27017:27017
-    depends_on:
-      - configserver1
-      - configserver2
-      - configserver3
-      - shardserver1
-      - shardserver2
-      - shardserver3
-    networks:
-      - topdev
-
-volumes:
-  configserver1:
-  configserver2:
-  configserver3:
-  shardserver1:
-  shardserver2:
-  shardserver3:
-
 networks:
   topdev:
-    driver: bridge
+    driver: overlay
