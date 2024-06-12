@@ -21,8 +21,8 @@ services:
         parallelism: 2
         delay: 10s
     volumes:
-      - .:/app
-      - /app/gateway/node_modules
+      - gateway-app:/app
+      - gateway-node-modules:/app/node_modules
     networks:
       - topdev
 
@@ -49,8 +49,8 @@ services:
         parallelism: 2
         delay: 10s
     volumes:
-      - .:/app
-      - /app/services/application/node_modules
+      - application-app:/app
+      - application-node-modules:/app/node_modules
     networks:
       - topdev
 
@@ -103,8 +103,8 @@ services:
         parallelism: 2
         delay: 10s
     volumes:
-      - .:/app
-      - /app/services/user/node_modules
+      - user-app:/app
+      - user-node-modules:/app/node_modules
     networks:
       - topdev
 
@@ -136,8 +136,8 @@ services:
     depends_on:
       - mongo-router
     volumes:
-      - .:/app
-      - /app/services/job/node_modules
+      - job-app:/app
+      - job-node-modules:/app/node_modules
     networks:
       - topdev
 
@@ -206,91 +206,25 @@ services:
         parallelism: 2
         delay: 10s
     volumes:
-      - .:/app
-      - /app/services/authentication/node_modules
+      - authentication-app:/app
+      - authentication-node-modules:/app/node_modules
     networks:
       - topdev
     depends_on:
       - keycloak
 
-  # configserver1:
-  #   image: mongo
-  #   container_name: configserver1
-  #   command: mongod --configsvr --replSet cfgrs --port 27019 --dbpath /data/db --bind_ip 0.0.0.0
-  #   volumes:
-  #     - configserver1:/data/db
-  #   networks:
-  #     - topdev
-
-  # configserver2:
-  #   image: mongo
-  #   container_name: configserver2
-  #   command: mongod --configsvr --replSet cfgrs --port 27019 --dbpath /data/db --bind_ip 0.0.0.0
-  #   volumes:
-  #     - configserver2:/data/db
-  #   networks:
-  #     - topdev
-
-  # configserver3:
-  #   image: mongo
-  #   container_name: configserver3
-  #   command: mongod --configsvr --replSet cfgrs --port 27019 --dbpath /data/db --bind_ip 0.0.0.0
-  #   volumes:
-  #     - configserver3:/data/db
-  #   networks:
-  #     - topdev
-
-#   shardserver1:
-#     container_name: shardserver1
-#     image: mongo
-#     command: mongod --shardsvr --replSet shardrs --port 27018 --dbpath /data/db --bind_ip 0.0.0.0
-#     volumes:
-#       - shardserver1:/data/db
-#     networks:
-#       - topdev
-
-#   shardserver2:
-#     container_name: shardserver2
-#     image: mongo
-#     command: mongod --shardsvr --replSet shardrs --port 27018 --dbpath /data/db --bind_ip 0.0.0.0
-#     volumes:
-#       - shardserver2:/data/db
-#     networks:
-#       - topdev
-
-#   shardserver3:
-#     container_name: shardserver3
-#     image: mongo
-#     command: mongod --shardsvr --replSet shardrs --port 27018 --dbpath /data/db --bind_ip 0.0.0.0
-#     volumes:
-#       - shardserver3:/data/db
-#     networks:
-#       - topdev
-
-#   mongo-router:
-#     container_name: mongo-router
-#     image: mongo
-#     command: mongos --configdb cfgrs/configserver1:27019,configserver2:27019,configserver3:27019 --port 27017 --bind_ip 0.0.0.0
-#     ports:
-#       - 27017:27017
-#     depends_on:
-#       - configserver1
-#       - configserver2
-#       - configserver3
-#       - shardserver1
-#       - shardserver2
-#       - shardserver3
-#     networks:
-#       - topdev
-
-# volumes:
-#   configserver1:
-#   configserver2:
-#   configserver3:
-#   shardserver1:
-#   shardserver2:
-#   shardserver3:
-
 networks:
   topdev:
     driver: overlay
+
+volumes:
+  gateway-app:
+  gateway-node-modules:
+  application-app:
+  application-node-modules:
+  user-app:
+  user-node-modules:
+  job-app:
+  job-node-modules:
+  authentication-app:
+  authentication-node-modules:

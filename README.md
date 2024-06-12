@@ -35,8 +35,6 @@ Documentation link [here](https://documenter.getpostman.com/view/34533462/2sA3Bt
 
 docker compose build &&
 docker tag express_service-authentication pbhuy/authentication:latest &&
-docker tag express_service-authentication pbhuy/authentication:latest &&
-docker tag express_service-authentication pbhuy/authentication:latest &&
 docker tag express_service-job pbhuy/job:latest &&
 docker tag express_service-user pbhuy/user:latest &&
 docker tag express_service-application pbhuy/application:latest &&
