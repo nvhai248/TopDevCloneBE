@@ -24,7 +24,7 @@ services:
       - .:/app
       - /app/gateway/node_modules
     networks:
-      - topdev
+      - express_service_topdev
 
   application:
     image: pbhuy/application
@@ -52,7 +52,7 @@ services:
       - .:/app
       - /app/services/application/node_modules
     networks:
-      - topdev
+      - express_service_topdev
 
   nginx-loadbalancer:
     image: pbhuy/nginx-loadbalancer
@@ -77,7 +77,7 @@ services:
       placement:
         constraints: [node.role == manager]
     networks:
-      - topdev
+      - express_service_topdev
 
   user:
     image: pbhuy/user
@@ -106,7 +106,7 @@ services:
       - .:/app
       - /app/services/user/node_modules
     networks:
-      - topdev
+      - express_service_topdev
 
   job:
     image: pbhuy/job
@@ -139,7 +139,7 @@ services:
       - .:/app
       - /app/services/job/node_modules
     networks:
-      - topdev
+      - express_service_topdev
 
   redis:
     hostname: redis
@@ -148,7 +148,7 @@ services:
       - '6379:6379'
     restart: always
     networks:
-      - topdev
+      - express_service_topdev
 
   authentication:
     image: pbhuy/authentication
@@ -191,10 +191,11 @@ services:
       - .:/app
       - /app/services/authentication/node_modules
     networks:
-      - topdev
+      - express_service_topdev
     depends_on:
       - keycloak
 
 networks:
-  topdev:
-    driver: overlay
+  express_service_topdev:
+    external:
+      name: express_service_topdev

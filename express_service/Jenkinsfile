@@ -73,7 +73,7 @@ pipeline {
 
                         // Deployment commands
                         sh """
-                        ssh -t azure@20.6.10.42 'cd TopDevCloneBE/express_service && docker stack rm express_service && docker system prune -f && docker stack deploy -c docker-deploy.yml express_service'
+                        ssh -t azure@20.6.10.42 'cd TopDevCloneBE/express_service && docker service rm express_service_application express_service_authentication express_service_gateway express_service_job express_service_nginx-loadbalancer express_service_redis express_service_user && docker system prune -f && docker stack deploy -c docker-deploy.yml express_service'
                         """
                     }
                 }
