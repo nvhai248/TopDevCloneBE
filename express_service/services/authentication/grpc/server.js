@@ -28,10 +28,15 @@ const isValid = async (call, callback) => {
 
     if (role == 'employer') {
       const companies = await getCompaniesStatus({ hrIds: [userId] });
-      return callback(null, { valid: status, userId, companyId: companies?.result[0]?.companyId, email });
-    }
-    return callback(null, { valid: status, userId, email });
 
+      return callback(null, {
+        valid: status,
+        userId,
+        companyId: companies.result ? companies?.result[0]?.companyId : null,
+        email,
+      });
+    }
+    return callback(null, { valid: status, userId, email, companyId: null });
   } catch (error) {
     console.error('Error in isValid function:', error);
     return callback({

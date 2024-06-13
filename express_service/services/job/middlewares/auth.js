@@ -32,7 +32,7 @@ const auth = (roles) => {
 
       next();
     } catch (error) {
-      console.error(`Error in RequireRole middleware for roles ${roles}`);
+      console.error(`Error in RequireRole middleware for roles ${roles}`, error);
 
       ErrorResponse(new UnauthorizeError('Unauthorized', 'Please login first'), res);
     }
