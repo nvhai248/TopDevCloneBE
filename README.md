@@ -33,20 +33,6 @@ docker-compose up -d && docker-compose -f services/job/sharding/docker-compose.y
 
 Documentation link [here](https://documenter.getpostman.com/view/34533462/2sA3Bt1UTM)
 
-docker compose build &&
-docker tag express_service-authentication pbhuy/authentication:latest &&
-docker tag express_service-job pbhuy/job:latest &&
-docker tag express_service-user pbhuy/user:latest &&
-docker image push pbhuy/job &&
-docker image push pbhuy/user &&
-docker image push pbhuy/authentication &&
-
-docker tag express_service-application pbhuy/application:latest &&
-docker tag express_service-gateway pbhuy/gateway:latest &&
-docker tag express_service-nginx-loadbalancer pbhuy/nginx-loadbalancer:latest &&
-
-docker image prune -a -f && docker compose down && docker compose build && for service in authentication job user application gateway nginx-loadbalancer; do docker tag express_service-$service pbhuy/$service:latest && docker image push pbhuy/$service; done
-
 // Dau gach duoi
 docker image prune -a -f && docker compose down && docker compose build && docker tag express_service_authentication pbhuy/authentication:latest && docker push pbhuy/authentication && docker tag express_service_job pbhuy/job:latest && docker push pbhuy/job && docker tag express_service_user pbhuy/user:latest && docker push pbhuy/user && docker tag express_service_application pbhuy/application:latest && docker push pbhuy/application && docker tag express_service_gateway pbhuy/gateway:latest && docker push pbhuy/gateway && docker tag express_service_nginx-loadbalancer pbhuy/nginx-loadbalancer:latest && docker push pbhuy/nginx-loadbalancer
 
