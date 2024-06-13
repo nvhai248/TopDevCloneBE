@@ -24,7 +24,7 @@ services:
       - .:/app
       - /app/gateway/node_modules
     networks:
-      - express_service_topdev
+      - topdev
 
   application:
     image: pbhuy/application
@@ -52,7 +52,7 @@ services:
       - .:/app
       - /app/services/application/node_modules
     networks:
-      - express_service_topdev
+      - topdev
 
   nginx-loadbalancer:
     image: pbhuy/nginx-loadbalancer
@@ -77,7 +77,7 @@ services:
       placement:
         constraints: [node.role == manager]
     networks:
-      - express_service_topdev
+      - topdev
 
   user:
     image: pbhuy/user
@@ -106,7 +106,7 @@ services:
       - .:/app
       - /app/services/user/node_modules
     networks:
-      - express_service_topdev
+      - topdev
 
   job:
     image: pbhuy/job
@@ -139,7 +139,7 @@ services:
       - .:/app
       - /app/services/job/node_modules
     networks:
-      - express_service_topdev
+      - topdev
 
   redis:
     hostname: redis
@@ -147,6 +147,24 @@ services:
     ports:
       - '6379:6379'
     restart: always
+    networks:
+      - topdev
+
+  keycloak:
+    image: quay.io/keycloak/keycloak:24.0.3
+    hostname: keycloak
+    ports:
+      - '8080:8080'
+    environment:
+      - KC_HEALTH_ENABLED=true
+      - KC_METRICS_ENABLED=true
+      - KC_DB=postgres
+      - KC_DB_URL=jdbc:postgresql://ep-late-cloud-a1qog1c7.ap-southeast-1.aws.neon.tech/keycloak?sslmode=require
+      - KC_DB_USERNAME=default
+      - KC_DB_PASSWORD=6V1OocaldpND
+      - KC_KEYCLOAK_ADMIN=admin
+      - KC_KEYCLOAK_ADMIN_PASSWORD=change_me
+    command: ['start-dev']
     networks:
       - express_service_topdev
 
@@ -191,11 +209,10 @@ services:
       - .:/app
       - /app/services/authentication/node_modules
     networks:
-      - express_service_topdev
+      - topdev
     depends_on:
       - keycloak
 
 networks:
-  express_service_topdev:
-    external:
-      name: express_service_topdev
+  topdev:
+    driver: overlay
