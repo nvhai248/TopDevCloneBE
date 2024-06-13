@@ -41,11 +41,13 @@ const DeleteFollow = async (userId, jobId) => {
   }
 };
 
-const FindALlByUserId = async (userId) => {
+const FindALlByUserId = async (userId, limit, offset) => {
   try {
     const result = await JobFollow.findAll({
       where: {
         userId: userId,
+        limit: limit,
+        offset: offset,
       },
     });
 
@@ -55,4 +57,18 @@ const FindALlByUserId = async (userId) => {
   }
 };
 
-module.exports = { CreateFollow, DeleteFollow, FindALlByUserId };
+const CountAll = async (userId) => {
+  try {
+    const result = await JobFollow.count({
+      where: {
+        userId: userId,
+      },
+    });
+
+    return result;
+  } catch (error) {
+    throw new DBError(error.message, 'Something went wrong with company follow');
+  }
+};
+
+module.exports = { CreateFollow, DeleteFollow, FindALlByUserId, CountAll };

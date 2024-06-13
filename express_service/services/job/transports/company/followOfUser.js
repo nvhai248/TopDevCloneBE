@@ -5,8 +5,11 @@ const { controller } = require('./instance');
 
 const ListFollowOfCandidate = async (req, res, next) => {
   const userId = req?.user?.id;
+
+  const { limit, page } = req.query;
+
   try {
-    const result = await controller.listFollowOfCandidate(userId);
+    const result = await controller.listFollowOfCandidate(userId, parseInt(limit), parseInt(page));
     SetResponse(res, STATUS_CODES.OK, result, 'OK', null);
   } catch (error) {
     console.log(error);

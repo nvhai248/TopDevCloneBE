@@ -3,9 +3,14 @@ const { FormatJob } = require('../../utils/format-result');
 const { maskId } = require('../../utils/mask');
 const { repository } = require('./instance');
 
-const ListFollowOfCandidate = async (userId) => {
+const ListFollowOfCandidate = async (userId, limit, page) => {
   try {
-    const follows = await repository.findAllFollowByUserId(userId);
+    limit = limit || null;
+    page = page || null;
+    const offset = limit && page ? (page - 1) * limit : 0;
+
+    const follows = await repository.findAllFollowByUserId(userId, limit, offset);
+    const total = await repository.CountAllFollow(userId);
 
     const result = [];
 
@@ -21,7 +26,12 @@ const ListFollowOfCandidate = async (userId) => {
       );
     }
 
-    return result;
+    return {
+      data: result,
+      limit: limit,
+      page: page,
+      total: total,
+    };
   } catch (error) {
     throw error;
   }

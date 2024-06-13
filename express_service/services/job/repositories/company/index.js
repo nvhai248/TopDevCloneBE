@@ -18,7 +18,7 @@ const UpdateCompanyByHrId = require('./updateByHrId');
 const GetInfoCompany = require('./getInfo');
 const UpdateViewedCompany = require('./updateViewed');
 const FindCompanyByHrId = require('./findByHrId');
-const { CreateFollow, DeleteFollow, FindALlByUserId } = require('./follow');
+const { CreateFollow, DeleteFollow, FindALlByUserId, CountAll } = require('./follow');
 const DecreaseFollowedCount = require('./decreaseFollowCount');
 class CompanyRepository {
   // [GET] /companies/:id/jobs
@@ -73,6 +73,8 @@ class CompanyRepository {
   deleteFollow = DeleteFollow;
 
   findAllFollowByUserId = FindALlByUserId;
+
+  CountAllFollow = CountAll;
 }
 
 module.exports = CompanyRepository;
