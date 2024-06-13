@@ -49,26 +49,6 @@ pipeline {
             }
         }
 
-        // stage('Push docker hub') {
-        //     steps {
-        //         script {
-        //             sshagent(credentials:['topdevclone-vm']) {
-        //                 // Ensure the .ssh directory exists and then add the host key to known_hosts
-        //                 sh """
-        //                 mkdir -p ~/.ssh
-        //                 ssh-keyscan -H 20.6.10.42 >> ~/.ssh/known_hosts
-        //                 """
-
-        //                 // Deployment commands
-        //                 sh """
-        //                 ssh -t azure@20.6.10.42 ''
-                        
-        //                 """
-        //             }
-        //         }
-        //     }
-        // }
-
         stage('deploy swarm') {
             steps {
                 script {
@@ -83,7 +63,7 @@ pipeline {
                         sh """
                         ssh -t azure@20.6.10.42 '
                         cd TopDevCloneBE/express_service && 
-                        docker service ls | grep -E "express_service_(authentication|job|user|application|gateway|nginx-loadbalancer)" | awk "{print \$1}" | xargs -I {} docker service rm {} && 
+                        docker service ls | grep -E "express_service_(authentication|job|user|application|gateway|nginx-loadbalancer)" | awk "{print \$1}" | xargs docker service rm && 
                         docker system prune -f && docker stack deploy -c docker-deploy.yml express_service'
                         """
                     }
