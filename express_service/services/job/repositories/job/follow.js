@@ -46,9 +46,9 @@ const FindALlByUserId = async (userId, limit, offset) => {
     const result = await JobFollow.findAll({
       where: {
         userId: userId,
-        limit: limit,
-        offset: offset,
       },
+      limit: limit,
+      offset: offset,
     });
 
     return result ? result.map((item) => item.dataValues) : [];
