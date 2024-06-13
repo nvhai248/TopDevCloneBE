@@ -166,7 +166,7 @@ services:
       - KC_KEYCLOAK_ADMIN_PASSWORD=change_me
     command: ['start-dev']
     networks:
-      - express_service_topdev
+      - topdev
 
   authentication:
     image: pbhuy/authentication
