@@ -49,18 +49,18 @@ pipeline {
             }
         }
 
-        stage('Remove Docker Services') {
-            steps {
-                script {
-                    sshagent(credentials:['topdevclone-vm']) {
-                    // Execute the shell script on the remote server
-                    sh '''
-                    ssh -t azure@20.6.10.42 'bash -s' < /home/azure/TopDevCloneBE/express_service/remove_services.sh
-                    '''
-                }
-                }
-            }
-        }
+        // stage('Remove Docker Services') {
+        //     steps {
+        //         script {
+        //             sshagent(credentials:['topdevclone-vm']) {
+        //             // Execute the shell script on the remote server
+        //             sh '''
+        //             ssh -t azure@20.6.10.42 'bash -s' < /home/azure/TopDevCloneBE/express_service/remove_services.sh
+        //             '''
+        //         }
+        //         }
+        //     }
+        // }
 
         stage('deploy swarm') {
             steps {
