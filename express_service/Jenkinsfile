@@ -49,6 +49,19 @@ pipeline {
             }
         }
 
+        stage('Remove Docker Services') {
+            steps {
+                script {
+                    sshagent(credentials:['topdevclone-vm']) {
+                    // Execute the shell script on the remote server
+                    sh '''
+                    ssh -t azure@20.6.10.42 'bash -s' < /home/azure/TopDevCloneBE/express_service/remove_services.sh
+                    '''
+                }
+                }
+            }
+        }
+
         stage('deploy swarm') {
             steps {
                 script {
@@ -63,7 +76,6 @@ pipeline {
                         sh """
                         ssh -t azure@20.6.10.42 '
                         cd TopDevCloneBE/express_service && 
-                        docker service ls | grep -E "express_service_(authentication|job|user|application|gateway|nginx-loadbalancer)" | awk "{print \$1}" | xargs docker service rm && 
                         docker system prune -f && docker stack deploy -c docker-deploy.yml express_service'
                         """
                     }
