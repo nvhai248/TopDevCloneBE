@@ -45,6 +45,8 @@ docker tag express_service-application pbhuy/application:latest &&
 docker tag express_service-gateway pbhuy/gateway:latest &&
 docker tag express_service-nginx-loadbalancer pbhuy/nginx-loadbalancer:latest &&
 
+docker image prune -a -f && docker compose down && docker compose build && for service in authentication job user application gateway nginx-loadbalancer; do docker tag express_service-$service pbhuy/$service:latest && docker image push pbhuy/$service; done
+
 docker image push pbhuy/application &&
 docker image push pbhuy/gateway &&
 docker image push pbhuy/nginx-loadbalancer
