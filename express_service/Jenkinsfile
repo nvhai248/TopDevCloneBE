@@ -32,7 +32,8 @@ pipeline {
 
                         // Deployment commands
                         sh """
-                        ssh -t azure@20.6.10.42 'sudo rm -rf TopDevCloneBE && git clone https://github.com/kuroneko2002/TopDevCloneBE.git && cd TopDevCloneBE/express_service && docker image prune -a -f && docker compose down && docker compose build && for service in authentication job user application gateway nginx-loadbalancer; do docker tag express_service_$service pbhuy/$service:latest && docker image push pbhuy/$service; done'
+                        ssh -t azure@20.6.10.42 'sudo rm -rf TopDevCloneBE && git clone https://github.com/kuroneko2002/TopDevCloneBE.git && cd TopDevCloneBE/express_service && docker image prune -a -f && docker compose down && docker compose build && docker tag express_service_authentication pbhuy/authentication:latest && docker push pbhuy/authentication && docker tag express_service_job pbhuy/job:latest && docker push pbhuy/job && docker tag express_service_user pbhuy/user:latest && docker push pbhuy/user && docker tag express_service_application pbhuy/application:latest && docker push pbhuy/application && docker tag express_service_gateway pbhuy/gateway:latest && docker push pbhuy/gateway && docker tag express_service_nginx-loadbalancer pbhuy/nginx-loadbalancer:latest && docker push pbhuy/nginx-loadbalancer
+'
                         
                         """
                     }
