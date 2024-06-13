@@ -14,7 +14,6 @@ pipeline {
         //             sh 'npm i'
         //             sh 'cp .env.example .env'
         //             sh 'npm test -- --forceExit'
-        // sudo rm -rf TopDevCloneBE && git clone https://github.com/kuroneko2002/TopDevCloneBE.git && cd TopDevCloneBE/express_service && 
         //           }
         //         }
         //     }
@@ -34,7 +33,7 @@ pipeline {
                         // Deployment commands
                         sh """
                         ssh -t azure@20.6.10.42 '
-                        sudo rm -rf TopDevCloneBE && cd TopDevCloneBE/express_service && 
+                        sudo rm -rf TopDevCloneBE && git clone https://github.com/kuroneko2002/TopDevCloneBE.git && cd TopDevCloneBE/express_service &&
                         docker image prune -a -f && docker compose down && 
                         docker compose build && 
                         docker tag express_service-authentication pbhuy/authentication:latest && docker push pbhuy/authentication && 
