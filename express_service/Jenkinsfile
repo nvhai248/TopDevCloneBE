@@ -32,17 +32,7 @@ pipeline {
 
                         // Deployment commands
                         sh """
-                        ssh -t azure@20.6.10.42 '
-                        sudo rm -rf TopDevCloneBE && git clone https://github.com/kuroneko2002/TopDevCloneBE.git && cd TopDevCloneBE/express_service &&
-                        docker image prune -a -f && docker compose down && 
-                        docker compose build && 
-                        docker tag express_service-authentication pbhuy/authentication:latest && docker push pbhuy/authentication && 
-                        docker tag express_service-job pbhuy/job:latest && docker push pbhuy/job && 
-                        docker tag express_service-user pbhuy/user:latest && docker push pbhuy/user && 
-                        docker tag express_service-application pbhuy/application:latest && docker push pbhuy/application && 
-                        docker tag express_service-gateway pbhuy/gateway:latest && docker push pbhuy/gateway && 
-                        docker tag express_service-nginx-loadbalancer pbhuy/nginx-loadbalancer:latest && docker push pbhuy/nginx-loadbalancer
-                        '      
+                        ssh -t azure@20.6.10.42 'sudo rm -rf TopDevCloneBE && git clone https://github.com/kuroneko2002/TopDevCloneBE.git && cd TopDevCloneBE/express_service && docker compose down && docker image prune -a -f && docker compose build && docker tag express_service-authentication pbhuy/authentication:latest && docker push pbhuy/authentication && docker tag express_service-job pbhuy/job:latest && docker push pbhuy/job && docker tag express_service-user pbhuy/user:latest && docker push pbhuy/user && docker tag express_service-application pbhuy/application:latest && docker push pbhuy/application && docker tag express_service-gateway pbhuy/gateway:latest && docker push pbhuy/gateway && docker tag express_service-nginx-loadbalancer pbhuy/nginx-loadbalancer:latest && docker push pbhuy/nginx-loadbalancer'      
                         """
                     }
                 }
@@ -61,12 +51,7 @@ pipeline {
 
                         // Deployment commands
                         sh """
-                        ssh -t azure@20.6.10.42 '
-                        cd TopDevCloneBE/express_service && 
-                        docker stack rm express_service && 
-                        docker system prune -f && 
-                        sleep 10s &&
-                        docker stack deploy -c docker-deploy.yml express_service'
+                        ssh -t azure@20.6.10.42 'cd TopDevCloneBE/express_service && docker stack rm express_service && docker system prune -f && sleep 10s && docker stack deploy -c docker-deploy.yml express_service'
                         """
                     }
                 }
