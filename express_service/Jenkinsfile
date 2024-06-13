@@ -73,7 +73,7 @@ pipeline {
 
                         // Deployment commands
                         sh """
-                        ssh -t azure@20.6.10.42 'cd TopDevCloneBE/express_service && docker service ls | grep -E 'express_service_(authentication|job|user|application|gateway|nginx-loadbalancer)' | awk '{print $1}' | xargs -I {} docker service rm {} && docker system prune -f && docker stack deploy -c docker-deploy.yml express_service'
+                        ssh -t azure@20.6.10.42 'cd TopDevCloneBE/express_service && docker service ls | grep -E "express_service_(authentication|job|user|application|gateway|nginx-loadbalancer)" | awk "{print $1}" | xargs -I {} docker service rm {} && docker system prune -f && docker stack deploy -c docker-deploy.yml express_service'
                         """
                     }
                 }
