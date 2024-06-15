@@ -316,6 +316,8 @@ const candidateController = {
           exclude: ["createdAt", "id",]
         }
       });
+
+      console.log("pre_db_response: ", pre_db_response);
       const db_response = pre_db_response ? pre_db_response.dataValues : pre_db_response;
 
       const { limit = 5, offset = 0 } = req.query;
