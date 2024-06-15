@@ -13,7 +13,7 @@ const ApplyJob = async (data) => {
     });
 
     if (application) {
-      application.update(data)
+      await application.update(data)
       return { status: "update", data: application.dataValues }
     } else {
       const newApply = await ApplicationModal.create(data);
