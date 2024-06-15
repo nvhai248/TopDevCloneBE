@@ -78,10 +78,12 @@ const keycloakCreateUserAndLogin = async (data) => {
 
   // 1. check existed user in keycloak
   let createdUser = await getUser(inUsedUsername, credentials);
+  let isNewUser = false;
 
   if (!createdUser) {
     // 2.1 user is not existed in keycloak, create a new one, assign to createdUser
     // 2.1.0 create account in keycloak
+    isNewUser = true;
     const responseRegister = await fetch(`${KC_SERVER_URL}/admin/realms/${KC_REALM}/users`, {
       method: 'POST',
       headers: {
@@ -181,16 +183,20 @@ const keycloakCreateUserAndLogin = async (data) => {
     refresh_expires_in,
   };
 
-  //  create user in database
-  console.log("start create user in database: ", email);
-  const user = await CandidateModel.create({ email: email });
-  if (!user) {
-    return {
-      error: {
-        message: 'Failed to create user in database',
-      },
-    };
+  if (isNewUser){
+    //  create user in database
+    console.log("start create user in database: ", email);
+    const user = await CandidateModel.create({ email: email });
+    if (!user) {
+      return {
+        error: {
+          message: 'Failed to create user in database',
+        },
+      };
+    }
   }
+
+  
 
   return responseData;
 };
