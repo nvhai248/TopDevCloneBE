@@ -15,8 +15,8 @@ const CreateCompanyGrpc = async (call, callback) => {
       });
     }
 
-    let company = await repository.createCompany({ hrId: hrId, name: name, phoneNumber: phoneNumber, status: 1 });
-
+    let company = await repository.createCompany({ hrId: hrId, name: name, phoneNumber: phoneNumber, status: 0 });
+    console.log("company>>>", company);
     callback(null, {
       companyId: maskId(company.id, DBTypeCompany),
       isOk: true,

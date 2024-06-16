@@ -88,7 +88,7 @@ const Company = sequelize.define(
     status: {
       type: DataTypes.INTEGER,
       allowNull: false,
-      defaultValue: 1,
+      defaultValue: 0,
     },
     followedCount: {
       type: DataTypes.SMALLINT,
